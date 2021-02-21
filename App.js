@@ -1,14 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Login from './src/screens/Login'
+import Splash from './src/screens/Splash'
+import Home from './src/screens/Home'
+import Test from './src/screens/Test'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        // this.theme.main_color = '#3657FF';
+        this.state = { screen: Home };
+      }
+    render(){
+        return (
+            <this.state.screen></this.state.screen>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -18,4 +26,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+}); 
