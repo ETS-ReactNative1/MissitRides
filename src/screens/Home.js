@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -7,57 +7,94 @@ import Splash from './Splash';
 import {mapStyle} from '../components/mapStyle.js';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import { StyleSheet, Dimensions, Pressable, SafeAreaView, View, Alert} from 'react-native';
+import { StyleSheet, Dimensions, Pressable, SafeAreaView, View, Alert, StatusBar, Platform } from 'react-native';
 import {theme, Block, Accordion, Text, NavBar, Button} from 'galio-framework';
 import { Icon } from 'react-native-elements'
+import { ScrollView } from 'react-native-gesture-handler';
 const { width } = Dimensions.get('screen');
 const {height} = Dimensions.get('window').height;
-
+const {statusHeight} = Platform.OS === 'android' ? StatusBar.currentHeight : 0
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      region: null,
       markers: this.getMarkers(),
-      pickup: "",
-      dropoff: "",
+      favorites: null,
+      pickup: this.props.route.params["pickup"],
+      pickupCoords: null,
+      dropoffCoords: null,
+      dropoff: this.props.route.params["dropoff"],
       hasLocationPermissions: false,
       locationResult: null,
       isPickup: true,
       isOpen: false,
+      mapOpen: false,
     };
-    
+    this.controller;
+
     // 42.403635135900295, -71.12350546661803
   }
-  switchState = () => {
-   
+  
+  async reverseGeocode(latlong){
+    let geocodeObj = await Location.reverseGeocodeAsync(latlong);
+    geocode = geocodeObj[0];
+    // console.log("reverse geocode is: ", geocode);
+    return geocode;
   }
+  
   async onChosen(latlong) {
-    let geocode = await Location.reverseGeocodeAsync(latlong);
-    geocode = geocode[0];
+    let geocode = await this.reverseGeocode(latlong);
+    // console.log("final geocode is: ", geocode);
+
+    let location = geocode["name"] + " " + geocode["street"] + ", " + geocode["city"]
     if(this.state.isPickup === true){
-      this.setState({pickup: geocode["name"] + " " + geocode["street"] + ", " + geocode["city"]})
+      this.setState({pickup: location, pickupCoords: latlong})
+      // this.props.pickup = location
     }
-    else{this.setState({dropoff: geocode["name"] + " " + geocode["street"] + ", " + geocode["city"]})}
+    else{
+      this.setState({dropoff: location, dropoffCoords: latlong})
+      // this.props.pickup = location
+    }
     
     this.setState({
       isPickup: !this.state.isPickup,       
     });
-    console.log(this.state.pickup, " ", this.state.dropoff)
+    // console.log(this.state.top_pickup, " ", this.props.top_dropoff)
     
   };
   
 
   getMarkers = () => {
     return [
-    {"key": 0, latlong: {latitude: 42.403635, longitude: -71.1235054}},
-    {"key": 1, latlong: {latitude: 42.412960, longitude: -71.123510}},
-    {"key": 2, latlong: {latitude: 42.413560, longitude: -71.126610}},
-    {"key": 3, latlong: {latitude: 42.403510, longitude: -71.114040}}
+    {key: 0, latlong: {latitude: 42.403635, longitude: -71.1235054}},
+    {key: 1, latlong: {latitude: 42.412960, longitude: -71.123510}},
+    {key: 2, latlong: {latitude: 42.413560, longitude: -71.126610}},
+    {key: 3, latlong: {latitude: 42.403510, longitude: -71.114040}}
     ]
   };
+  
+  async getFavorites () {
+    favs =  [
+    {key: 0, latlong: {latitude: 42.403635, longitude: -71.1235054}},
+    {key: 1, latlong: {latitude: 42.412960, longitude: -71.123510}},
+    {key: 2, latlong: {latitude: 42.413560, longitude: -71.126610}},
+    {key: 3, latlong: {latitude: 42.403510, longitude: -71.114040}},
+    {key: 4, latlong: {latitude: 40.053530, longitude: -75.187960}}
+
+    ];
+    
+    for(i = 0; i < favs.length; i++) {
+      let name  = await this.reverseGeocode(favs[i].latlong);
+      favs[i].name = name;
+    }
+    // console.log(favs);
+
+    this.setState({favorites: favs})
+  };
+  
   componentDidMount() {
+    this.getFavorites();
     this.getLocationAsync();
   }
   
@@ -112,38 +149,60 @@ export default class Home extends React.Component {
                 this.createTwoButtonAlert("Location permissions not granted") :
                 this.state.mapRegion === null ?
                   this.createTwoButtonAlert("Map region does not exist") :
-                    <SafeAreaView style={styles.container}>
-                      <Block style={this.state.isOpen ? styles.topOverlayOpen : styles.topOverlayClosed}>
+                    <Block style={styles.container}>
                       <NavBar 
-                        title="Request a Ride" 
-                        style = {{border: 1,
-                                  borderColor: 'black'}}
-                          // right={this.renderRight()}
-                          // leftStyle={{ paddingTop: 3, flex: 0.3 }}
-                          // leftIconName= 'sliders'
-                          // leftIconFamily="font-awesome"
-                          // left={(
-                          //   <Button
-                          //     color="transparent"
-                          //     style={{paddingTop: 3, flex: 0.3}}
-                          //     // onPress={() => this.props.navigation.openDrawer()}
-                          //   >
-                          //     <Icon name="sliders" family="font-awesome" />
-                          //   </Button>
-                          // )}
-                          // right={(
-                          //   <Button
-                          //     color="transparent"
-                          //     style={{paddingTop: 3, flex: 0.3}}
-                          //     // onPress={() => this.props.navigation.openDrawer()}
-                          //   >
-                          //     <Icon name="heartbeat" family="font-awesome" />
-                          //   </Button>
-                          // )}
-                          //       style={Platform.OS === 'android' ? { marginTop: theme.SIZES.BASE } : null}
-                        
-                        />
-
+                          title="Request a Ride" 
+                          // title = {JSON.stringify(Dimensions.get('window')["height"])}
+                          style = {{border: 1,
+                                    borderColor: 'black', marginTop: 40}}
+                            // right={this.renderRight()}
+                            // leftStyle={{ paddingTop: 3, flex: 0.3 }}
+                            // leftIconName= 'sliders'
+                            // leftIconFamily="font-awesome"
+                            // left={(
+                            //   <Button
+                            //     color="transparent"
+                            //     style={{paddingTop: 3, flex: 0.3}}
+                            //     // onPress={() => this.props.navigation.openDrawer()}
+                            //   >
+                            //     <Icon name="sliders" family="font-awesome" />
+                            //   </Button>
+                            // )}
+                            // right={(
+                            //   <Button
+                            //     color="transparent"
+                            //     style={{paddingTop: 3, flex: 0.3}}
+                            //     // onPress={() => this.props.navigation.openDrawer()}
+                            //   >
+                            //     <Icon name="heartbeat" family="font-awesome" />
+                            //   </Button>
+                            // )}
+                            //       style={Platform.OS === 'android' ? { marginTop: theme.SIZES.BASE } : null}
+                          
+                          />
+                      <Pressable style={styles.topOverlayClosed}
+                      onPress = {() => this.setState({mapOpen: false})}>
+                        <Text>Select from Favorites or pick from the map</Text>
+                        {/* <DropDownPicker
+                            controller={instance => this.controller = instance}
+  
+                            items={[
+                                {label: '40 Ossipee', value: {latitude: 42.403635, longitude: -71.1235054} },
+                                {label: '288 Boston', value: {latitude: 42.412960, longitude: -71.123510},  },
+                              ]}
+                            defaultValue={this.state.pickup}
+                            placeholder= "Select from Favorites"
+                            containerStyle={{height: 40, width: width * .9}}
+                            // style={{backgroundColor: '#fafafa'}}
+                            style = {this.state.isPickup ? styles.activeInput : styles.inactiveInput}
+                            itemStyle={{
+                                justifyContent: 'flex-start'
+                            }}
+                            dropDownStyle={{backgroundColor: '#fafafa'}}
+                            onChangeItem={ item => this.onChosen(item.value)}
+                            onOpen={() => this.setState({isPickup: true})}
+                            onClose={}
+                          /> */}
                         <Pressable 
                           style = {this.state.isPickup ? styles.activeInput : styles.inactiveInput}
                           onPress = {() => this.setState({isPickup: true})}
@@ -176,47 +235,78 @@ export default class Home extends React.Component {
                             onPress = {() => this.setState({dropoff: ""})}>
                             </Button>
                           </Pressable>
-                        <DropDownPicker
-                          items={[
-                              {label: '40 Ossipee', value: {latitude: 42.403635, longitude: -71.1235054} },
-                              {label: '288 Boston', value: {latitude: 42.412960, longitude: -71.123510},  },
-                            ]}
-                          defaultValue={null}
-                          placeholder= "Select from Favorites"
-                          containerStyle={{height: 40, width: width * .9}}
-                          style={{backgroundColor: '#fafafa'}}
-                          itemStyle={{
-                              justifyContent: 'flex-start'
-                          }}
-                          dropDownStyle={{backgroundColor: '#fafafa'}}
-                          onChangeItem={ item => this.onChosen(item.value)}
-                          onOpen={() => this.setState({isOpen: true})}
-                          onClose={() => this.setState({isOpen: false})}
+                          {this.state.mapOpen ? 
+                            <Pressable style = {styles.closeMapButton}
+                                       onPress = {() => this.setState({mapOpen: false})}
+                              ><Text style = {{color: theme.COLORS.WHITE}}>See Favorites</Text>
+                            </Pressable> :
+                            <ScrollView>
+                              {this.state.favorites === null ? <Text></Text> :
+                                this.state.favorites.map((favorite) => (
+                                  <Button
+                                    key = {favorite.key}
+                                    onPress = {() => this.onChosen(favorite.latlong)}
+                                    size = "large"
+                                  >
+                                  {favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["city"]}
+                                  </Button>
+                                ))}
+                            </ScrollView>
+                        }
+                        {/* <Button size = "large">Favorite 1</Button>
+                        <Button size = "large">Favorite 2</Button>
+                        <Button size = "large">Favorite 3</Button>
+                        <Button size = "large">Favorite 4</Button> */}
 
-                        />
-                      </Block>
-                    <MapView
-                       style={styles.map} 
-                       region={this.updateRegion()}
-                       customMapStyle={mapStyle}
-                      >
-                      {this.state.markers.map((marker) => (
-                        <Marker
-                          coordinate= {marker.latlong}
-                          onPress = {() => this.onChosen(marker.latlong)}
-                          image = {require('../assets/icons/tinycar.png')}
-                        />
-                        ))}
-                
-                      
-                    </MapView>
-                      {this.state.pickup === "" || this.state.dropoff === "" ?
-                        null :
-                        <Pressable>
-                          <Text h5> Continue</Text>
-                        </Pressable>
+                      </Pressable>
+                      {this.state.mapOpen ?
+                        <View style = {[styles.mapContainer, {flex: 15, width: width}]}>
+                          <MapView
+                             style={{flex: 1}} 
+                             region={this.updateRegion()}
+                             customMapStyle={mapStyle}
+                            >
+                            {this.state.markers.map((marker) => (
+                              <Marker
+                                key = {marker.key}
+                                coordinate= {marker.latlong}
+                                onPress = {() => this.onChosen(marker.latlong)}
+                                image = {require('../assets/icons/tinycar.png')}
+                              />
+                              ))}
+                  
+                            </MapView>
+                        </View> :
+                        <Pressable style = {styles.mapContainer} onPress = {() => this.setState({mapOpen: true})}>
+                        <MapView
+                           style={{flex: 1}} 
+                           region={this.updateRegion()}
+                           customMapStyle={mapStyle}
+                          >
+                          {this.state.markers.map((marker) => (
+                            <Marker
+                              key = {marker.key}
+                              coordinate= {marker.latlong}
+                              onPress = {() => this.onChosen(marker.latlong)}
+                              image = {require('../assets/icons/tinycar.png')}
+                            />
+                            ))}
+                    
+                        </MapView>
+                      </Pressable>
                       }
-                  </SafeAreaView>
+                      {this.state.pickup === "" || this.state.dropoff === "" ?
+                        // <View style = {styles.button}></View> :
+                        <View></View> :
+
+                        <Button
+                          style = {styles.button}
+                          onPress={() => this.props.navigation.navigate('Ride', {pickupCoords: this.state.pickupCoords, dropoffCoords: this.state.dropoffCoords})}
+                        >
+                          <Text h5> Continue</Text>
+                        </Button>
+                      }
+                  </Block>
           }
         </View>
       );
@@ -225,27 +315,26 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 88 ,
-    // Dimensions.get('screen').height - Dimensions.get('window').height,
+    // marginTop: statusbar,
     width: width,    
     flex: 1,
     alignItems: 'center',
   },
   topOverlayClosed: {
     // position: 'absolute',
-    marginTop: 40, //Dimensions.get('screen').height - Dimensions.get('window').height,
+    // marginTop: 40, //Dimensions.get('screen').height - Dimensions.get('window').height,
     flex: 4,
     flexDirection: 'column',
     // width: Dimensions.get('screen').width,
     backgroundColor: theme.COLORS.BASE,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     width: width * .9,
   },
   topOverlayOpen: {
     // position: 'absolute',
     marginTop: 40, //Dimensions.get('screen').height - Dimensions.get('window').height,
-    flex: 7,
+    flex: 4,
     flexDirection: 'column',
     // width: Dimensions.get('screen').width,
     backgroundColor: theme.COLORS.BASE,
@@ -261,17 +350,22 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.PRIMARY,
   },
   button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width * .9,
   },
-  map: {
+  mapContainer: {
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height,
-    flex: 9,
+    flex: 4,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignContent: 'space-around',    
+    alignContent: 'space-around', 
+    borderColor: theme.COLORS.BLACK,
+    marginTop: 10,
+    width: width * .9,
+
   },
   activeInput: {
     alignItems: "center",
@@ -283,6 +377,16 @@ const styles = StyleSheet.create({
     padding: 5,
     borderColor: theme.COLORS.PRIMARY,
     width: width * .9,
+
+  },
+  closeMapButton: {
+    alignItems: "center",
+    backgroundColor: theme.COLORS.PRIMARY,
+    borderRadius: 15,
+    marginBottom: 5,
+    padding: 5,
+    // borderColor: theme.COLORS.PRIMARY,
+    width: width * .8,
 
   },
   inactiveInput: {

@@ -1,20 +1,29 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/screens/Login'
-import Splash from './src/screens/Splash'
 import Home from './src/screens/Home'
-import Test from './src/screens/Test'
+import Ride from './src/screens/Ride'
+import Confirm from './src/screens/Confirm'
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+const Stack = createStackNavigator();
 
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-        // this.theme.main_color = '#3657FF';
-        this.state = { screen: Home };
-      }
+      
     render(){
         return (
-            <this.state.screen></this.state.screen>
+          <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+            <Stack.Screen name="Ride" component={Ride} options={{ headerShown: false }}/>
+            <Stack.Screen name="Confirm" component={Confirm} options={{ headerShown: false }}/>
+
+          </Stack.Navigator>
+        </NavigationContainer>
         );
     }
 }

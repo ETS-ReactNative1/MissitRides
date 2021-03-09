@@ -4,7 +4,8 @@ import { StyleSheet, Dimensions, Image } from 'react-native';
 import {theme, Block, Button, Input, Text} from 'galio-framework';
 // import { Icon, Product } from 'C:/Users/hanke/OneDrive/Documents/Tufts/Senior Fall/ML/missit-rides/MissitRides/src/components';
 
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 const { width } = Dimensions.get('screen');
 // import products from '../constants/products';
 
@@ -23,7 +24,13 @@ export default class Login extends React.Component {
         <Block style = {styles.input_container}>
           <Input placeholder="Username" color={theme.COLORS.BASE} style={{ borderColor: theme.COLORS.THEME }} placeholderTextColor={theme.COLORS.THEME} />
           <Input placeholder="Password" password = {true} color={theme.COLORS.BASE} style={{ borderColor: theme.COLORS.THEME }} placeholderTextColor={theme.COLORS.THEME} />
-          <Button color= {theme.COLORS.PRIMARY} size = "large" uppercase = {true} >login</Button>
+          <Button 
+            color= {theme.COLORS.PRIMARY} 
+            size = "large"
+            uppercase = {true}
+            onPress={() => this.props.navigation.navigate('Home', {pickup: "", dropoff: ""})}
+            >
+            login</Button>
 
         </Block>
       </Block>
@@ -35,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     width: width,    
     flex: 1,
-    backgroundColor: theme.COLORS.BASE,
+    backgroundColor: theme.COLORS.PRIMARY,
     alignItems: 'center',
   },
   image_container: {
