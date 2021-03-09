@@ -31,8 +31,7 @@ estimateResponse = [{
   "pickup_estimate": 2
 }]
 
-requestsResponse = 
-[{
+requestsResponse = [{
    "request_id": "852b8fdd-4369-4659-9628-e122662ad257",
    "product_id": "a1111c8c-c720-46c3-8534-2fcdd730040d",
    "status": "processing",
