@@ -75,7 +75,20 @@ export default class Ride extends React.Component {
     
     submitReq(){
       console.log(this.state.pickup, this.state.dropoff, this.state.ride);
+      fetch('https://hub.dummyapis.com/employee?noofRecords=10&idStarts=1001', {
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({
+          pickupCoords: this.state.pickupCoords,
+          dropoffCoords: this.state.dropoffCoords,
+          ride: this.state.ride,
+        })
+      });
+      fetch('https://hub.dummyapis.com/employee?noofRecords=10&idStarts=1001')
+        .then(response => response.json())
+        .then(data => console.log(data));
     }
+    
     render() {
       
       return (
