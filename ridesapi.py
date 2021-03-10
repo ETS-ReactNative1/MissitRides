@@ -31,16 +31,15 @@ estimateResponse = [{
   "pickup_estimate": 2
 }]
 
-requestsResponse = 
-[{
+requestsResponse = [{
    "request_id": "852b8fdd-4369-4659-9628-e122662ad257",
    "product_id": "a1111c8c-c720-46c3-8534-2fcdd730040d",
    "status": "processing",
-   "vehicle": null,
-   "driver": null,
-   "location": null,
+   "vehicle": None,
+   "driver": None,
+   "location": None,
    "eta": 5,
-   "surge_multiplier": null
+   "surge_multiplier": None
 }]
 
 api = Flask(__name__)
@@ -49,13 +48,17 @@ api = Flask(__name__)
 def get_companies():
   return json.dumps(companies)
 
+@api.route('/', methods=['GET'])
+def get_comp():
+  return json.dumps(companies)
+
 @api.route('/estimate', methods=['POST'])
 def post_estimate():
   return json.dumps(estimateResponse)
 
 @api.route('/requests', methods=['POST'])
-def post_estimate():
+def post_requests():
   return json.dumps(requestsResponse)
 
 if __name__ == '__main__':
-    api.run()
+    api.run(debug=True)
