@@ -1,10 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/screens/Login'
+import Test from './src/screens/Test'
+
 import Home from './src/screens/Home'
+import UpdateFav from './src/screens/UpdateFav'
+
 import Ride from './src/screens/Ride'
 import Confirm from './src/screens/Confirm'
-
+import Registration from './src/screens/Registration'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -17,6 +21,11 @@ export default class App extends React.Component {
         return (
           <NavigationContainer>
           <Stack.Navigator>
+            {/* <Stack.Screen name="Test" component={Test} options={{ headerShown: false }}/> */}
+
+            <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }}/>
+            <Stack.Screen name="UpdateFav" component={UpdateFav} options={{ headerShown: false }}/>
+
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="Ride" component={Ride} options={{ headerShown: false }}/>

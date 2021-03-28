@@ -5,7 +5,9 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Splash from './Splash';
 import {mapStyle} from '../components/mapStyle.js';
-import DropDownPicker from 'react-native-dropdown-picker';
+// import DropDownPicker from 'react-native-dropdown-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import { StyleSheet, Dimensions, Pressable, SafeAreaView, View, Alert, StatusBar, Platform } from 'react-native';
 import {theme, Block, Accordion, Text, NavBar, Button} from 'galio-framework';
@@ -22,9 +24,11 @@ export default class Home extends React.Component {
       markers: this.getMarkers(),
       favorites: null,
       pickup: this.props.route.params["pickup"],
+      dropoff: this.props.route.params["dropoff"],
+      pickupIndex: 0,
+      dropoffIndex: 0,
       pickupCoords: null,
       dropoffCoords: null,
-      dropoff: this.props.route.params["dropoff"],
       hasLocationPermissions: false,
       locationResult: null,
       isPickup: true,
@@ -38,23 +42,27 @@ export default class Home extends React.Component {
   
   async reverseGeocode(latlong){
     let geocodeObj = await Location.reverseGeocodeAsync(latlong);
-    geocode = geocodeObj[0];
+    let geocode = geocodeObj[0];
     // console.log("reverse geocode is: ", geocode);
     return geocode;
   }
   
-  async onChosen(latlong) {
-    let geocode = await this.reverseGeocode(latlong);
-    // console.log("final geocode is: ", geocode);
+  async onChosen(selection, isFavorite) {
+    let geocode = await this.reverseGeocode(selection.latlong);
 
-    let location = geocode["name"] + " " + geocode["street"] + ", " + geocode["city"]
+    let location = geocode["name"] + " " + geocode["street"] + ", " + geocode["city"];
+    var index = 0;
+    isFavorite ? index = selection.key : index = selection.key + 4;
+
+    
     if(this.state.isPickup === true){
-      this.setState({pickup: location, pickupCoords: latlong})
-      // this.props.pickup = location
+      this.setState({pickup: location, pickupCoords: selection.latlong, pickupIndex: index});
+      console.log("Pickup: ", index);
     }
     else{
-      this.setState({dropoff: location, dropoffCoords: latlong})
-      // this.props.pickup = location
+      this.setState({dropoff: location, dropoffCoords: selection.latlong, dropoffIndex: index});
+      console.log("Dropoff: ", index);
+
     }
     
     this.setState({
@@ -74,21 +82,31 @@ export default class Home extends React.Component {
     ]
   };
   
-  async getFavorites () {
-    favs =  [
-    {key: 0, latlong: {latitude: 42.403635, longitude: -71.1235054}},
-    {key: 1, latlong: {latitude: 42.412960, longitude: -71.123510}},
-    {key: 2, latlong: {latitude: 42.413560, longitude: -71.126610}},
-    {key: 3, latlong: {latitude: 42.403510, longitude: -71.114040}},
-    {key: 4, latlong: {latitude: 40.053530, longitude: -75.187960}}
-
-    ];
-    
-    for(i = 0; i < favs.length; i++) {
-      let name  = await this.reverseGeocode(favs[i].latlong);
-      favs[i].name = name;
+  async retrieve(num){
+    try {
+      var fav_num = "fav" + num;
+      const jsonValue = await AsyncStorage.getItem(fav_num)
+      return JSON.parse(jsonValue);
+    } catch(e) {
+      // error reading value
     }
-    // console.log(favs);
+  }
+  
+  async getFavorites () {
+    var favs = [];
+    var i = 0;
+    while(i < 4){
+      let latlong = await this.retrieve(i);
+      console.log("latlong: ", latlong)
+      let this_name = null;
+      if (latlong != null){
+        this_name  = await this.reverseGeocode(latlong);
+      }
+      else {this_name = null }
+      favs.push({key: i, name: this_name, latlong: latlong});
+      console.log(favs);
+      i++;
+    }
 
     this.setState({favorites: favs})
   };
@@ -243,13 +261,21 @@ export default class Home extends React.Component {
                             <ScrollView>
                               {this.state.favorites === null ? <Text></Text> :
                                 this.state.favorites.map((favorite) => (
+                                  favorite.name != null ? 
                                   <Button
                                     key = {favorite.key}
-                                    onPress = {() => this.onChosen(favorite.latlong)}
+                                    onPress = {() => this.onChosen(favorite, true)}
                                     size = "large"
                                   >
                                   {favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["city"]}
-                                  </Button>
+                                  </Button> :
+                                   <Button
+                                   key = {favorite.key}
+                                   disabled = {true}
+                                   size = "large"
+                                 >
+                                 {"No Address Saved in this slot"}
+                                 </Button>
                                 ))}
                             </ScrollView>
                         }
@@ -270,7 +296,7 @@ export default class Home extends React.Component {
                               <Marker
                                 key = {marker.key}
                                 coordinate= {marker.latlong}
-                                onPress = {() => this.onChosen(marker.latlong)}
+                                onPress = {() => this.onChosen(marker, false)}
                                 image = {require('../assets/icons/tinycar.png')}
                               />
                               ))}
@@ -287,7 +313,7 @@ export default class Home extends React.Component {
                             <Marker
                               key = {marker.key}
                               coordinate= {marker.latlong}
-                              onPress = {() => this.onChosen(marker.latlong)}
+                              onPress = {() => this.onChosen(marker, false)}
                               image = {require('../assets/icons/tinycar.png')}
                             />
                             ))}
@@ -301,7 +327,10 @@ export default class Home extends React.Component {
 
                         <Button
                           style = {styles.button}
-                          onPress={() => this.props.navigation.navigate('Ride', {pickupCoords: this.state.pickupCoords, dropoffCoords: this.state.dropoffCoords})}
+                          onPress={() => this.props.navigation.navigate('Ride', {pickupCoords: this.state.pickupCoords,
+                                                                                 dropoffCoords: this.state.dropoffCoords,
+                                                                                 pickupIndex: this.state.pickupIndex,
+                                                                                 dropoffIndex: this.state.dropoffIndex})}
                         >
                           <Text h5> Continue</Text>
                         </Button>
@@ -387,7 +416,6 @@ const styles = StyleSheet.create({
     padding: 5,
     // borderColor: theme.COLORS.PRIMARY,
     width: width * .8,
-
   },
   inactiveInput: {
     alignItems: "center",
@@ -414,8 +442,6 @@ const styles = StyleSheet.create({
     position:'absolute',
     alignSelf: "flex-end",
     // marginHorizontal: 30,
-
-  
   },
   wrapperCustom: {
     borderRadius: 8,

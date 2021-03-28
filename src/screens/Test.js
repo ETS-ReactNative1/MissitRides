@@ -1,53 +1,62 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
+import { StyleSheet, View } from 'react-native';
+import {theme, Block, Input, Text, NavBar, Icon, Button } from 'galio-framework';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class Test extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasLocationPermissions: false,
-      locationResult: null
+      wordIn: "",
+      wordOut: "",
     };
   }
-  componentDidMount() {
-    this.getLocationAsync();
+  
+  async setWord(text){
+    
+    try {
+      await AsyncStorage.setItem('test', text)
+      
+    } catch (e) {
+      // saving error
+    }
+  }
+  handleWord = (text) => { this.setState({ wordIn: text })}
+
+  
+  async retrieve(){
+    try {
+      const jsonValue = await AsyncStorage.getItem('fav')
+      console.log(JSON.stringify(jsonValue))
+      let word = "Hello";
+      console.log(word)
+
+      jsonValue != null ? word = jsonValue : word = null;
+      return word;
+    } catch(e) {
+      // error reading value
+    }
   }
   
-  async getLocationAsync (){
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    // let isMounted = true; // note this flag denote mount status
-
-    if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-      });
-    } else {
-      this.setState({ hasLocationPermissions: true });
-    }
- 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: location });
+  async getWord() {
+    let word = await this.retrieve();
+    console.log(word);
+    this.setState({wordOut: word})
+  }
   
+  componentDidMount() {
   }
   
     render() {
       return (
         <View style={styles.container}>
-          {
-            this.state.locationResult === null ?
-            <Text>Finding your current location...</Text> :
-            this.state.hasLocationPermissions === false ?
-              <Text>Location permissions are not granted.</Text> :
-              this.state.mapRegion === null ?
-              <Text>Map region doesn't exist.</Text> :
-              <Text>
-              Latitude: {this.state.locationResult["coords"]["latitude"]} Longitude: {this.state.locationResult["coords"]["longitude"]}
-            </Text>
-          }
-          
+          <Input onChangeText = {this.handleWord} placeholder = "set word"></Input>
+          <Button onPress = {() => this.setWord(this.state.wordIn)}>Set word</Button>
+          <Text>Word set to: {this.state.wordIn}</Text>
+          <Button onPress = {() => this.getWord()}>Get word</Button>
+          <Text>{this.state.wordOut}</Text>
   
         </View>
           
