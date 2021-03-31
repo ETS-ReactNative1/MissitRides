@@ -99,7 +99,7 @@ export default class UpdateFav extends React.Component {
             <Button
               color="transparent"
               style={{paddingTop: 3,}}
-              onPress={() => this.props.navigation.navigate("Test")}
+              onPress={() => this.props.navigation.goBack()}
             >
               <Icon name="arrow-left" family="font-awesome" />
             </Button>

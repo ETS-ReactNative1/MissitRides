@@ -107,9 +107,35 @@ export default class Home extends React.Component {
       console.log(favs);
       i++;
     }
-
     this.setState({favorites: favs})
   };
+    
+  async updateFavorite(id){
+    await this.getFavorites();
+    fetch("https://missit-ridesapi-backend.ue.r.appspot.com/update_favorites", { 
+      
+      // Adding method type 
+      method: "POST", 
+        
+      // Adding body or contents to send 
+      
+      body: id === 0 ? JSON.stringify({ 
+          userid: 1,
+          0: this.state.favs[0].latlong,
+        }) : id === 1 ? JSON.stringify({ 
+          userid: 1,
+          1: this.state.favs[1].latlong,
+        }) :  id === 2 ? JSON.stringify({ 
+          userid: 1,
+          2: this.state.fav[2].latlong,
+        }) :  JSON.stringify({ 
+          userid: 1,
+          3: this.state.favs[3].latlong,
+        })
+    })
+  };
+
+
   
   componentDidMount() {
     this.getFavorites();
@@ -170,6 +196,7 @@ export default class Home extends React.Component {
                     <Block style={styles.container}>
                       <NavBar 
                           title="Request a Ride" 
+                          // titleStyle = {{fontSize: "24pt"}}
                           // title = {JSON.stringify(Dimensions.get('window')["height"])}
                           style = {{border: 1,
                                     borderColor: 'black', marginTop: 40}}
@@ -200,27 +227,8 @@ export default class Home extends React.Component {
                           />
                       <Pressable style={styles.topOverlayClosed}
                       onPress = {() => this.setState({mapOpen: false})}>
-                        <Text>Select from Favorites or pick from the map</Text>
-                        {/* <DropDownPicker
-                            controller={instance => this.controller = instance}
-  
-                            items={[
-                                {label: '40 Ossipee', value: {latitude: 42.403635, longitude: -71.1235054} },
-                                {label: '288 Boston', value: {latitude: 42.412960, longitude: -71.123510},  },
-                              ]}
-                            defaultValue={this.state.pickup}
-                            placeholder= "Select from Favorites"
-                            containerStyle={{height: 40, width: width * .9}}
-                            // style={{backgroundColor: '#fafafa'}}
-                            style = {this.state.isPickup ? styles.activeInput : styles.inactiveInput}
-                            itemStyle={{
-                                justifyContent: 'flex-start'
-                            }}
-                            dropDownStyle={{backgroundColor: '#fafafa'}}
-                            onChangeItem={ item => this.onChosen(item.value)}
-                            onOpen={() => this.setState({isPickup: true})}
-                            onClose={}
-                          /> */}
+                        <Text p style = {{padding: 5, textAlign: 'center'}}>Select from Favorites or pick from the map</Text>
+                    
                         <Pressable 
                           style = {this.state.isPickup ? styles.activeInput : styles.inactiveInput}
                           onPress = {() => this.setState({isPickup: true})}
@@ -253,32 +261,51 @@ export default class Home extends React.Component {
                             onPress = {() => this.setState({dropoff: ""})}>
                             </Button>
                           </Pressable>
-                          {this.state.mapOpen ? 
-                            <Pressable style = {styles.closeMapButton}
-                                       onPress = {() => this.setState({mapOpen: false})}
-                              ><Text style = {{color: theme.COLORS.WHITE}}>See Favorites</Text>
-                            </Pressable> :
-                            <ScrollView>
-                              {this.state.favorites === null ? <Text></Text> :
-                                this.state.favorites.map((favorite) => (
-                                  favorite.name != null ? 
-                                  <Button
-                                    key = {favorite.key}
-                                    onPress = {() => this.onChosen(favorite, true)}
-                                    size = "large"
-                                  >
-                                  {favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["city"]}
-                                  </Button> :
-                                   <Button
-                                   key = {favorite.key}
-                                   disabled = {true}
-                                   size = "large"
-                                 >
-                                 {"No Address Saved in this slot"}
-                                 </Button>
-                                ))}
+                        {this.state.mapOpen ? 
+                          <Pressable style = {styles.closeMapButton}
+                                     onPress = {() => this.setState({mapOpen: false})}
+                            ><Text style = {{color: theme.COLORS.WHITE, margin: 5}}>See Favorites</Text>
+                          </Pressable> :
+                          <ScrollView style = {{width: width * 0.9, }}>
+                            <Text p style = {{textAlign: 'center'}}>Favorites</Text>
+                            {this.state.favorites === null ? <Text></Text> :
+                              this.state.favorites.map((favorite) => (
+                              <Block style = {favorite.name != null ? styles.buttonContainer : [styles.buttonContainer, {borderColor: "grey"}]}>
+
+                                {favorite.name != null ? 
+
+                                <Pressable
+                                  key = {favorite.key}
+                                  onPress = {() => this.onChosen(favorite, true)}
+                                  style = {{flex: 3, alignItems: 'center'}}
+                                  // size = "large"
+                                >
+                                <Text>{favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["city"]}</Text>
+                                </Pressable> : 
+                                 <Pressable
+                                 key = {favorite.key}
+                                 disabled = {true}
+                                //  size = "large"
+                                 style = {{flex: 3,alignItems: 'center'}}
+                               >
+                               <Text style = {{color: 'grey'}}>No address saved in this slot</Text>
+                               </Pressable>}
+                               <Button 
+                                size = "small"
+                                onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite.key, previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["city"], onGoBack: () => this.updateFavorite(favorite.key),})}
+                                onlyIcon icon="edit" 
+                                iconFamily="antdesign" 
+                                iconSize={20} 
+                                color="transparent" 
+                                style={{width: 20, height: 20}}
+
+                                iconColor="#808080"
+                                >
+                                </Button>
+                               </Block>
+                              ))}
                             </ScrollView>
-                        }
+                      }
                         {/* <Button size = "large">Favorite 1</Button>
                         <Button size = "large">Favorite 2</Button>
                         <Button size = "large">Favorite 3</Button>
@@ -412,9 +439,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: theme.COLORS.PRIMARY,
     borderRadius: 15,
-    marginBottom: 5,
+    margin: 5,
     padding: 5,
-    // borderColor: theme.COLORS.PRIMARY,
+    // flex: 5,
     width: width * .8,
   },
   inactiveInput: {
@@ -447,4 +474,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 6,
   },
+  buttonContainer:{
+    flexDirection: 'row',
+    borderColor: theme.COLORS.BLACK,
+    borderWidth: 1,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 7,
+    padding: 5,
+    
+  }
 });

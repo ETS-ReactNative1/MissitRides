@@ -88,16 +88,17 @@ export default class Ride extends React.Component {
           } 
       }) 
         
-      // // Converting to JSON 
-      // .then(response => response.json()) 
+      // Converting to JSON 
+      .then(response => response.json()) 
         
-      // // Displaying results to console 
-      // .then(json => console.log(json)); 
+      // Displaying results to console 
+      .then(json => console.log(json)); 
     }
   
   componentDidMount() {
       this.getEndpoints();
       this.setFinalTime();
+      this.getRates();
       this.timer = setInterval(() => {
         this.setState({ currentTime: this.state.currentTime + 1});
         // console.log(this.state.currentTime, this.state.finalTime);
