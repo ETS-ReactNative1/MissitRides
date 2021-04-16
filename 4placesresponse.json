@@ -1,0 +1,402 @@
+{
+  "10": {
+    "lat": 52.2347872, 
+    "lng": 0.1162451, 
+    "name": "Premier Inn Cambridge (A14, J32) hotel"
+  }, 
+  "11": {
+    "lat": 52.237102, 
+    "lng": 0.115489, 
+    "name": "Holiday Inn Cambridge"
+  }, 
+  "12": {
+    "lat": 52.2130556, 
+    "lng": 0.1194444, 
+    "name": "Arundel House Hotel"
+  }, 
+  "13": {
+    "lat": 52.2171333, 
+    "lng": 0.1271433, 
+    "name": "Harry's Bed and Breakfast"
+  }, 
+  "14": {
+    "lat": 52.2250882, 
+    "lng": 0.1120908, 
+    "name": "Tudor Cottage"
+  }, 
+  "15": {
+    "lat": 52.21659690000001, 
+    "lng": 0.1269157, 
+    "name": "Home From Home"
+  }, 
+  "16": {
+    "lat": 52.2284531, 
+    "lng": 0.1464325, 
+    "name": "Lovell Lodge"
+  }, 
+  "17": {
+    "lat": 52.21540359999999, 
+    "lng": 0.1295892, 
+    "name": "Lynwood House"
+  }, 
+  "18": {
+    "lat": 52.21470040000001, 
+    "lng": 0.1282993, 
+    "name": "Ashley Hotel"
+  }, 
+  "19": {
+    "lat": 52.2262594, 
+    "lng": 0.1163035, 
+    "name": "Rosa's B & B"
+  }, 
+  "20": {
+    "lat": 52.2500696, 
+    "lng": 0.1949018, 
+    "name": "Cambridge Country Cottages"
+  }, 
+  "21": {
+    "lat": 52.2221792, 
+    "lng": 0.09370629999999999, 
+    "name": "Premier Inn Cambridge North (Girton) hotel"
+  }, 
+  "22": {
+    "lat": 52.31130229999999, 
+    "lng": 0.05533499999999999, 
+    "name": "Orchard Cottage Accommodation"
+  }, 
+  "23": {
+    "lat": 52.3276268, 
+    "lng": 0.2017126999999999, 
+    "name": "The Lazy Otter"
+  }, 
+  "24": {
+    "lat": 52.210292, 
+    "lng": 0.118042, 
+    "name": "The Varsity Hotel & Spa - Cambridge"
+  }, 
+  "25": {
+    "lat": 52.2157461, 
+    "lng": 0.114288, 
+    "name": "Carpenters Arms"
+  }, 
+  "26": {
+    "lat": 52.21413, 
+    "lng": 0.1254772, 
+    "name": "The Waterman"
+  }, 
+  "27": {
+    "lat": 52.2283297, 
+    "lng": 0.0874663, 
+    "name": "The Artist House Cambridge"
+  }, 
+  "28": {
+    "lat": 52.218529, 
+    "lng": 0.1159316, 
+    "name": "Harvey Goodwin Gardens"
+  }, 
+  "29": {
+    "lat": 52.278202, 
+    "lng": 0.167771, 
+    "name": "The Brambles B&B"
+  }, 
+  "30": {
+    "lat": 52.2159476, 
+    "lng": 0.2069902, 
+    "name": "Best Western Premier Collection Quy Mill Hotel & Spa, Cambridge"
+  }, 
+  "31": {
+    "lat": 52.1783705, 
+    "lng": 0.2238202000000001, 
+    "name": "The White Hart Country Inn"
+  }, 
+  "32": {
+    "lat": 52.1945892, 
+    "lng": 0.1645391, 
+    "name": "Holiday Inn Express Cambridge"
+  }, 
+  "33": {
+    "lat": 52.1817039, 
+    "lng": 0.2363485, 
+    "name": "Fulbourn Fen"
+  }, 
+  "34": {
+    "lat": 52.2193365, 
+    "lng": 0.234869, 
+    "name": "The Missing Sock"
+  }, 
+  "35": {
+    "lat": 52.23964350000001, 
+    "lng": 0.2779899, 
+    "name": "Black Horse Inn"
+  }, 
+  "36": {
+    "lat": 52.1861458, 
+    "lng": 0.1525524, 
+    "name": "Acacia Guest House"
+  }, 
+  "37": {
+    "lat": 52.2500696, 
+    "lng": 0.1949018, 
+    "name": "Cambridge Country Cottages"
+  }, 
+  "38": {
+    "lat": 52.1908107, 
+    "lng": 0.3097199, 
+    "name": "Swynford Manor"
+  }, 
+  "39": {
+    "lat": 52.193781, 
+    "lng": 0.167308, 
+    "name": "David Lloyd Cambridge"
+  }, 
+  "40": {
+    "lat": 52.20693199999999, 
+    "lng": 0.1712947, 
+    "name": "Cambridge Airport"
+  }, 
+  "41": {
+    "lat": 52.20914550000001, 
+    "lng": 0.1549934, 
+    "name": "Abbey Leisure Complex"
+  }, 
+  "42": {
+    "lat": 52.18686859999999, 
+    "lng": 0.1881032, 
+    "name": "Tesco Superstore"
+  }, 
+  "43": {
+    "lat": 52.18806559999999, 
+    "lng": 0.1738253, 
+    "name": "Ladbrokes"
+  }, 
+  "44": {
+    "lat": 52.1958476, 
+    "lng": 0.1745053, 
+    "name": "Bennetts Car Parts"
+  }, 
+  "45": {
+    "lat": 52.19096800000001, 
+    "lng": 0.1773036, 
+    "name": "Sun & Beauty Studios"
+  }, 
+  "46": {
+    "lat": 52.2365077, 
+    "lng": 0.2440103, 
+    "name": "Anglesey Abbey: Gardens and Lode Mill"
+  }, 
+  "47": {
+    "lat": 52.20970519999999, 
+    "lng": 0.1470705, 
+    "name": "Halfords - Cambridge"
+  }, 
+  "48": {
+    "lat": 52.18544, 
+    "lng": 0.16026, 
+    "name": "bp"
+  }, 
+  "49": {
+    "lat": 52.1871832, 
+    "lng": 0.1534252, 
+    "name": "Kwik Fit - Cambridge - Cherry Hinton"
+  }, 
+  "50": {
+    "lat": 52.08395849999999, 
+    "lng": 0.1821101, 
+    "name": "The Red Lion Inn"
+  }, 
+  "51": {
+    "lat": 52.192103, 
+    "lng": 0.13409, 
+    "name": "The Earl of Derby"
+  }, 
+  "52": {
+    "lat": 52.1861458, 
+    "lng": 0.1525524, 
+    "name": "Acacia Guest House"
+  }, 
+  "53": {
+    "lat": 52.1945892, 
+    "lng": 0.1645391, 
+    "name": "Holiday Inn Express Cambridge"
+  }, 
+  "54": {
+    "lat": 52.2, 
+    "lng": 0.1288889, 
+    "name": "Gonville Hotel"
+  }, 
+  "55": {
+    "lat": 52.10358660000001, 
+    "lng": 0.1659265, 
+    "name": "Holiday Inn Express Cambridge-Duxford M11, JCT.10"
+  }, 
+  "56": {
+    "lat": 52.1783705, 
+    "lng": 0.2238202000000001, 
+    "name": "The White Hart Country Inn"
+  }, 
+  "57": {
+    "lat": 52.2013063, 
+    "lng": 0.1257197, 
+    "name": "Regent Hotel"
+  }, 
+  "58": {
+    "lat": 52.1961606, 
+    "lng": 0.1349005, 
+    "name": "Fenners Hotel"
+  }, 
+  "59": {
+    "lat": 52.1876198, 
+    "lng": 0.1463604, 
+    "name": "Sorrento Hotel"
+  }, 
+  "60": {
+    "lat": 52.2002818, 
+    "lng": 0.1164557, 
+    "name": "Graduate Cambridge (formerly Cambridge Hotel City Centre on the River Cam)"
+  }, 
+  "61": {
+    "lat": 52.1744444, 
+    "lng": 0.1105556, 
+    "name": "Lord Byron Inn"
+  }, 
+  "62": {
+    "lat": 52.1943547, 
+    "lng": 0.1324391, 
+    "name": "Centennial Hotel"
+  }, 
+  "63": {
+    "lat": 52.1979513, 
+    "lng": 0.1235926, 
+    "name": "The Lensfield Hotel"
+  }, 
+  "64": {
+    "lat": 52.1038639, 
+    "lng": 0.1663722, 
+    "name": "Red Lion Hotel"
+  }, 
+  "65": {
+    "lat": 52.19682400000001, 
+    "lng": 0.135487, 
+    "name": "YHA Cambridge Hostel"
+  }, 
+  "66": {
+    "lat": 52.0638247, 
+    "lng": 0.1946294, 
+    "name": "The Crown House Hotel"
+  }, 
+  "67": {
+    "lat": 52.1919635, 
+    "lng": 0.1401988, 
+    "name": "Tailored Stays - Grand Central, Cambridge"
+  }, 
+  "68": {
+    "lat": 52.09607439999999, 
+    "lng": 0.1352434, 
+    "name": "IWM Duxford"
+  }, 
+  "69": {
+    "lat": 52.1901, 
+    "lng": 0.136103, 
+    "name": "Travelodge Cambridge Central"
+  }, 
+  "70": {
+    "lat": 52.2550804, 
+    "lng": 0.0257451, 
+    "name": "Cambridge Bar Hill Hotel | Signature Collection by Best Western"
+  }, 
+  "71": {
+    "lat": 52.2062306, 
+    "lng": 0.1224627, 
+    "name": "Christ's College Cambridge"
+  }, 
+  "72": {
+    "lat": 52.2130556, 
+    "lng": 0.1194444, 
+    "name": "Arundel House Hotel"
+  }, 
+  "73": {
+    "lat": 52.210292, 
+    "lng": 0.118042, 
+    "name": "The Varsity Hotel & Spa - Cambridge"
+  }, 
+  "74": {
+    "lat": 52.2002818, 
+    "lng": 0.1164557, 
+    "name": "Graduate Cambridge (formerly Cambridge Hotel City Centre on the River Cam)"
+  }, 
+  "75": {
+    "lat": 52.2, 
+    "lng": 0.1288889, 
+    "name": "Gonville Hotel"
+  }, 
+  "76": {
+    "lat": 52.2013063, 
+    "lng": 0.1257197, 
+    "name": "Regent Hotel"
+  }, 
+  "77": {
+    "lat": 52.2347872, 
+    "lng": 0.1162451, 
+    "name": "Premier Inn Cambridge (A14, J32) hotel"
+  }, 
+  "78": {
+    "lat": 52.2693174, 
+    "lng": -0.0086718, 
+    "name": "Ramada by Wyndham Cambridge"
+  }, 
+  "79": {
+    "lat": 52.192103, 
+    "lng": 0.13409, 
+    "name": "The Earl of Derby"
+  }, 
+  "80": {
+    "lat": 52.2171333, 
+    "lng": 0.1271433, 
+    "name": "Harry's Bed and Breakfast"
+  }, 
+  "81": {
+    "lat": 52.237102, 
+    "lng": 0.115489, 
+    "name": "Holiday Inn Cambridge"
+  }, 
+  "82": {
+    "lat": 52.2250882, 
+    "lng": 0.1120908, 
+    "name": "Tudor Cottage"
+  }, 
+  "83": {
+    "lat": 52.2221792, 
+    "lng": 0.09370629999999999, 
+    "name": "Premier Inn Cambridge North (Girton) hotel"
+  }, 
+  "84": {
+    "lat": 52.1979513, 
+    "lng": 0.1235926, 
+    "name": "The Lensfield Hotel"
+  }, 
+  "85": {
+    "lat": 52.21659690000001, 
+    "lng": 0.1269157, 
+    "name": "Home From Home"
+  }, 
+  "86": {
+    "lat": 52.2157461, 
+    "lng": 0.114288, 
+    "name": "Carpenters Arms"
+  }, 
+  "87": {
+    "lat": 52.21540359999999, 
+    "lng": 0.1295892, 
+    "name": "Lynwood House"
+  }, 
+  "88": {
+    "lat": 52.21470040000001, 
+    "lng": 0.1282993, 
+    "name": "Ashley Hotel"
+  }, 
+  "89": {
+    "lat": 52.2103076, 
+    "lng": 0.1010554, 
+    "name": "Department of Applied Mathematics and Theoretical Physics, University of Cambridge"
+  }
+}
