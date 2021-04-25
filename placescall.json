@@ -1,0 +1,855 @@
+{
+   "html_attributions" : [],
+   "next_page_token" : "ATtYBwIZtU0VRe5Xj5iHM3mrPu31eLXuCFnHEXTHNCIX_GocrI-MSTjpIfCtFCWzPeP9X6zv8jQmw0bkxRh54QlmhzhizvUz1FuhLkVCx7lKKnUvzR-3ZmVB-dtKCkizgLXmU4_1KpBUN3m0pMOATI3SybwXL6KbfDIeMnaPOm5MvuhaIJBRdgDapyguF0I2-n2xAZMarlC5hjeGSsl4WZshr6Wv7vyvY21t7eSfzYyLeOUOf1Xl4SYIvGYY7ZXMCc66nMjJvnCxzzVBBoWxZNhEESD13pUN1yBA23I28K7azyckfCtOzLHNZ4nIT8nSVXMIURi--XTqT_fOpSNX3Dk3DHMGIoVwNVIvRLAyRBQ2Td7UCVm0E2UPM2WQO6bck0V_t6GkSYqeoq4gV4--WB6PIiLyU8DVFZmxqLnaAVnyRmmK",
+   "results" : [
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 42.3736158,
+               "lng" : -71.10973349999999
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4043839191765,
+                  "lng" : -71.06548723525479
+               },
+               "southwest" : {
+                  "lat" : 42.3523968393916,
+                  "lng" : -71.16033207807396
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "name" : "Cambridge",
+         "photos" : [
+            {
+               "height" : 3120,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/114270486407292740507\"\u003eJoocheon Cha\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwJI9SwCZtLZRkyeX96bITzJJpj5Pvd6Cuf-nmM083dfqHy0xbV3JCMb5-mzB40v7sxC0fb_fRHYrUmj61-d4IJN0VOtd31BMW6HkkbjGTYRZp8Aih8Wu8HBKRST2qXpfKFpcs8XkIDKI7zD739mj_On_8ZC9JN2m9rx-3_N9q20DKwt",
+               "width" : 4160
+            }
+         ],
+         "place_id" : "ChIJX8wwy6Vw44kRh2xoiWSOOsU",
+         "reference" : "ChIJX8wwy6Vw44kRh2xoiWSOOsU",
+         "scope" : "GOOGLE",
+         "types" : [ "locality", "political" ],
+         "vicinity" : "Cambridge"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4017802,
+               "lng" : -71.1361581
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4031730802915,
+                  "lng" : -71.1348887197085
+               },
+               "southwest" : {
+                  "lat" : 42.4004751197085,
+                  "lng" : -71.13758668029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
+         "name" : "Homewood Suites by Hilton Boston/Cambridge-Arlington, MA",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 3536,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/103612042567912404895\"\u003eHomewood Suites by Hilton Boston/Cambridge-Arlington, MA\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwLuI4XK5EX6ggUzLXL0jly-NLG32yS1WSxXFdaCCcpJQuCo3QeOEDCopT1pre_hm34AhJ6mrFyHA_emMvNyDxe3eEppHNd-GbYpysShZscMtSXeH82I-3To5Cei7F67GqCcdACcvT5r13wQyPp5hXQDR780qErsQTqC0s2QON0useZP",
+               "width" : 5056
+            }
+         ],
+         "place_id" : "ChIJXTy8qwN344kRBauUjXck0MA",
+         "plus_code" : {
+            "compound_code" : "CV27+PG Arlington, MA, USA",
+            "global_code" : "87JCCV27+PG"
+         },
+         "rating" : 4.3,
+         "reference" : "ChIJXTy8qwN344kRBauUjXck0MA",
+         "scope" : "GOOGLE",
+         "types" : [ "lodging", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 398,
+         "vicinity" : "1 Massachusetts Avenue, Arlington"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4171155,
+               "lng" : -71.10506959999999
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.41861213029149,
+                  "lng" : -71.10362641970849
+               },
+               "southwest" : {
+                  "lat" : 42.4159141697085,
+                  "lng" : -71.10632438029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
+         "name" : "Hyatt Place Boston/Medford",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 1680,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/118170136709904755533\"\u003eHyatt Place Boston/Medford\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwKtgrxTa5vGXhA9VWgEd6XeEUIbuE3Q-2VaK6YCPy9T03RqJJemiRWFPCs5I65q8ZLCmr5_XLPuTjYz0uBElmW2QWrM5srxRzMRDhOCab0SRwX5mZqKdvxQ695hS5PESZTbZYhcvqo5lvVyZv3rdSj9lHca6WiJdiSqjxMSms9msp1e",
+               "width" : 2880
+            }
+         ],
+         "place_id" : "ChIJLXbOwsl244kRhhLxzO5Pci4",
+         "plus_code" : {
+            "compound_code" : "CV8V+RX Medford, MA, USA",
+            "global_code" : "87JCCV8V+RX"
+         },
+         "rating" : 4,
+         "reference" : "ChIJLXbOwsl244kRhhLxzO5Pci4",
+         "scope" : "GOOGLE",
+         "types" : [ "lodging", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 840,
+         "vicinity" : "116 Riverside Avenue, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4085371,
+               "lng" : -71.11827289999999
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.41329645000002,
+                  "lng" : -71.1109292
+               },
+               "southwest" : {
+                  "lat" : 42.40230544999999,
+                  "lng" : -71.1207208
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "name" : "Tufts University",
+         "photos" : [
+            {
+               "height" : 4000,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115661843667740582499\"\u003eGregory Rosic\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwLVo53JdpfvxNj_F9a7_WJ85SQyHugWV3IslqakORqR4wqLRDrQ3-RX7CwU7Kg5cz1XweIWlrxoZuXzOkIGYOBoNVRcpk2MQ4zGfnJ2hXdqTdhZdtjalWA013dnlFu-_Ic4C9sORgjI8Arl9PqRcmvllMslBvPE48BCrQDVzntOaT6l",
+               "width" : 6000
+            }
+         ],
+         "place_id" : "ChIJHwvY2t1244kR5TyD-KE1c64",
+         "plus_code" : {
+            "compound_code" : "CV5J+CM Medford, MA, USA",
+            "global_code" : "87JCCV5J+CM"
+         },
+         "rating" : 4.4,
+         "reference" : "ChIJHwvY2t1244kR5TyD-KE1c64",
+         "scope" : "GOOGLE",
+         "types" : [ "university", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 262,
+         "vicinity" : "419 Boston Avenue, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4058647,
+               "lng" : -71.1427307
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.40726858029149,
+                  "lng" : -71.1412794197085
+               },
+               "southwest" : {
+                  "lat" : 42.4045706197085,
+                  "lng" : -71.1439773802915
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/movies-71.png",
+         "name" : "Capitol Theatre",
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/113379315472928690469\"\u003ePete Gast\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwJ9MyqcUgY1zA68pBja7kXETHy8sv4c9VtI8Iw0pUG8ZhVHmoRHdfnz4Rt2uJP3PMsTko7MY3OBaoLIN3bu7Y31STg3QTcpT3kz86v1WqtDPTZMZ1AXjGZ0_rdxutSrZFsY0egiy6Coa6l7aGulaj98FwjshIPM4iS0HnDdCdYPaq-J",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJoV9xuP9244kRT8loiM-PpUQ",
+         "plus_code" : {
+            "compound_code" : "CV44+8W Arlington, MA, USA",
+            "global_code" : "87JCCV44+8W"
+         },
+         "rating" : 4.6,
+         "reference" : "ChIJoV9xuP9244kRT8loiM-PpUQ",
+         "scope" : "GOOGLE",
+         "types" : [ "movie_theater", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 705,
+         "vicinity" : "204 Massachusetts Avenue, Arlington"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4170313,
+               "lng" : -71.1265626
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.41855288029149,
+                  "lng" : -71.12534446970851
+               },
+               "southwest" : {
+                  "lat" : 42.4158549197085,
+                  "lng" : -71.12804243029152
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+         "name" : "Whole Foods Market",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 1960,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/116060784208796662275\"\u003eFrederick Murphy\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwICD88k8FsX5Z_DptA5j4wD3WXA6-oUVq9D8Dpr9l9KqH8bK-MD7mhgDpUXCBz4aoALPHLsz3nQBdCxDfXs0Kqmrxuz8G31jCnYYbnwPumg4qB8QizhGxPMe0HehQkTyMtVEENkXYQS-KWAoAUHHhzv7-aw7jUsMm8TtjV-yWVqsz_8",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJUWka9et244kRcXcyZkGA1mo",
+         "plus_code" : {
+            "compound_code" : "CV8F+R9 Medford, MA, USA",
+            "global_code" : "87JCCV8F+R9"
+         },
+         "price_level" : 3,
+         "rating" : 4.4,
+         "reference" : "ChIJUWka9et244kRcXcyZkGA1mo",
+         "scope" : "GOOGLE",
+         "types" : [
+            "grocery_or_supermarket",
+            "supermarket",
+            "food",
+            "health",
+            "point_of_interest",
+            "store",
+            "establishment"
+         ],
+         "user_ratings_total" : 645,
+         "vicinity" : "2151 Mystic Valley Parkway, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.415029,
+               "lng" : -71.1111045
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4164225302915,
+                  "lng" : -71.10973586970849
+               },
+               "southwest" : {
+                  "lat" : 42.4137245697085,
+                  "lng" : -71.11243383029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "name" : "Sarah Morrison MD",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "place_id" : "ChIJpX4eTUl344kRUtWiXvcKLyY",
+         "plus_code" : {
+            "compound_code" : "CV8Q+2H Medford, MA, USA",
+            "global_code" : "87JCCV8Q+2H"
+         },
+         "rating" : 5,
+         "reference" : "ChIJpX4eTUl344kRUtWiXvcKLyY",
+         "scope" : "GOOGLE",
+         "types" : [ "doctor", "health", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1,
+         "vicinity" : "137 Main Street, Medford"
+      },
+      {
+         "business_status" : "CLOSED_TEMPORARILY",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.3967472,
+               "lng" : -71.12285
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.3981120302915,
+                  "lng" : -71.12145361970849
+               },
+               "southwest" : {
+                  "lat" : 42.3954140697085,
+                  "lng" : -71.12415158029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/movies-71.png",
+         "name" : "Somerville Theatre",
+         "permanently_closed" : true,
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/107854097156225707786\"\u003eDr. Jose G. Lepervanche Valencia\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwLqYMeFtnTCN9yZaowbVY-uQixPGrAkaquUY_535fV3m8NgozyJMc9wswZonSMxz3-facMnD7O9LqXBW-lrGI5aNYAC1GTidnGXJcD4xU07M0bVGG97t2pcsi4op1wg87CDTptqL7RGSxyBwZTaekRg2TKCjpWJEiEDQJY0HES33az7",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJoeqWSh9344kRe2ICgJs6oEQ",
+         "plus_code" : {
+            "compound_code" : "9VWG+MV Somerville, MA, USA",
+            "global_code" : "87JC9VWG+MV"
+         },
+         "rating" : 4.6,
+         "reference" : "ChIJoeqWSh9344kRe2ICgJs6oEQ",
+         "scope" : "GOOGLE",
+         "types" : [ "movie_theater", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1487,
+         "vicinity" : "55 Davis Square, Somerville"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.40784300000001,
+               "lng" : -71.1216062
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.40919443029151,
+                  "lng" : -71.1202296197085
+               },
+               "southwest" : {
+                  "lat" : 42.40649646970851,
+                  "lng" : -71.1229275802915
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "name" : "The Fletcher School at Tufts University",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/103596214441778976833\"\u003eHiếu Như NGUYỄN\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwIB7uGSGJ1pNVIppelLEeeef8DfiLjwg0gUJL3mtfBdxj6Xm6wmTmnPqs_kK_F2BgRB3ZsNXzLyBFi-dOlKsqffPs255WUEqjeqmGRzAhXnqVAQb5SsOEO6KjS-VpAQOfsQ8jfu8Z2E5QP17N6pxi0WlHnGXtE8BBNAEVUEIQRNdv_L",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJKRHvfOd244kRA8NQiOG_WW4",
+         "plus_code" : {
+            "compound_code" : "CV5H+49 Medford, MA, USA",
+            "global_code" : "87JCCV5H+49"
+         },
+         "rating" : 4.7,
+         "reference" : "ChIJKRHvfOd244kRA8NQiOG_WW4",
+         "scope" : "GOOGLE",
+         "types" : [ "university", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 13,
+         "vicinity" : "160 Packard Avenue, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.411096,
+               "lng" : -71.14770799999999
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4123892302915,
+                  "lng" : -71.1465320197085
+               },
+               "southwest" : {
+                  "lat" : 42.40969126970851,
+                  "lng" : -71.14922998029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "name" : "Daniel R Karlin MD MA",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "place_id" : "ChIJAzFcg4x744kRBviJB0Fae-s",
+         "plus_code" : {
+            "compound_code" : "CV62+CW Arlington, MA, USA",
+            "global_code" : "87JCCV62+CW"
+         },
+         "rating" : 5,
+         "reference" : "ChIJAzFcg4x744kRBviJB0Fae-s",
+         "scope" : "GOOGLE",
+         "types" : [ "doctor", "health", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1,
+         "vicinity" : "339 Massachusetts Avenue f2, Arlington"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4015993,
+               "lng" : -71.1314426
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4028921802915,
+                  "lng" : -71.1301815697085
+               },
+               "southwest" : {
+                  "lat" : 42.4001942197085,
+                  "lng" : -71.1328795302915
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "name" : "The Cambridge Matignon School",
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/117469180219301671049\"\u003eRic Flair\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwIXtusA8-KINkZSIBxy2iCveD2HgFWaJxgj6QPJMNrGDtARFc_5pwXuB1gGVxs4-lT9XT0v0lCOsJOBQD89EQFoRz02PMxQc6JOKGTr6OZjadMb_l8H96MAsm_NGfkfk4Gzeld4SdtZ2oifcx6E-kJSUY7OBfNDmXmoBhxNs4_rHwiQ",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJo5etPB1344kR29Bxr-Aibek",
+         "plus_code" : {
+            "compound_code" : "CV29+JC Cambridge, MA, USA",
+            "global_code" : "87JCCV29+JC"
+         },
+         "rating" : 4.2,
+         "reference" : "ChIJo5etPB1344kR29Bxr-Aibek",
+         "scope" : "GOOGLE",
+         "types" : [ "secondary_school", "school", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 11,
+         "vicinity" : "1 Matignon Road, Cambridge"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.43037429999999,
+               "lng" : -71.1253373
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.43168329999999,
+                  "lng" : -71.12454696970849
+               },
+               "southwest" : {
+                  "lat" : 42.4264473,
+                  "lng" : -71.1272449302915
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "name" : "Medford High School",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 1536,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/105074777081943279878\"\u003eArthur Lobo\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwJiEFjA6qjYT0mKndwVXbZjHI-cdQBG5ZAoJf801KO83hflYACe0JzzSsFtUKsgUULTZQ6BnXwhkU4xItYpdhokDgXv_ETeVn-efefwx_CSZSOm1a8p6NzAbrOqzuSV7hoNVTGHZj2pA7b0vv9NVt3phBSX74nocJuM8pYTmcx582Md",
+               "width" : 2048
+            }
+         ],
+         "place_id" : "ChIJO4SA4Zl244kRy9IRVR4FIGc",
+         "plus_code" : {
+            "compound_code" : "CVJF+4V Medford, MA, USA",
+            "global_code" : "87JCCVJF+4V"
+         },
+         "rating" : 3.6,
+         "reference" : "ChIJO4SA4Zl244kRy9IRVR4FIGc",
+         "scope" : "GOOGLE",
+         "types" : [ "secondary_school", "school", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 21,
+         "vicinity" : "489 Winthrop Street, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4077668,
+               "lng" : -71.1221888
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4092534802915,
+                  "lng" : -71.12073791970849
+               },
+               "southwest" : {
+                  "lat" : 42.4065555197085,
+                  "lng" : -71.12343588029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/civic_building-71.png",
+         "name" : "Edwin Ginn Library",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115714300152534258580\"\u003eSonam\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwKpE0STIlTAFLh335tMlS4PiuBFWKoCnSzSbZZ9IxQVQ5w4Ke6CiX_Cb5pF6p3evdVdr9x6kO7e6DUSnV1fFtqxovbLcG4y7RERG7b9Dr7B48iRwlMBFqlLfVI-qk1UgXTNZ1ZgDKwEJ4R4XKsA2ZYHy-qQ43Jp6QXL936J8KOrnNpo",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJKRHvfOd244kRALfyUEepgsI",
+         "plus_code" : {
+            "compound_code" : "CV5H+44 Medford, MA, USA",
+            "global_code" : "87JCCV5H+44"
+         },
+         "rating" : 4.1,
+         "reference" : "ChIJKRHvfOd244kRALfyUEepgsI",
+         "scope" : "GOOGLE",
+         "types" : [ "library", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 7,
+         "vicinity" : "160 Packard Avenue, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.40526759999999,
+               "lng" : -71.1418953
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4066654302915,
+                  "lng" : -71.14047621970849
+               },
+               "southwest" : {
+                  "lat" : 42.4039674697085,
+                  "lng" : -71.14317418029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "name" : "James W. Hopper, PhD",
+         "photos" : [
+            {
+               "height" : 1073,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/103036721195044220007\"\u003eJames W. Hopper, PhD\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwLCfmVJK4a3JBHbgd70YqwbD4BNwUZWAfG9YKGunB_15iaVMoeq6-wwsAPz3i6GoStdoQacSlZxAvjOo7mat7YLB0POYbCHiHvd-j2hKNyfhwLrCZqo_bWaFK0VCG7Em2F-6zUarqzXPTiMajVZjwUndo7jl85pKhuqrAcSQJkoqiJA",
+               "width" : 2931
+            }
+         ],
+         "place_id" : "ChIJC3IXKl6d44kRCPB7Jhn-xME",
+         "plus_code" : {
+            "compound_code" : "CV45+46 Arlington, MA, USA",
+            "global_code" : "87JCCV45+46"
+         },
+         "reference" : "ChIJC3IXKl6d44kRCPB7Jhn-xME",
+         "scope" : "GOOGLE",
+         "types" : [ "doctor", "health", "point_of_interest", "establishment" ],
+         "vicinity" : "184 Massachusetts Avenue, Arlington"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.39839260000001,
+               "lng" : -71.1319008
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.3998187302915,
+                  "lng" : -71.13044601970849
+               },
+               "southwest" : {
+                  "lat" : 42.3971207697085,
+                  "lng" : -71.13314398029149
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "name" : "Major Massage",
+         "place_id" : "ChIJja37oxx344kRjkpijBZPkmY",
+         "plus_code" : {
+            "compound_code" : "9VX9+96 Cambridge, MA, USA",
+            "global_code" : "87JC9VX9+96"
+         },
+         "rating" : 5,
+         "reference" : "ChIJja37oxx344kRjkpijBZPkmY",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1,
+         "vicinity" : "2464 Massachusetts Avenue, Cambridge"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.39945290000001,
+               "lng" : -71.13222329999999
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.40071403029151,
+                  "lng" : -71.13101371970849
+               },
+               "southwest" : {
+                  "lat" : 42.39801606970851,
+                  "lng" : -71.13371168029151
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+         "name" : "Mavis Tires & Brakes",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 1192,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115318124070596723150\"\u003eMavis Tires &amp; Brakes\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwJWj39MdXJz9cCepy5-3GqWeb96V0GgywaxNyI-bCEfIEnoi4BmTm5SQBtWGRq70XnYrDlOrtPuP1mU_5wF9vItrrFff50w1GHqsFPiOaT-e40LeYOoC8vJwM0ZpEL5MJvqjiU1xEwWm-GwkmVAO8Xwk2oMoHut-kakejfWMMfUZlg0",
+               "width" : 2118
+            }
+         ],
+         "place_id" : "ChIJgeF0yBx344kRtZu3lPh_CjQ",
+         "plus_code" : {
+            "compound_code" : "9VX9+Q4 Cambridge, MA, USA",
+            "global_code" : "87JC9VX9+Q4"
+         },
+         "rating" : 4.1,
+         "reference" : "ChIJgeF0yBx344kRtZu3lPh_CjQ",
+         "scope" : "GOOGLE",
+         "types" : [ "car_repair", "point_of_interest", "store", "establishment" ],
+         "user_ratings_total" : 188,
+         "vicinity" : "2501 Massachusetts Avenue, Cambridge"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.39882799999999,
+               "lng" : -71.1316205
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4001419302915,
+                  "lng" : -71.13036311970848
+               },
+               "southwest" : {
+                  "lat" : 42.3974439697085,
+                  "lng" : -71.1330610802915
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "name" : "Bright Horizons at Mass Ave.",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 882,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/110130037033342199291\"\u003eBright Horizons at Mass Ave.\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwJ2hFcQe95oJ2JSWX4DS0efS73TG2K1wp_Hx_SKpXBjWQDrz1FLRdOtxS8pylur1KgULzqiv3v7CNIqbhfYkbuoa63zF52ESL8M74kk8YAgJSDktIxaT1Huj02LEn-1V9uKDsh3HITLcqNXRyWYnKdGCKYjBRjOV-eFZQcYi0GC-9Q7",
+               "width" : 1176
+            }
+         ],
+         "place_id" : "ChIJBUjwvBx344kRyngZbMYMk1E",
+         "plus_code" : {
+            "compound_code" : "9VX9+G9 Cambridge, MA, USA",
+            "global_code" : "87JC9VX9+G9"
+         },
+         "rating" : 4.6,
+         "reference" : "ChIJBUjwvBx344kRyngZbMYMk1E",
+         "scope" : "GOOGLE",
+         "types" : [ "school", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 10,
+         "vicinity" : "2465 Massachusetts Avenue, Cambridge"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4062039,
+               "lng" : -71.11887659999999
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.40740628029149,
+                  "lng" : -71.11617534999999
+               },
+               "southwest" : {
+                  "lat" : 42.40470831970849,
+                  "lng" : -71.12150794999999
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/civic_building-71.png",
+         "name" : "Tisch Library",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 4000,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115661843667740582499\"\u003eGregory Rosic\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwJhlNMOLY55ZqKiQkiE_513ryXudEcHARppffvHx87qbpYXHbpT_7YCOfH-XceHJQQbAJnXCp5DvkK62L442CXHgDzh0rx6JiJBFsl0a7L37qm7LUMnw9PYaBnbTr9-eB-SQjhDIj9vDuw4Kw-qMm8wu6G-jaO6HohkOa0eYO6SrQFL",
+               "width" : 6000
+            }
+         ],
+         "place_id" : "ChIJM0TYz91244kRNVgsf1JjpEY",
+         "plus_code" : {
+            "compound_code" : "CV4J+FC Medford, MA, USA",
+            "global_code" : "87JCCV4J+FC"
+         },
+         "rating" : 4.7,
+         "reference" : "ChIJM0TYz91244kRNVgsf1JjpEY",
+         "scope" : "GOOGLE",
+         "types" : [ "library", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 28,
+         "vicinity" : "35 Professors Row, Medford"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 42.4093732,
+               "lng" : -71.1464699
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.4105850802915,
+                  "lng" : -71.14502666970849
+               },
+               "southwest" : {
+                  "lat" : 42.4078871197085,
+                  "lng" : -71.14772463029149
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/gas_station-71.png",
+         "name" : "bp",
+         "photos" : [
+            {
+               "height" : 4032,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/102574531436697493108\"\u003eElias Achi\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwIMc4a-q341BbaP-PrusvQkmFfxBlouunO4oCjUlxFbmybsUeKRjqWfi3xnMNHbCdTRU-peE9eNwc1GdDR2LHLq0N8E3xUCQLD16VnXvVCBEvamnGw5cvsrl6h5cHaidfuKH1HAbYjDfT9PA-hKl3WkHM-hI4ZackU0fvPdIRrHVoVD",
+               "width" : 3024
+            }
+         ],
+         "place_id" : "ChIJGRM9wlV244kRpMs3ymT_0AY",
+         "plus_code" : {
+            "compound_code" : "CV53+PC Arlington, MA, USA",
+            "global_code" : "87JCCV53+PC"
+         },
+         "rating" : 3.3,
+         "reference" : "ChIJGRM9wlV244kRpMs3ymT_0AY",
+         "scope" : "GOOGLE",
+         "types" : [
+            "gas_station",
+            "atm",
+            "car_wash",
+            "convenience_store",
+            "finance",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "store",
+            "establishment"
+         ],
+         "user_ratings_total" : 84,
+         "vicinity" : "295 Massachusetts Avenue, Arlington"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 42.3875968,
+               "lng" : -71.0994968
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.41811798424442,
+                  "lng" : -71.07299490495713
+               },
+               "southwest" : {
+                  "lat" : 42.37299695010606,
+                  "lng" : -71.1345009425585
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "name" : "Somerville",
+         "photos" : [
+            {
+               "height" : 1960,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/104192689177217483934\"\u003eLinda Paris\u003c/a\u003e"
+               ],
+               "photo_reference" : "ATtYBwI5y7qh3U9Wct1N9O3NvEcK7KnnF5GpAVXxlK9k7gT7Qh86AoYbzScRFzdBClAubMSMa56EGSgtBwpvG1z0yy6VAnh_7y7hDEfcGA0VB68GLxEtR1yA24ZFPQWRVnU64ZiLkHyghg03925F8CTi-AU_rDlS1Mr4DoG-rxYqFrwviBD-",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJZeH1eyl344kRA3v52Jl3kHo",
+         "reference" : "ChIJZeH1eyl344kRA3v52Jl3kHo",
+         "scope" : "GOOGLE",
+         "types" : [ "locality", "political" ],
+         "vicinity" : "Somerville"
+      }
+   ],
+   "status" : "OK"
+}
