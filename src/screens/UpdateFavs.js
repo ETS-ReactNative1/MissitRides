@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView, Dimensions, TextInput, Pressable, ScrollView ,  View} from 'react-native';
+import { StatusBar, StyleSheet, Text, SafeAreaView, Dimensions, TextInput, Pressable, ScrollView ,  View} from 'react-native';
 import {theme, Block, Input, NavBar, Icon, Button } from 'galio-framework';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('screen');
 
-export default class Registration extends React.Component {
+export default class UpdateFavs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -122,48 +122,35 @@ export default class Registration extends React.Component {
     
     return (
     
-    <View style = {styles.container}>
-      <NavBar title="Register"
-       style = {{marginTop: 40, width: width}}/>
-      <ScrollView style = {styles.scrollContainer}>
-        <Block style = {styles.container}>
-          <Text style = {styles.title}>Enter your data to set up your account</Text>
-          
-          <TextInput style = {styles.input} placeholder="Username" placeholderTextColor = "grey" onChangeText = {this.handleUsername}/>
-          <TextInput secureTextEntry={true} style = {[styles.input, {marginBottom: 0} ]} placeholder="Password" placeholderTextColor = "grey" onChangeText = {this.handlePassword}/>
-          <Text style = {[styles.error, this.state.error ? {color: "red"} : {color: "transparent"}]}>Error: Passwords don't match</Text>
-          <TextInput secureTextEntry={true} style = {styles.input} placeholder="Re-Enter Password" placeholderTextColor = "grey" onChangeText = {this.handleSecondPassword}/>
-        </Block>
+   
         
-        <Block style = {styles.container}>
-  
-          <Text style = {styles.title} >Add your Favorites {"\n"} (You can update them later)</Text>
-          {this.state.favs.length == 0 ? <Block style = {[styles.container, {margin: 100}]}><Text>Loading...</Text></Block>:
-          this.state.favs.map((fav) => (
-             <Pressable 
+    <Block style = {styles.container}>
+       <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
+      <NavBar title="Update Favorites" style = {{width: width, alignSelf: 'flex-start'}}/>
+      <Block style = {[styles.container, {justifyContent: 'center'}]}>
+      <Text style = {styles.title} >Choose a favorite to update </Text>
+        {this.state.favs.length == 0 ? <Text>Loading...</Text>:
+        this.state.favs.map((fav) => (
+           <Pressable 
              key = {fav.key}
              style = {styles.buttonContainer}
              onPress={() => this.props.navigation.navigate("UpdateFav",  {num: fav.key, previous : fav.name, onGoBack: () => this.getFavs(),})}>
-             <Text style = {{color: "white"}}>{fav.name}</Text>
-           </Pressable>
-          ))}
+             <Text style = {{fontWeight: "bold", alignSelf: "flex-start"}}>{fav.name}</Text>
+         </Pressable>
+        ))}
         </Block>
-          
-      </ScrollView >
-      {/* <Button onPress = {this.sendData()}>Submit</Button> */}
-          {(this.state.validate && !this.state.error) ?
-          <Pressable style = {[styles.button]} onPress = {() => this.setInfo()}><Text style = {{color: "white"}}>Create Account</Text></Pressable>
-           : <Block style = {[styles.button, {backgroundColor: "transparent"}]}><Text style = {{color: "transparent"}}>Create Account</Text></Block>}
-    </View>
-  )};
+    </Block>
+  )}
 }
+          
+    
 
 const styles = StyleSheet.create({
   container: {
     // marginTop: statusbar,
     width: width,    
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     // flexhrink: 0
     
@@ -177,17 +164,23 @@ const styles = StyleSheet.create({
     // flexhrink: 0
     
   },
-  input: {
-    alignItems: "center",
-    backgroundColor: theme.COLORS.WHITE,
+  input:{
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    backgroundColor: theme.COLORS.GREY,
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 20,
-    padding: 10,
-    borderColor: theme.COLORS.PRIMARY,
+    borderRadius: 1,
+    marginBottom: 10,
+    padding: 5,
+    paddingTop: 7,
+    paddingBottom: 7,
+  
+    borderColor: theme.COLORS.BLACK,
     width: width * .9,
   },
+  
   button: {
     alignItems: 'center',
     // justifyContent: 'flex-end',
@@ -200,15 +193,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer:{
     flexDirection: 'row',
-    // borderColor: theme.COLORS.BLACK,
-    backgroundColor: theme.COLORS.PRIMARY,
-    width: width * .9,
-    borderWidth: 1,
-    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
-    padding: 10,
+    padding: 7,
+    margin: 5,
   },
   title: {
     fontSize: 18,

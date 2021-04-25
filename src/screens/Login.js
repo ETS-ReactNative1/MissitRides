@@ -25,10 +25,10 @@ export default class Login extends React.Component {
           <Input placeholder="Username" color={theme.COLORS.BASE} style={{ borderColor: theme.COLORS.THEME }} placeholderTextColor={theme.COLORS.THEME} />
           <Input placeholder="Password" password = {true} color={theme.COLORS.BASE} style={{ borderColor: theme.COLORS.THEME }} placeholderTextColor={theme.COLORS.THEME} />
           <Button 
-            color= {theme.COLORS.PRIMARY} 
+            color= {theme.COLORS.SECONDARY} 
             size = "large"
             uppercase = {true}
-            onPress={() => this.props.navigation.navigate('Home', {pickup: "", dropoff: ""})}
+            onPress={() => this.props.navigation.navigate('Home', {pickup: null, dropoff: null})}
             >
             login</Button>
 

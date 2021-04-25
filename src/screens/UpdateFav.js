@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Dimensions, TextInput, Pressable, LogBox,  } from 'react-native';
+import { StyleSheet, ScrollView, Dimensions, TextInput, Pressable, LogBox,  StatusBar} from 'react-native';
 import {theme, Block, Input, Text, NavBar, Icon, Button } from 'galio-framework';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,42 +18,21 @@ export default class UpdateFav extends React.Component {
       city: "",
       state: "",
       zip: "",
+      country: "",
       fav: {},
       num: this.props.route.params["num"],
       prev: this.props.route.params["previous"],
       // fav1geocode: {}
     };
   }
-  sendData = () => {
-    fetch("https://missit-ridesapi-backend.ue.r.appspot.com/new_user", { 
-      
-      // Adding method type 
-      method: "POST", 
-        
-      // Adding body or contents to send 
-      body: JSON.stringify({ 
-          userid: "Nikhil Bhatia-Poop",
-          fav1: "example coords",
-      }), 
-        
-      // Adding headers to the request 
-      headers: { 
-          "Content-type": "application/json; charset=UTF-8"
-      } 
-  }) 
-    
-    // Converting to JSON 
-    // .then(response => response.json()) 
-      
-    // // Displaying results to console 
-    // .then(json => console.log(json)); 
-  }
+
   
   async runGeocode(address){
     
-    let geocodeObj = await Location.geocodeAsync(address);  
-    console.log("geocode is: ", geocodeObj[0]);
-    let latlong = {latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"]};
+    let geocodeObj = await Location.geocodeAsync(address);
+    let reverseGeocodeObj = await Location.reverseGeocodeAsync({latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"]})
+    // console.log("geocode is: ", geocodeObj[0]);
+    let latlong = {latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"], data: reverseGeocodeObj[0]};
     console.log(latlong);
     try {
       let fav_num = "fav" + this.state.num;
@@ -78,6 +57,8 @@ export default class UpdateFav extends React.Component {
   handleCity = (text) => { this.setState({ city: text })}
   handleState = (text) => { this.setState({ state: text })}
   handleZip = (text) => { this.setState({ zip: text })}
+  handleCountry = (text) => { this.setState({ country: text })}
+
 
   async retrieved(){
     try {
@@ -93,50 +74,89 @@ export default class UpdateFav extends React.Component {
     return (
     
     <Block style = {styles.container}>
+      <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
+
       <NavBar title="Update Favorite"
-       style = {{marginTop: 40, width: width}}
-         left={(
-            <Button
-              color="transparent"
-              style={{paddingTop: 3,}}
-              onPress={() => this.props.navigation.goBack()}
-            >
-              <Icon name="arrow-left" family="font-awesome" />
-            </Button>
-          )}
+       style = {{width: width}}
       />
-      <Block style = {styles.container}>
-      <Text> Your previous favorite: {this.state.prev} </Text>
-      <Text>Enter new address information</Text>
-      {/* <Text>Name</Text>
-      <Input onChangeText = {this.handleName} placeholder = "Enter your name"/> */}
-      <Text>Address</Text>
-
-      <Input onChangeText = {this.handleAddress} placeholder = "address"/>
-      <Text>City</Text>
-
-      <Input onChangeText = {this.handleCity} placeholder = "city"/>
-      <Text>State</Text>
-      <Input onChangeText = {this.handleState} placeholder = "state"/>
-      <Text>Zip Code</Text>
-      <Input onChangeText = {this.handleZip} placeholder = "zip code"/>
-
+      <ScrollView style = {styles.scroll}>
+        <Block style = {styles.container}>
+        <Block style = {styles.topContainer}>
+          <Text> Your previous favorite:  </Text>
+          <Text>{this.state.prev}</Text>
+        </Block>
+      
+      <Block style = {styles.form}> 
+        <Text style = {{fontSize: 18, margin: 5}}>Enter your new address location</Text>
+        <Text>Address</Text>
+  
+        <Input style = {styles.input} onChangeText = {this.handleAddress} placeholder = "address"/>
+        <Text>City</Text>
+  
+        <Input style = {styles.input} onChangeText = {this.handleCity} placeholder = "city"/>
+        <Text>State/Region <Text style = {{color: 'grey'}}>(Optional) </Text></Text>
+        <Input style = {styles.input} onChangeText = {this.handleState} placeholder = "state"/>
+        <Text>Zip Code</Text>
+        <Input style = {styles.input} onChangeText = {this.handleZip} placeholder = "zip code"/>
+        <Text>Country</Text>
+        <Input style = {styles.input} onChangeText = {this.handleCountry} placeholder = "country"/>
+      </Block>
 
       {/* <Button onPress = {this.sendData()}>Submit</Button> */}
-      {(this.state.address != "" && this.state.city != "" && this.state.state != "" && this.state.zip != "") ?
-        <Pressable onPress = {() => this.setFav(this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.zip)}><Text>Submit</Text></Pressable>
+      {(this.state.address != "" && this.state.city != "" && this.state.zip != "" && this.state.country != "") ?
+        <Pressable onPress = {() => this.setFav(this.state.address + " " + this.state.city + " " + this.state.zip + " " + this.state.country)}><Text>Submit</Text></Pressable>
         : <Block/>}
-      </Block>
+        </Block>
+      </ScrollView>
     </Block>
     )};
 }
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: statusbar,
+    // backgroundColor: "white",
     width: width,    
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  topContainer: {
+    // alignSelf: 'flex-start',
+    flex: .1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // flexDirection: 'row',
+    backgroundColor: theme.COLORS.BASE,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: theme.COLORS.BLACK,
+    margin: 5,
+    width: width,
+    padding: 7,
+  },
+  form: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width * .9,
+  },
+  scroll: {
+    width: width,    
+    flex: 1,
+  },
+  input: {
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    backgroundColor: theme.COLORS.WHITE,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 1,
+    marginBottom: 10,
+    padding: 5,
+    paddingTop: 7,
+    paddingBottom: 7,
+
+    borderColor: theme.COLORS.BLACK,
+    width: width * .9,
   }
 });

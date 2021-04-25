@@ -5,7 +5,7 @@ import Test from './src/screens/Test'
 
 import Home from './src/screens/Home'
 import UpdateFav from './src/screens/UpdateFav'
-
+import UpdateFavs from './src/screens/UpdateFavs'
 import Ride from './src/screens/Ride'
 import Confirm from './src/screens/Confirm'
 import Registration from './src/screens/Registration'
@@ -22,12 +22,15 @@ export default class App extends React.Component {
           <NavigationContainer>
           <Stack.Navigator>
             {/* <Stack.Screen name="Test" component={Test} options={{ headerShown: false }}/> */}
-
-            <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }}/>
-            <Stack.Screen name="UpdateFav" component={UpdateFav} options={{ headerShown: false }}/>
+            {/* <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }}/> */}
 
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+
+            <Stack.Screen name="UpdateFavs" component={UpdateFavs} options={{ headerShown: false }}/>
+
+            <Stack.Screen name="UpdateFav" component={UpdateFav} options={{ headerShown: false }}/>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+
             <Stack.Screen name="Ride" component={Ride} options={{ headerShown: false }}/>
             <Stack.Screen name="Confirm" component={Confirm} options={{ headerShown: false }}/>
 

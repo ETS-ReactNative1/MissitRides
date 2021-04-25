@@ -1,83 +1,100 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import {theme, Block, Input, Text, NavBar, Icon, Button } from 'galio-framework';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as React from 'react';
+import { Animated, View, TouchableOpacity, StyleSheet, ScrollView, Text } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import Constants from 'expo-constants';
 
 
-export default class Test extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wordIn: "",
-      wordOut: "",
-    };
-  }
+
+export default class TabViewExample extends React.Component {
+
+  FirstRoute = () => (
+    <ScrollView style={[styles.container, { backgroundColor: '#ff4081' }]}>
+      <Text>{this.state.stuff == null? "null" : this.state.stuff}</Text>
+    </ScrollView>
+  );
+  SecondRoute = () => (
+    <View style={[styles.container, { backgroundColor: '#673ab7' }]} />
+  );
   
-  async setWord(text){
+  state = {
+    index: 0,
+    stuff : null,
+    done: false,
+    routes: [
+      { key: 'first', title: 'First' },
+      { key: 'second', title: 'Second' },
+    ],
+  };
+
+  async seeStorage () {
+    try{
+      await AsyncStorage.getAllKeys((err, keys) => {
+        this.setState({stuff: keys, done: true})
+        });
+    }
+    catch(e){
     
-    try {
-      await AsyncStorage.setItem('test', text)
-      
-    } catch (e) {
-      // saving error
     }
   }
-  handleWord = (text) => { this.setState({ wordIn: text })}
+  
+  componentDidMount(){
+    this.seeStorage;
+  }
+  _handleIndexChange = (index) => this.setState({ index });
 
-  
-  async retrieve(){
-    try {
-      const jsonValue = await AsyncStorage.getItem('fav')
-      console.log(JSON.stringify(jsonValue))
-      let word = "Hello";
-      console.log(word)
+  _renderTabBar = (props) => {
+    const inputRange = props.navigationState.routes.map((x, i) => i);
 
-      jsonValue != null ? word = jsonValue : word = null;
-      return word;
-    } catch(e) {
-      // error reading value
-    }
-  }
-  
-  async getWord() {
-    let word = await this.retrieve();
-    console.log(word);
-    this.setState({wordOut: word})
-  }
-  
-  componentDidMount() {
-  }
-  
-    render() {
-      return (
-        <View style={styles.container}>
-          <Input onChangeText = {this.handleWord} placeholder = "set word"></Input>
-          <Button onPress = {() => this.setWord(this.state.wordIn)}>Set word</Button>
-          <Text>Word set to: {this.state.wordIn}</Text>
-          <Button onPress = {() => this.getWord()}>Get word</Button>
-          <Text>{this.state.wordOut}</Text>
-  
-        </View>
-          
-      );
-    }
-  }
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#ecf0f1',
-      // paddingTop: Constants.statusBarHeight,
-    },
-    paragraph: {
-      margin: 24,
-      fontSize: 18,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#34495e',
-    },
+    return (
+      <View style={styles.tabBar}>
+        {props.navigationState.routes.map((route, i) => {
+          const opacity = props.position.interpolate({
+            inputRange,
+            outputRange: inputRange.map((inputIndex) =>
+              inputIndex === i ? 1 : 0.5
+            ),
+          });
+
+          return (
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => this.setState({ index: i })}>
+              <Animated.Text style={{ opacity }}>{route.title}</Animated.Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
+
+  _renderScene = SceneMap({
+    first: this.FirstRoute,
+    second: this.SecondRoute,
   });
-  
+
+  render() {
+    return (
+      <TabView
+        navigationState={this.state}
+        renderScene={this._renderScene}
+        renderTabBar={this._renderTabBar}
+        onIndexChange={this._handleIndexChange}
+      />
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  tabBar: {
+    flexDirection: 'row',
+    paddingTop: Constants.statusBarHeight,
+  },
+  tabItem: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 16,
+  },
+});
