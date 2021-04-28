@@ -97,7 +97,8 @@ export default class Home extends React.Component {
     for(var i = 0; i < data.length; i++){ 
       let location_info = await Location.reverseGeocodeAsync({latitude: data[i]["lat"], longitude: data[i]["lng"]})
       data[i].latlong = {latitude:  data[i]["lat"], longitude: data[i]["lng"]}
-      data[i].name = location_info[0]
+      data[i].location = location_info
+      // data[i].name = location_info[0]
       data[i].distance = this.getDistance(data[i].latlong);
       data.favorite = false
       }      
@@ -154,6 +155,8 @@ export default class Home extends React.Component {
       var jsonValue = await AsyncStorage.getItem('dropoffList')
       var dropoffList = JSON.parse(jsonValue)
 
+      pickupList= [];
+      dropoffList = [];
       this.setState({recentPickup: pickupList == null? [] : pickupList, recentDropoff: dropoffList == null? [] : dropoffList});
     } catch(e) {
       // error reading value
@@ -170,11 +173,11 @@ export default class Home extends React.Component {
       if (latlong != null){
         this_name  = await this.reverseGeocode(latlong);
         var distance = this.getDistance(latlong)
-        favs.push({"key": i, name: this_name, latlong: latlong, favorite: true, distance: distance});
-
+        favs.push({"key": i, location: this_name, latlong: latlong, favorite: true, distance: distance, name: this_name["name"] + this_name["street"]});
       }
       i++;
     }
+    console.log("favorites: ", favs)
     this.setState({favorites: favs})
   };
     
@@ -215,8 +218,8 @@ export default class Home extends React.Component {
     }
  
     let location = await Location.getCurrentPositionAsync({});
-    location["coords"]["latitude"] = 51.511894;
-    location["coords"]["longitude"] = -0.205779;
+    // location["coords"]["latitude"] = 51.511894;
+    // location["coords"]["longitude"] = -0.205779;
     this.setState({ locationResult: location, currLocation: {latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"]} });
   
   }
@@ -316,17 +319,15 @@ export default class Home extends React.Component {
           {favorite != null ? 
           
           <Pressable
-            key = {favorite["key"]}
             onPress = {() => this.onChosen(favorite)}
             style = {{flex: 3}}
             // size = "large"
           >
-          <Text style = {{fontWeight: 'bold'}}> {favorite.name["name"] + " " + favorite.name["street"]}</Text>
-          <Text style = {styles.greyText}> {favorite.name["subregion"] + ", " + favorite.name["country"]}</Text>
+          <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
+          <Text style = {styles.greyText}> {favorite.location["street"] + favorite.location["subregion"] + ", " + favorite.location["country"]}</Text>
 
           </Pressable> : 
            <Pressable
-           key = {favorite["key"]}
            disabled = {true}
           //  size = "large"
            style = {{flex: 3,alignItems: 'center'}}
@@ -395,7 +396,6 @@ export default class Home extends React.Component {
 
         <Block key = {favorite["key"]} style = {styles.buttonContainer}>
         <Button 
-         key = {favorite["key"]}
          size = "small"
          // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
          onlyIcon icon= {favorite.favorite? "favorite": favorite.key < 16 ? "bolt" : "hourglass-full"}
@@ -411,17 +411,15 @@ export default class Home extends React.Component {
          {favorite != null ? 
          
          <Pressable
-           key = {favorite["key"]}
            onPress = {() => this.onChosen(favorite)}
            style = {{flex: 3}}
            // size = "large"
          >
-         <Text style = {{fontWeight: 'bold'}}> {favorite.name["name"] + " " + favorite.name["street"]}</Text>
-         <Text style = {styles.greyText}> {favorite.name["subregion"] + ", " + favorite.name["country"]}</Text>
+         <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
+         <Text style = {styles.greyText}> {favorite.location["street"] + "," + favorite.location["subregion"]}</Text>
 
          </Pressable> : 
           <Pressable
-          key = {favorite["key"]}
           disabled = {true}
          //  size = "large"
           style = {{flex: 3,alignItems: 'center'}}
@@ -438,6 +436,7 @@ export default class Home extends React.Component {
         favorite == null? null : 
 
         <Block key = {favorite["key"]} style = {styles.buttonContainer}>
+        <Text>{console.log("curr" + favorite)}</Text>
         <Button 
          size = "small"
          // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
@@ -454,17 +453,15 @@ export default class Home extends React.Component {
          {favorite != null ? 
          
          <Pressable
-           key = {favorite["key"]}
            onPress = {() => this.onChosen(favorite)}
            style = {{flex: 3}}
            // size = "large"
          >
-         <Text style = {{fontWeight: 'bold'}}> {favorite.name["name"] + " " + favorite.name["street"]}</Text>
-         <Text style = {styles.greyText}> {favorite.name["subregion"] + ", " + favorite.name["country"]}</Text>
+         {/* <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text> */}
+         {/* <Text style = {styles.greyText}> {favorite.location["street"] + ", " + favorite.location["subregion"]}</Text> */}
 
          </Pressable> : 
           <Pressable
-          key = {favorite["key"]}
           disabled = {true}
          //  size = "large"
           style = {{flex: 3,alignItems: 'center'}}
@@ -524,17 +521,15 @@ export default class Home extends React.Component {
            {favorite != null ? 
            
            <Pressable
-             key = {favorite["key"]}
              onPress = {() => this.onChosen(favorite)}
              style = {{flex: 3}}
              // size = "large"
            >
-           <Text style = {{fontWeight: 'bold'}}> {favorite.name["name"] + " " + favorite.name["street"]}</Text>
-           <Text style = {styles.greyText}> {favorite.name["subregion"] + ", " + favorite.name["country"]}</Text>
+           <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
+           <Text style = {styles.greyText}> {favorite.location[0]["name"] + favorite.location[0]["street"] + ", " + favorite.location[0]["subregion"]}</Text>
  
            </Pressable> : 
             <Pressable
-            key = {favorite["key"]}
             disabled = {true}
            //  size = "large"
             style = {{flex: 3,alignItems: 'center'}}
@@ -649,11 +644,41 @@ export default class Home extends React.Component {
                             tappable = {true}
                             opacity = {0.1}
                             /> : null}
+                          
+                          {this.state.currLocation != null?  
+                          <Marker 
+                            coordinate = {this.state.currLocation}
+                            image = {require('../assets/icons/FA_star.png')}/> : null}
+                            
+                          
+                                                      
+                          {/* {this.state.markers != null ? 
+                           this.state.markers.map((marker) => (
+                          <Overlay 
+                            key = {marker.key}
+                            bounds = {[[marker.latlong["latitude"] + range, marker.latlong["longitude"] - range],[marker.latlong["latitude"] - range, marker.latlong["longitude"] + range]]}
+                            image = {require('../assets/icons/blue-circle.png')}
+                            tappable = {true}
+                            opacity = {0.1}
+                            />) ): null 
+                          }
+                        */}
+                        
+                        {this.state.pickup != null? 
+                          <Marker 
+                            coordinate = {this.state.pickup.latlong}
+                            fillColor = {"rgba(0,255,0,0.3)"}
+                            /> 
+                            : null}
                           {this.state.dropoff != null? 
                           <Marker 
                             coordinate = {this.state.dropoff.latlong}
-                            image = {require('../assets/icons/FA_star.svg')}/> : null}
-                          {this.state.markers.map((marker) => (
+                            fillColor = {"rgba(0,255,0,0.3)"}
+                            /> 
+                            : null}
+                                                    
+                        
+                          {/* {this.state.markers.map((marker) => (
                             marker == null? null : 
                             <Circle
                               key = {marker.key}
@@ -662,6 +687,23 @@ export default class Home extends React.Component {
                               strokeColor = {"transparent"}
                               opacity = {0.5}
                               fillColor = {"rgba(255,0,0,0.3)"}
+                              tappable = {true}
+                              onPress = {() => this.onChosen(marker)}
+                              // image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
+                            />
+                            ))} */}
+                            
+                            {this.state.markers.map((marker) => (
+                            marker == this.state.pickup || marker == this.state.dropoff ? null : 
+                            <Marker
+                              key = {marker.key}
+                              coordinate = {marker.latlong}
+                              title = {marker.name["street"]}
+                              // center = {marker.latlong}
+                              radius = {500}
+                              strokeColor = {"transparent"}
+                              opacity = {0.5}
+                              fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
                               tappable = {true}
                               onPress = {() => this.onChosen(marker)}
                               // image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
@@ -675,7 +717,7 @@ export default class Home extends React.Component {
                           style = {this.state.isPickup ? styles.input : [styles.input, {backgroundColor: "white", borderColor: 'grey'}]}
                           onPress = {() => this.setState({isPickup: true, mapOpen: false})}                     >
                           <Text style = {styles.greyText}>From:</Text>
-                          <Text>{this.state.pickup == null ? "" : this.state.pickup.name["street"]} <Text style = {styles.greyText}>{this.state.pickup != null? "(" + this.state.pickup.distance.toFixed(1) + " m away)": ""}</Text></Text>
+                          <Text>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style = {styles.greyText}>{this.state.pickup != null? "(" + this.state.pickup.distance.toFixed(1) + " m away)": ""}</Text></Text>
                           <Button 
                             onlyIcon icon="close" 
                             iconFamily="antdesign" 
@@ -692,7 +734,7 @@ export default class Home extends React.Component {
                           onPress = {() => this.setState({isPickup: false, mapOpen: false})}
                           >
                           <Text style = {styles.greyText}>To: </Text>
-                          <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name["street"]} <Text style = {styles.greyText}>{this.state.dropoff != null? "(" + this.state.dropoff.distance.toFixed(1) + " m away)": ""}</Text></Text>
+                          <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style = {styles.greyText}>{this.state.dropoff != null? "(" + this.state.dropoff.distance.toFixed(1) + " m away)": ""}</Text></Text>
                           <Button 
                             onlyIcon icon="close" 
                             iconFamily="antdesign" 
