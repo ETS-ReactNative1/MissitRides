@@ -290,7 +290,7 @@ def store_select_places(results, nearby_places, nearby_id, cutoff_radius, user_i
                 is_close = True
                 break
         if not is_close:
-            nearby_places.append({'key': nearby_id, 'lat': lat, 'lng': lng, 'name': place['name']})
+            nearby_places.append({'key': nearby_id, 'lat': lat, 'lng': lng, 'name': place['name'], 'address': place['vicinity']})
             lat_lng = str(lat) + ',' + str(lng)
             store_place(user_id, str(nearby_id), lat_lng, place['types'])
             nearby_id = nearby_id + 1
@@ -393,6 +393,23 @@ def update_favorites():
         if favorite_id != 'userid':
             store_favorite(user_id, favorite_id, data[favorite_id])
     return jsonify(data)
+
+@app.route('/update_fav', methods=['POST'])
+def update_favorite():
+    data = request.args
+    user_id = data['userid']
+    favorite_id = data['favoriteid']
+    address = data['address']
+    API_key = 'AIzaSyAbbexhr2VEHaP9eJklCx1502RcM5au-3Y'
+    payload = {'address': address, 'key': API_key}
+    response = requests.post('https://maps.googleapis.com/maps/api/geocode/json', params=payload, verify=False)
+    geocode = response.json()
+    lat = geocode['results'][0]['geometry']['location']['lat']
+    lng = geocode['results'][0]['geometry']['location']['lng']
+    lat_lng = str(lat) + ',' + str(lng)
+    store_favorite(user_id, favorite_id, lat_lng)
+    # return jsonify(geocode)
+    return jsonify({'latitude': lat, 'longitude': lng})
 
 @app.route('/fetch_favorite', methods=['POST'])
 def return_favorite():

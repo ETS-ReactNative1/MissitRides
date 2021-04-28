@@ -3,6 +3,8 @@ import { StyleSheet, ScrollView, Dimensions, Image, Pressable, StatusBar } from 
 import {theme, Block, Card, Text, NavBar, Button} from 'galio-framework';
 import * as Location from 'expo-location';
 import CountDown from 'react-native-countdown-component';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+
 
 const dims = Dimensions.get('window');
 import Login from './Login'
