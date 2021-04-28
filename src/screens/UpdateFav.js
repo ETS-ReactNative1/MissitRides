@@ -34,22 +34,51 @@ export default class UpdateFav extends React.Component {
     // console.log("geocode is: ", geocodeObj[0]);
     let latlong = {latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"], data: reverseGeocodeObj[0]};
     console.log(latlong);
-    try {
-      let fav_num = "fav" + this.state.num;
-      const jsonValue = JSON.stringify(latlong)
-      await AsyncStorage.setItem(fav_num, jsonValue);
-      this.props.route.params.onGoBack();
-      this.props.navigation.goBack();
-      return latlong;
-    } catch (e) {
-      // saving error
-    }
+   
   }
   
   async setFav(address) {
-    let fav = await this.runGeocode(address);
-    console.log(fav);
-    this.setState({fav1: fav})
+    
+    // let fav = await this.runGeocode(address);
+    var userid = 1;
+    var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/update_fav" + "?userid=" + userid + "&favoriteid="+ this.state.num + "&address=" + address
+      console.log(req_string)
+    
+      fetch(req_string, { 
+        
+        // Adding method type 
+        method: "POST", 
+          
+
+        // Adding headers to the request 
+        headers: { 
+            "Content-type": "application/json; charset=UTF-8"
+        } 
+    }) 
+    // Converting to JSON 
+    .then(response => response.json()) 
+    
+    // Displaying results to console 
+    // .then(json => console.log(json))
+
+    .then(json => this.handleData(json)); 
+  }
+  
+  async handleData(data){
+
+    data.name = this.state.name;
+    data.key = this.state.num;
+    data.address = this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.country
+    console.log("new favorite: ", data)
+    try {
+      let fav_num = "fav" + data.num;
+      const jsonValue = JSON.stringify(data)
+      await AsyncStorage.setItem(fav_num, jsonValue);
+      this.props.route.params.onGoBack();
+      this.props.navigation.goBack();
+    } catch (e) {
+      // saving error
+    }
   }
   
   handleName = (text) => { this.setState({ name: text })}
@@ -88,6 +117,10 @@ export default class UpdateFav extends React.Component {
       
       <Block style = {styles.form}> 
         <Text style = {{fontSize: 18, margin: 5}}>Enter your new address location</Text>
+        
+        <Text>Name</Text>
+        <Input style = {styles.input} onChangeText = {this.handleName} placeholder = "Location Name"/>
+  
         <Text>Address</Text>
   
         <Input style = {styles.input} onChangeText = {this.handleAddress} placeholder = "address"/>
@@ -96,15 +129,14 @@ export default class UpdateFav extends React.Component {
         <Input style = {styles.input} onChangeText = {this.handleCity} placeholder = "city"/>
         <Text>State/Region <Text style = {{color: 'grey'}}>(Optional) </Text></Text>
         <Input style = {styles.input} onChangeText = {this.handleState} placeholder = "state"/>
-        <Text>Zip Code</Text>
-        <Input style = {styles.input} onChangeText = {this.handleZip} placeholder = "zip code"/>
+ 
         <Text>Country</Text>
         <Input style = {styles.input} onChangeText = {this.handleCountry} placeholder = "country"/>
       </Block>
 
       {/* <Button onPress = {this.sendData()}>Submit</Button> */}
-      {(this.state.address != "" && this.state.city != "" && this.state.zip != "" && this.state.country != "") ?
-        <Pressable onPress = {() => this.setFav(this.state.address + " " + this.state.city + " " + this.state.zip + " " + this.state.country)}><Text>Submit</Text></Pressable>
+      {(this.state.address != "" && this.state.city != "" && this.state.name != "" && this.state.country != "") ?
+        <Pressable onPress = {() => this.setFav(this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.country)}><Text>Submit</Text></Pressable>
         : <Block/>}
         </Block>
       </ScrollView>

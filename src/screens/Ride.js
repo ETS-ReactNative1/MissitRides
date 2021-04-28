@@ -20,8 +20,8 @@ export default class Ride extends React.Component {
         company_site: "",
         company_rating: 0,
         options: [],
-        countdown: false,
-        countdownTime: 10,
+        countdown: true,
+        timer: 10,
         // pickup: {
         //   "city": " ",
         //   "country": " ",
@@ -50,6 +50,7 @@ export default class Ride extends React.Component {
         // dropoff: "288 Boston Ave, Medford",
         ride: "",
         submit: false,
+
       };
     }
         
@@ -110,13 +111,27 @@ export default class Ride extends React.Component {
   setCountdown(){
       }
   componentDidMount() {
-      this.setState({countdownTime: this.bitCount(1) + this.bitCount(this.state.pickup.key) + this.bitCount(this.state.dropoff.key) + 2})
-      // this.getRates();
-      
+      this.setState({timer: this.bitCount(1) + this.bitCount(this.state.pickup.key) + this.bitCount(this.state.dropoff.key) + 2})
+      this.getRates();
+      this.interval = setInterval(
+        () => this.setState((prevState)=> ({ timer: prevState.timer - 1 })),
+        1000
+      );
       console.log(this.state.pickup);
       console.log(this.state.dropoff);
     }
   
+  
+    componentDidUpdate(){
+      if(this.state.timer <= 0){ 
+        clearInterval(this.interval);
+      }
+    }
+    
+    componentWillUnmount(){
+     clearInterval(this.interval);
+    }
+    
     onChosen(choice){
       this.setState({
         ride: choice,
@@ -126,7 +141,7 @@ export default class Ride extends React.Component {
 
     submitReq(){
       var userid = 1;
- 
+      try{
       var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/confirm" + "?bitstring=" + userid
       console.log(req_string)
       fetch(req_string, { 
@@ -143,12 +158,19 @@ export default class Ride extends React.Component {
           } 
       }) 
         
-      // Converting to JSON 
+      // Converting to JSON
+      .catch(error => {
+        console.error(error)
+      })
+      
       .then(response => response.json()) 
         
       // Displaying results to console 
       .then(json => this.handleResponse(json))
-      
+  
+      }catch(e) {
+        logMyErrors(e);
+      }
     }
    
     render() {
@@ -174,7 +196,7 @@ export default class Ride extends React.Component {
             
             <Block style = {styles.topContainer}>
               <Block style = {{flex: 15, alignItems: 'center'}}>
-                <Text style = {{textAlign: 'center'}} >{this.props.route.params["pickup"].location["street"]}</Text>
+                <Text style = {{textAlign: 'center'}} >{this.props.route.params["pickup"].address}</Text>
               </Block>
               <Block style = {{flex: 1, alignItems: 'center'}}>
                 <Button 
@@ -187,20 +209,17 @@ export default class Ride extends React.Component {
                 </Button>
               </Block>
               <Block style = {{flex: 15, alignItems: 'center'}}>
-              <Text style = {{textAlign: 'center'}} >{this.props.route.params["dropoff"].location["street"]}</Text>
+              <Text style = {{textAlign: 'center'}} >{this.props.route.params["dropoff"].address}</Text>
               </Block>
             </Block>
             <ScrollView style = {{flex: 10}}>
 
-           {this.state.countdown ?
+           {this.state.timer > 0 ?
                <Block style = {styles.container}>
                  <Text>Please wait </Text>
-                 <CountDown
-                    until={10}
-                    onFinish={() => this.setState({countdown: false})}
-                    onPress={() => alert('hello')}
-                    size={20}
-                  />
+                 <Text> {this.state.timer} </Text>
+                 <Text> seconds </Text>
+
               </Block> :
             
               this.state.options.map((ride) => (
@@ -246,14 +265,14 @@ export default class Ride extends React.Component {
                         onPress = {() => this.props.navigation.navigate('Home')}
                         >
                         <Text style = {styles.greyText}>From:</Text>
-                        <Text>{this.props.route.params["pickup"].location["name"] + " " + this.props.route.params["pickup"].location["street"] == null? this.props.route.params["pickup"].location["region"] : this.props.route.params["pickup"].location["street"]}</Text>
+                        <Text>{this.props.route.params["pickup"].address}</Text>
                       </Pressable>
                       <Pressable 
                         style = {styles.input}
                         onPress = {() => this.props.navigation.navigate('Home')}
                         >
                         <Text style = {styles.greyText}>To:</Text>
-                        <Text>{this.props.route.params["dropoff"].location["name"] + " " + this.props.route.params["dropoff"].location["street"] == null? this.props.route.params["dropoff"].location["region"] : this.props.route.params["dropoff"].location["street"]}</Text>
+                        <Text>{this.props.route.params["dropoff"].address}</Text>
                       </Pressable>
                       <Block style = {{flexDirection: 'row', justifyContent: "space-around", alignItems: "center", width: dims["width"] * .7}}>
                         <Pressable 

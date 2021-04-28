@@ -95,10 +95,7 @@ export default class Home extends React.Component {
       
   async handleNearby(data) {
     for(var i = 0; i < data.length; i++){ 
-      let location_info = await Location.reverseGeocodeAsync({latitude: data[i]["lat"], longitude: data[i]["lng"]})
       data[i].latlong = {latitude:  data[i]["lat"], longitude: data[i]["lng"]}
-      data[i].location = location_info
-      // data[i].name = location_info[0]
       data[i].distance = this.getDistance(data[i].latlong);
       data.favorite = false
       }      
@@ -173,7 +170,8 @@ export default class Home extends React.Component {
       if (latlong != null){
         this_name  = await this.reverseGeocode(latlong);
         var distance = this.getDistance(latlong)
-        favs.push({"key": i, location: this_name, latlong: latlong, favorite: true, distance: distance, name: this_name["name"] + this_name["street"]});
+        
+        favs.push({name: name, "key": i, latlong: latlong, favorite: true, distance: distance, address: this_name["name"] + " " + this_name["street"] + ", " + this_name["city"]});
       }
       i++;
     }
@@ -181,27 +179,6 @@ export default class Home extends React.Component {
     this.setState({favorites: favs})
   };
     
-  async updateFavorite(id){
-    await this.getFavorites();
-    var userid = 1;
-    console.log("id is ", id)
-    var fav = this.state.favorites[id].latlong == null? "null" : JSON.stringify(this.state.favorites[id].latlong.latitude) + ',' + JSON.stringify(this.state.favorites[id].latlong.longitude)
-    var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/update_favorites?userid=" + userid + "&" + id + "=" + fav
-    console.log(req_string);
-    fetch(req_string, {
-      
-      // Adding method type 
-      method: "POST", 
-        
-      // Adding body or contents to send 
-      
-      body: null
-    })
-    .then(response => response.json()) 
-  
-    // Displaying results to console 
-    .then(json => console.log(json)); 
-  };
   
   async getLocationAsync (){
     console.log("getting location")
@@ -218,8 +195,8 @@ export default class Home extends React.Component {
     }
  
     let location = await Location.getCurrentPositionAsync({});
-    // location["coords"]["latitude"] = 51.511894;
-    // location["coords"]["longitude"] = -0.205779;
+    location["coords"]["latitude"] = 51.511894;
+    location["coords"]["longitude"] = -0.205779;
     this.setState({ locationResult: location, currLocation: {latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"]} });
   
   }
@@ -305,7 +282,6 @@ export default class Home extends React.Component {
         <Block key = {favorite["key"]} style = {styles.buttonContainer}>
          <Button 
           size = "small"
-          // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
           onlyIcon icon= {"favorite"}
           iconFamily="material" 
           iconSize={20} 
@@ -324,7 +300,7 @@ export default class Home extends React.Component {
             // size = "large"
           >
           <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
-          <Text style = {styles.greyText}> {favorite.location["street"] + favorite.location["subregion"] + ", " + favorite.location["country"]}</Text>
+          <Text style = {styles.greyText}> {favorite.address}</Text>
 
           </Pressable> : 
            <Pressable
@@ -366,7 +342,6 @@ export default class Home extends React.Component {
           >
            <Button 
             size = "small"
-            // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
             onlyIcon icon= {"update"}
             iconFamily="material" 
             iconSize={20} 
@@ -397,7 +372,6 @@ export default class Home extends React.Component {
         <Block key = {favorite["key"]} style = {styles.buttonContainer}>
         <Button 
          size = "small"
-         // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
          onlyIcon icon= {favorite.favorite? "favorite": favorite.key < 16 ? "bolt" : "hourglass-full"}
          iconFamily="material" 
          iconSize={20} 
@@ -416,7 +390,7 @@ export default class Home extends React.Component {
            // size = "large"
          >
          <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
-         <Text style = {styles.greyText}> {favorite.location["street"] + "," + favorite.location["subregion"]}</Text>
+         <Text style = {styles.greyText}> {favorite.address}</Text>
 
          </Pressable> : 
           <Pressable
@@ -439,7 +413,6 @@ export default class Home extends React.Component {
         <Text>{console.log("curr" + favorite)}</Text>
         <Button 
          size = "small"
-         // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
          onlyIcon icon= {favorite.favorite? "favorite": favorite.key < 16 ? "bolt" : "hourglass-full"}
          iconFamily="material" 
          iconSize={20} 
@@ -480,7 +453,6 @@ export default class Home extends React.Component {
       
         <Button 
            size = "small"
-           // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
            onlyIcon icon= {"map"}
            iconFamily="material" 
            iconSize={20} 
@@ -507,7 +479,6 @@ export default class Home extends React.Component {
           <Block key = {favorite["key"]} style = {styles.buttonContainer}>
           <Button 
            size = "small"
-           // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
            onlyIcon icon= {favorite.favorite? "favorite": favorite.key < 16 ? "bolt" : "hourglass-full"}
            iconFamily="material" 
            iconSize={20} 
@@ -526,7 +497,7 @@ export default class Home extends React.Component {
              // size = "large"
            >
            <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
-           <Text style = {styles.greyText}> {favorite.location[0]["name"] + favorite.location[0]["street"] + ", " + favorite.location[0]["subregion"]}</Text>
+           <Text style = {styles.greyText}> {favorite.address}</Text>
  
            </Pressable> : 
             <Pressable
@@ -543,7 +514,6 @@ export default class Home extends React.Component {
         
           {/* <Button 
            size = "small"
-           onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
            onlyIcon icon="edit" 
            iconFamily="antdesign" 
            iconSize={20} 
@@ -562,7 +532,6 @@ export default class Home extends React.Component {
       
         <Button 
            size = "small"
-           // onPress={() => this.props.navigation.navigate("UpdateFav",  {num: favorite["key"], previous : favorite.name == null? "No Address Saved": favorite.name["name"] + " " + favorite.name["street"] + ", " + favorite.name["subregion"], onGoBack: () => this.updateFavorite(favorite["key"]),})}
            onlyIcon icon= {"map"}
            iconFamily="material" 
            iconSize={20} 
@@ -702,11 +671,11 @@ export default class Home extends React.Component {
                               // center = {marker.latlong}
                               radius = {500}
                               strokeColor = {"transparent"}
-                              opacity = {0.5}
-                              fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
+                              opacity = {0.7}
+                              // fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
                               tappable = {true}
                               onPress = {() => this.onChosen(marker)}
-                              // image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
+                              image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
                             />
                             ))}
                         </MapView>
