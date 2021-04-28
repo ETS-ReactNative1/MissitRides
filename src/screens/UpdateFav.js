@@ -158,5 +158,12 @@ const styles = StyleSheet.create({
 
     borderColor: theme.COLORS.BLACK,
     width: width * .9,
-  }
+  },
+  buttonContainer:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 7,
+    margin: 5,
+  },
 });

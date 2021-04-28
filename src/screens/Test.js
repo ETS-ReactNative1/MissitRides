@@ -3,6 +3,7 @@ import { Animated, View, TouchableOpacity, StyleSheet, ScrollView, Text } from '
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Constants from 'expo-constants';
 
+import CountDown from 'react-native-countdown-component';
 
 
 export default class TabViewExample extends React.Component {
@@ -74,12 +75,12 @@ export default class TabViewExample extends React.Component {
 
   render() {
     return (
-      <TabView
-        navigationState={this.state}
-        renderScene={this._renderScene}
-        renderTabBar={this._renderTabBar}
-        onIndexChange={this._handleIndexChange}
-      />
+      <CountDown
+                    until={10}
+                    onFinish={() => alert('finished')}
+                    onPress={() => alert('hello')}
+                    size={20}
+                  />
     );
   }
 }
