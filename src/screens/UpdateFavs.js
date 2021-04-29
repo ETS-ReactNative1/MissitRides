@@ -25,7 +25,6 @@ export default class UpdateFavs extends React.Component {
   async runGeocode(latlong){
     if (latlong != null){
       let geocode = await Location.reverseGeocodeAsync(latlong);  
-      // console.log("geocode is: ", geocode[0]);
       return geocode[0]["name"] + " " + geocode[0]["street"] + ", " + geocode[0]["subregion"];
     }
     else {return "Address not saved"}
@@ -41,26 +40,31 @@ export default class UpdateFavs extends React.Component {
       var fav_num = "fav" + i;
       var fav = await this.retrieved(fav_num);
       
-      // favs.push(fav);
-      console.log(fav);
-      fav == null ? favs.push({key: i}) : favs.push(fav)
+      
+      fav == null ? fav = {key: i} : fav.key = i; 
+      favs.push(fav);
       i++;
     }
     this.setState({favs: favs});
-    // this.setState({fav0: fav0, fav1: fav1, fav2: fav2, fav3: fav3});
+    console.log("favorites:", favs)
   }
   
   async retrieved(elem){
     try {
       const jsonValue = await AsyncStorage.getItem(elem)
-      // console.log(JSON.stringify(jsonValue))
-      // console.log(elem, ",", jsonValue)
 
       return JSON.parse(jsonValue);
     } catch(e) {
       // error reading value
     }
     
+  }
+  
+  return() {
+    this.props.route.params.onGoBack();
+    this.props.navigation.goBack();
+
+
   }
   handleUsername = (text) => { this.setState({ username: text })}
   handlePassword = (text) => { this.setState({ password: text })}
@@ -72,10 +76,7 @@ export default class UpdateFavs extends React.Component {
 
   render(){
     
-    return (
-    
-   
-        
+    return (       
     <Block style = {styles.container}>
        <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
       <NavBar title="Update Favorites" style = {{width: width, alignSelf: 'flex-start'}}/>
@@ -97,6 +98,12 @@ export default class UpdateFavs extends React.Component {
              <Text style = {{fontWeight: "bold", alignSelf: "flex-start"}}>{fav.name}</Text>
          </Pressable>
         ))}
+        
+        <Pressable
+          onPress={() => this.return()}>
+          <Text>Go Back</Text>
+        </Pressable>
+        
         </Block>
     </Block>
   )}

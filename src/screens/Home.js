@@ -165,13 +165,13 @@ export default class Home extends React.Component {
     var i = 0;
     var distance = null;
     while(i < 4){
-      let latlong = await this.retrieve(i);
-      let this_name = null;
-      if (latlong != null){
-        this_name  = await this.reverseGeocode(latlong);
-        var distance = this.getDistance(latlong)
-        
-        favs.push({name: name, "key": i, latlong: latlong, favorite: true, distance: distance, address: this_name["name"] + " " + this_name["street"] + ", " + this_name["city"]});
+      let fav = await this.retrieve(i);
+      if (fav != null){
+        console.log(fav);
+        fav.latlong = {latitude: fav.latitude, longitude: fav.longitude}
+        fav.distance = this.getDistance(fav.latlong)
+        fav.favorite = true;
+        favs.push(fav);
       }
       i++;
     }
@@ -202,7 +202,7 @@ export default class Home extends React.Component {
   }
   
   getDistance(latlong){
-    console.log(this.state.currLocation)
+    // console.log(this.state.currLocation)
     var lat = this.state.currLocation["latitude"];
     var long = this.state.currLocation["longitude"];
     // console.log(lat, long, latlong["latitude"], latlong["longitude"])
@@ -336,7 +336,7 @@ export default class Home extends React.Component {
 
           </Pressable>
           <Pressable
-            onPress = {() => this.props.navigation.navigate("UpdateFavs")}
+            onPress = {() => this.props.navigation.navigate("UpdateFavs", {onGoBack: () => this.getFavorites()})}
             style = {[styles.buttonContainer, {alignSelf: "flex-start"}]}
             // size = "large"
           >

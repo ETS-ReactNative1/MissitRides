@@ -71,7 +71,7 @@ export default class UpdateFav extends React.Component {
     data.address = this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.country
     console.log("new favorite: ", data)
     try {
-      let fav_num = "fav" + data.num;
+      let fav_num = "fav" + data.key;
       const jsonValue = JSON.stringify(data)
       await AsyncStorage.setItem(fav_num, jsonValue);
       this.props.route.params.onGoBack();
@@ -79,6 +79,7 @@ export default class UpdateFav extends React.Component {
     } catch (e) {
       // saving error
     }
+
   }
   
   handleName = (text) => { this.setState({ name: text })}
@@ -89,15 +90,6 @@ export default class UpdateFav extends React.Component {
   handleCountry = (text) => { this.setState({ country: text })}
 
 
-  async retrieved(){
-    try {
-      const jsonValue = await AsyncStorage.getItem('fav1')
-      console.log(JSON.stringify(jsonValue))
-      return jsonValue != null ? JSON.stringify(jsonValue) : "Blank";
-    } catch(e) {
-      // error reading value
-    }
-  }
   render(){
     
     return (
@@ -118,7 +110,7 @@ export default class UpdateFav extends React.Component {
       <Block style = {styles.form}> 
         <Text style = {{fontSize: 18, margin: 5}}>Enter your new address location</Text>
         
-        <Text>Name</Text>
+        <Text>Location Nickname</Text>
         <Input style = {styles.input} onChangeText = {this.handleName} placeholder = "Location Name"/>
   
         <Text>Address</Text>
