@@ -33,7 +33,6 @@ export async function initializeFavorites () {
   }
   console.log("favorites: ", favs)
   favorites = favs;
-  return favs;
 };
 
 export function getFavorites() {
