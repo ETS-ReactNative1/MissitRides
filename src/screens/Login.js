@@ -3,16 +3,21 @@ import { StyleSheet, Dimensions, Image } from 'react-native';
 // import { Button, Block, Text, Input, theme } from 'galio-framework';
 import {theme, Block, Button, Input, Text} from 'galio-framework';
 // import { Icon, Product } from 'C:/Users/hanke/OneDrive/Documents/Tufts/Senior Fall/ML/missit-rides/MissitRides/src/components';
+import {initializeFavorites, getFavorites} from "../components/Favorites"
+import {getLocationAsync, locationResult, currLocation, hasLocationPermissions} from "../components/Location"
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { allStyles } from '../styles/allStyle';
 const { width } = Dimensions.get('screen');
+
 // import products from '../constants/products';
 
 export default class Login extends React.Component {
   render() {
     return (
-      <Block style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Block style = {styles.image_container}>
           <Text h2 color = {theme.COLORS.THEME} style = {{marginBottom: 20}}>MissIt Rides</Text>
           <Image
@@ -33,7 +38,7 @@ export default class Login extends React.Component {
             login</Button>
 
         </Block>
-      </Block>
+      </SafeAreaView>
     );
   }
 }

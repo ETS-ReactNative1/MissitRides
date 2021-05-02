@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Dimensions, Image, Pressable, StatusBar } from 'react-native';
 import {theme, Block, Card, Text, NavBar, Button} from 'galio-framework';
+import {rideStyles} from '../styles/rideStyle'
 import * as Location from 'expo-location';
 import CountDown from 'react-native-countdown-component';
 // import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
-
 const dims = Dimensions.get('window');
 import Login from './Login'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default class Ride extends React.Component {
@@ -24,32 +25,6 @@ export default class Ride extends React.Component {
         options: [],
         countdown: true,
         timer: 10,
-        // pickup: {
-        //   "city": " ",
-        //   "country": " ",
-        //   "district": null,
-        //   "isoCountryCode": " ",
-        //   "name": " ",
-        //   "postalCode": " ",
-        //   "region": " ",
-        //   "street": " ",
-        //   "subregion": " ",
-        //   "timezone": null,
-        // },
-        // dropoff: {
-        //   "city": " ",
-        //   "country": " ",
-        //   "district": null,
-        //   "isoCountryCode": " ",
-        //   "name": " ",
-        //   "postalCode": " ",
-        //   "region": " ",
-        //   "street": " ",
-        //   "subregion": " ",
-        //   "timezone": null,
-        // },
-        // pickup: "40 Ossipee Rd, Somerville",
-        // dropoff: "288 Boston Ave, Medford",
         ride: "",
         submit: false,
 
@@ -110,8 +85,6 @@ export default class Ride extends React.Component {
     }); 
   }
   
-  setCountdown(){
-      }
   componentDidMount() {
       this.setState({timer: this.bitCount(1) + this.bitCount(this.state.pickup.key) + this.bitCount(this.state.dropoff.key) + 2})
       this.getRates();
@@ -178,25 +151,25 @@ export default class Ride extends React.Component {
     render() {
       
       return (
-        <Block style={styles.container}>
+        <SafeAreaView style={rideStyles.container}>
         <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
         <NavBar 
               title="Select Your Ride" />
         {
           // this.state.timeLeft > 0 ?
-          //   <Block style = {[styles.container, {backgroundColor: theme.COLORS.PRIMARY}]}>
-          //     <Image style={styles.logo} source={require('../assets/icons/car.png')}/>
-          //     <Text style = {styles.smallerText}>Please wait</Text>
-          //     <Text style = {styles.bigText}>{Math.floor(this.state.timeLeft)} Seconds.</Text>
-          //     <Text style = {styles.smallerText}>We need to check the cost of your ride!</Text>
+          //   <Block style = {[rideStyles.container, {backgroundColor: theme.COLORS.PRIMARY}]}>
+          //     <Image style={rideStyles.logo} source={require('../assets/icons/car.png')}/>
+          //     <Text style = {rideStyles.smallerText}>Please wait</Text>
+          //     <Text style = {rideStyles.bigText}>{Math.floor(this.state.timeLeft)} Seconds.</Text>
+          //     <Text style = {rideStyles.smallerText}>We need to check the cost of your ride!</Text>
           // </Block>:
 
          
           // : <Block/> :
             
-          <Block style={styles.container}>
+          <Block style={rideStyles.container}>
             
-            <Block style = {styles.topContainer}>
+            <Block style = {rideStyles.topContainer}>
               <Block style = {{flex: 15, alignItems: 'center'}}>
                 <Text style = {{textAlign: 'center'}} >{this.props.route.params["pickup"].address}</Text>
               </Block>
@@ -207,7 +180,7 @@ export default class Ride extends React.Component {
                   iconSize={12} 
                   color="transparent" 
                   iconColor="#000" 
-                  style={styles.closeButton}>
+                  style={rideStyles.closeButton}>
                 </Button>
               </Block>
               <Block style = {{flex: 15, alignItems: 'center'}}>
@@ -217,7 +190,7 @@ export default class Ride extends React.Component {
             <ScrollView style = {{flex: 10}}>
 
            {this.state.timer > 0 ?
-               <Block style = {styles.container}>
+               <Block style = {rideStyles.container}>
                  <Text>Please wait </Text>
                  <Text> {this.state.timer} </Text>
                  <Text> seconds </Text>
@@ -226,11 +199,11 @@ export default class Ride extends React.Component {
             
               this.state.options.map((ride) => (
                 
-                <Pressable key = {ride["key"]} style = {[styles.card, this.state.ride === ride["key"] ? {backgroundColor: '#d9d9d9'} : null]}
+                <Pressable key = {ride["key"]} style = {[rideStyles.card, this.state.ride === ride["key"] ? {backgroundColor: '#d9d9d9'} : null]}
                            onPress = {() => this.onChosen(ride["key"])}>
                      <Block style = {{justifyContent: 'center', alignItems: 'center'}}>
                        <Image
-                        style={styles.logo}
+                        style={rideStyles.logo}
                         source={ride["passengers"] > 4 ? require('../assets/icons/big.png') : ride["class"] == "Standard" ? require('../assets/icons/std.png') : require('../assets/icons/fancy.png')}
                       />
                     </Block>
@@ -250,41 +223,41 @@ export default class Ride extends React.Component {
             <Text style = {{color: "grey"}}>{this.state.company_phone}</Text>
             </Block>
             {this.state.ride === "" ?
-                <Block style = {styles.button}><Text h5 style = {{color : "transparent"}}> Continue</Text></Block> :
+                <Block style = {rideStyles.button}><Text h5 style = {{color : "transparent"}}> Continue</Text></Block> :
                 <Pressable
-                  style = {[styles.button, {backgroundColor: theme.COLORS.PRIMARY}]}
+                  style = {[rideStyles.button, {backgroundColor: theme.COLORS.PRIMARY}]}
                   // onPress={() => this.props.navigation.navigate('Confirm', {pickupCoords: this.state.pickupCoords, dropoffCoords: this.state.dropoffCoords, ride: this.state.ride})}
                   onPress = {() => this.setState({submit: true})}>
                   <Text h5 style = {{color: theme.COLORS.WHITE}}> Continue</Text>
                 </Pressable>
                 }
                 {this.state.submit ? 
-                  <Pressable style = {styles.toastContainer}  onPress = {() => this.setState({submit: false})}>
-                    <Block style = {styles.confirm}>
+                  <Pressable style = {rideStyles.toastContainer}  onPress = {() => this.setState({submit: false})}>
+                    <Block style = {rideStyles.confirm}>
                       <Text h5>Confirm Your Ride</Text>
                       <Pressable 
-                        style = {styles.input}
+                        style = {rideStyles.input}
                         onPress = {() => this.props.navigation.navigate('Home')}
                         >
-                        <Text style = {styles.greyText}>From:</Text>
+                        <Text style = {rideStyles.greyText}>From:</Text>
                         <Text>{this.props.route.params["pickup"].address}</Text>
                       </Pressable>
                       <Pressable 
-                        style = {styles.input}
+                        style = {rideStyles.input}
                         onPress = {() => this.props.navigation.navigate('Home')}
                         >
-                        <Text style = {styles.greyText}>To:</Text>
+                        <Text style = {rideStyles.greyText}>To:</Text>
                         <Text>{this.props.route.params["dropoff"].address}</Text>
                       </Pressable>
                       <Block style = {{flexDirection: 'row', justifyContent: "space-around", alignItems: "center", width: dims["width"] * .7}}>
                         <Pressable 
-                          style = {[styles.smallInput, {flex: 4, marginRight: 5,} ]}
+                          style = {[rideStyles.smallInput, {flex: 4, marginRight: 5,} ]}
                           onPress = {() => this.props.navigation.navigate('Ride')}
                           >
                           <Text >{this.state.options[this.state.ride]["name"]}</Text>
                         </Pressable>
                         <Pressable 
-                          style = {[styles.smallInput, {flex: 1}]}
+                          style = {[rideStyles.smallInput, {flex: 1}]}
                           onPress = {() => this.props.navigation.navigate('Ride')}
                           >
                           <Text >£{this.state.options[this.state.ride]["price"]}</Text>
@@ -299,127 +272,7 @@ export default class Ride extends React.Component {
                 </Pressable> : null}
           </Block>
         }
-        </Block>
+        </SafeAreaView>
       );
     }
   }
-  
- const styles = StyleSheet.create({
-  container: {
-      width: dims["width"],    
-      flex: 1,
-      backgroundColor: theme.COLORS.WHITE,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-  confirm: {
-    // height: dims["height"] / 2,
-    width:  dims["width"] *.8,
-    position: 'absolute',
-    backgroundColor: theme.COLORS.WHITE,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    borderColor: 'black',
-    borderWidth: 5,
-  },
-  greyText: {
-    position: "absolute",
-    alignSelf: "flex-start",
-    marginLeft: 5,
-    marginTop: 5,
-    color: "grey",
-  },
-  topContainer: {
-    flex: .1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    backgroundColor: theme.COLORS.WHITE,
-    borderBottomWidth: 1,
-    borderColor: theme.COLORS.BLACK,
-    margin: 5,
-  },
-  card: {
-    width:  dims["width"],
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignContent: 'center',
-    padding: 7,
-    margin: 5,
-  },
-
-  toastContainer : {
-    position: 'absolute',
-    width:  dims["width"],
-    height:  dims["height"],
-    backgroundColor: theme.COLORS.TRANSPARENT,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-  },
-  logo: {
-    width: 25,
-    height: 18,
-    // backgroundColor: theme.COLORS.PRIMARY,
-    resizeMode: 'contain',
-    alignSelf: 'flex-start',
-    margin: 10,
-  },  
-  button: {
-    flex: 0.1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width:  dims["width"] * .9,
-    // backgroundColor: "red"
-  },
-  return: {
-    alignItems: "center",
-    backgroundColor: theme.COLORS.PRIMARY,
-    borderRadius: 15,
-    marginBottom: 5,
-    padding: 5,
-    // borderColor: theme.COLORS.PRIMARY,
-    width:  dims["width"] * .8,
-  },
-  closeButton: { 
-    width: 30, 
-    height: 15, 
-    flex: .1,
-    // marginHorizontal: 30,
-  },
-  smallerText: {
-    color: theme.COLORS.WHITE,
-    fontSize: 18,
-  },
-  bigText: {
-    color: theme.COLORS.WHITE,
-    fontSize: 36,
-  },
-  input: {
-    alignItems: "center",
-    backgroundColor: theme.COLORS.base,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    padding: 5,
-    borderColor: 'black',
-    width: dims["width"] * .7,
-
-  },
-  smallInput: {
-    alignItems: "center",
-    backgroundColor: theme.COLORS.base,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 5,
-    padding: 5,
-    borderColor: 'black',
-    // width: dims["width"] * .7,
-
-  },
-});

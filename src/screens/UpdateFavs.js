@@ -61,6 +61,7 @@ export default class UpdateFavs extends React.Component {
   }
   
   return() {
+    console.log()
     this.props.route.params.onGoBack();
     this.props.navigation.goBack();
 
@@ -77,7 +78,7 @@ export default class UpdateFavs extends React.Component {
   render(){
     
     return (       
-    <Block style = {styles.container}>
+    <SafeAreaView style = {styles.container}>
        <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
       <NavBar title="Update Favorites" style = {{width: width, alignSelf: 'flex-start'}}/>
       <Block style = {[styles.container, {justifyContent: 'center'}]}>
@@ -105,7 +106,7 @@ export default class UpdateFavs extends React.Component {
         </Pressable>
         
         </Block>
-    </Block>
+    </SafeAreaView>
   )}
 }
           

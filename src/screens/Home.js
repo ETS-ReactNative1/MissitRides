@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 // import { StatusBar } from 'expo-status-bar';
 import MapView, { Marker, Overlay, Circle } from 'react-native-maps';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
 import Splash from './Splash';
 import {mapStyle} from '../components/mapStyle.js';
+import {homeStyles} from '../styles/homeStyle';
+import {allStyles} from '../styles/allStyle';
+import {getFavorites, initializeFavorites} from '../components/Favorites'
+import {getLocationAsync, getHasLocationPermissions, getLocationResult, getCurrLocation, compareDistance, getDistance} from '../components/Location'
+
 // import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -52,8 +55,15 @@ export default class Home extends React.Component {
   }
   
   async initializeNearbyPlaces(){
-    await this.getLocationAsync();
-    await this.getFavorites();
+    await getLocationAsync();
+    favorites = await initializeFavorites();
+    hasLocationPermissions = getHasLocationPermissions();
+    currLocation = getCurrLocation();
+    locationResult = getLocationResult();
+    
+    this.setState({favorites: favorites,
+              currLocation: currLocation,
+              locationResult: locationResult});
     await this.getRecents();
     var markers = null;
     try {
@@ -69,8 +79,8 @@ export default class Home extends React.Component {
     else{
       // console.log(markers);  
 
-      markers.map((marker) => (marker == null ? null : marker.distance = this.getDistance(marker.latlong)));
-      markers.sort(this.compareDistance);
+      markers.map((marker) => (marker == null ? null : marker.distance = getDistance(marker.latlong)));
+      markers.sort(compareDistance);
       this.setState({markers: markers, pickup: this.state.pickup == null ? markers[0]: this.state.pickup})
     }
   }
@@ -96,10 +106,10 @@ export default class Home extends React.Component {
   async handleNearby(data) {
     for(var i = 0; i < data.length; i++){ 
       data[i].latlong = {latitude:  data[i]["lat"], longitude: data[i]["lng"]}
-      data[i].distance = this.getDistance(data[i].latlong);
+      data[i].distance = getDistance(data[i].latlong);
       data.favorite = false
       }      
-    data.sort(this.compareDistance);
+    data.sort(compareDistance);
     // console.log(data);
     this.setState({markers: data});
     // console.log(data);
@@ -110,13 +120,6 @@ export default class Home extends React.Component {
       // saving error
     }
   } 
-    
-  async reverseGeocode(latlong){
-    let geocodeObj = await Location.reverseGeocodeAsync(latlong);
-    let geocode = geocodeObj[0];
-    // console.log("reverse geocode is: ", geocode);
-    return geocode;
-  }
   
   onChosen(selection) {
     console.log(selection)
@@ -130,19 +133,6 @@ export default class Home extends React.Component {
       isPickup: !this.state.isPickup,       
     });   
   };
-  
-  
-  async retrieve(num){
-    try {
-      var fav_num = "fav" + num;
-      const jsonValue = await AsyncStorage.getItem(fav_num)
-      // console.log("latlong: ",JSON.parse(jsonValue));
-
-      return JSON.parse(jsonValue);
-    } catch(e) {
-      // error reading value
-    }
-  }
   
   async getRecents () {
 
@@ -159,70 +149,12 @@ export default class Home extends React.Component {
       // error reading value
     }
   }
-  
-  async getFavorites () {
-    var favs = [];
-    var i = 0;
-    var distance = null;
-    while(i < 4){
-      let fav = await this.retrieve(i);
-      if (fav != null){
-        console.log(fav);
-        fav.latlong = {latitude: fav.latitude, longitude: fav.longitude}
-        fav.distance = this.getDistance(fav.latlong)
-        fav.favorite = true;
-        favs.push(fav);
-      }
-      i++;
-    }
-    console.log("favorites: ", favs)
-    this.setState({favorites: favs})
-  };
-    
-  
-  async getLocationAsync (){
-    console.log("getting location")
 
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    // let isMounted = true; // note this flag denote mount status
-
-    if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-      });
-    } else {
-      this.setState({ hasLocationPermissions: true });
-    }
- 
-    let location = await Location.getCurrentPositionAsync({});
-    location["coords"]["latitude"] = 51.511894;
-    location["coords"]["longitude"] = -0.205779;
-    this.setState({ locationResult: location, currLocation: {latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"]} });
-  
-  }
-  
-  getDistance(latlong){
-    // console.log(this.state.currLocation)
-    var lat = this.state.currLocation["latitude"];
-    var long = this.state.currLocation["longitude"];
-    // console.log(lat, long, latlong["latitude"], latlong["longitude"])
-    var dist = Math.sqrt((lat-latlong["latitude"])**2 + (long-latlong["longitude"])**2) * 69.09;
-    // console.log(dist);
-    return dist;
-  }
-  
-  compareDistance(a,b){
-    if(a == null){return 0}
-    else if (b == null){return 0}
-    else return a.distance - b.distance
-  } 
-  
   updateRegion = () => {
+    console.log(this.state.currLocation);
     return {
     latitude : this.state.currLocation.latitude,
     longitude : this.state.currLocation.longitude,
-    // latitude: 51.511894,
-    // longitude: -0.205779,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
     }
@@ -270,7 +202,7 @@ export default class Home extends React.Component {
       <Text>{console.log(JSON.stringify(this.state.favorites))}</Text>
 
       {this.state.favorites.length == 0 ? 
-        <Block style = {styles.buttonContainer}>
+        <Block style = {homeStyles.buttonContainer}>
           <Pressable onPress = {() => this.props.navigation.navigate("UpdateFavs")}>
             <Text>You have no saved favorites. Press here to add</Text>
           </Pressable>
@@ -279,7 +211,7 @@ export default class Home extends React.Component {
         this.state.favorites.map((favorite) => (
           favorite == null? null : 
         
-        <Block key = {favorite["key"]} style = {styles.buttonContainer}>
+        <Block key = {favorite["key"]} style = {homeStyles.buttonContainer}>
          <Button 
           size = "small"
           onlyIcon icon= {"favorite"}
@@ -300,7 +232,7 @@ export default class Home extends React.Component {
             // size = "large"
           >
           <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
-          <Text style = {styles.greyText}> {favorite.address}</Text>
+          <Text style = {homeStyles.greyText}> {favorite.address}</Text>
 
           </Pressable> : 
            <Pressable
@@ -317,7 +249,7 @@ export default class Home extends React.Component {
        
           <Pressable
             onPress = {() => this.setState({mapOpen: true})}
-            style = {[styles.buttonContainer, {alignSelf: "flex-start"}]}
+            style = {[homeStyles.buttonContainer, {alignSelf: "flex-start"}]}
             // size = "large"
           >
             <Button 
@@ -337,7 +269,7 @@ export default class Home extends React.Component {
           </Pressable>
           <Pressable
             onPress = {() => this.props.navigation.navigate("UpdateFavs", {onGoBack: () => this.getFavorites()})}
-            style = {[styles.buttonContainer, {alignSelf: "flex-start"}]}
+            style = {[homeStyles.buttonContainer, {alignSelf: "flex-start"}]}
             // size = "large"
           >
            <Button 
@@ -369,7 +301,7 @@ export default class Home extends React.Component {
        this.state.recentPickup.map((favorite) => (
         favorite == null? null : 
 
-        <Block key = {favorite["key"]} style = {styles.buttonContainer}>
+        <Block key = {favorite["key"]} style = {homeStyles.buttonContainer}>
         <Button 
          size = "small"
          onlyIcon icon= {favorite.favorite? "favorite": favorite.key < 16 ? "bolt" : "hourglass-full"}
@@ -390,7 +322,7 @@ export default class Home extends React.Component {
            // size = "large"
          >
          <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
-         <Text style = {styles.greyText}> {favorite.address}</Text>
+         <Text style = {homeStyles.greyText}> {favorite.address}</Text>
 
          </Pressable> : 
           <Pressable
@@ -409,7 +341,7 @@ export default class Home extends React.Component {
       this.state.recentDropoff.map((favorite) => (
         favorite == null? null : 
 
-        <Block key = {favorite["key"]} style = {styles.buttonContainer}>
+        <Block key = {favorite["key"]} style = {homeStyles.buttonContainer}>
         <Text>{console.log("curr" + favorite)}</Text>
         <Button 
          size = "small"
@@ -431,7 +363,7 @@ export default class Home extends React.Component {
            // size = "large"
          >
          {/* <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text> */}
-         {/* <Text style = {styles.greyText}> {favorite.location["street"] + ", " + favorite.location["subregion"]}</Text> */}
+         {/* <Text style = {homeStyles.greyText}> {favorite.location["street"] + ", " + favorite.location["subregion"]}</Text> */}
 
          </Pressable> : 
           <Pressable
@@ -447,7 +379,7 @@ export default class Home extends React.Component {
       ))}
        <Pressable
           onPress = {() => this.setState({mapOpen: true})}
-          style = {[styles.buttonContainer, {alignSelf: "flex-start"}]}
+          style = {[homeStyles.buttonContainer, {alignSelf: "flex-start"}]}
           // size = "large"
         >
       
@@ -469,14 +401,14 @@ export default class Home extends React.Component {
     </ScrollView>
   );
   ThirdRoute = () => (
-    <Block style = {styles.container}>
+    <Block style = {allStyles.container}>
     <ScrollView style = {{width: width}}>
       {this.state.markers === null ? <Text>Loading...</Text> :
         
         this.state.markers.map((favorite) => (
           favorite == null? null : 
 
-          <Block key = {favorite["key"]} style = {styles.buttonContainer}>
+          <Block key = {favorite["key"]} style = {homeStyles.buttonContainer}>
           <Button 
            size = "small"
            onlyIcon icon= {favorite.favorite? "favorite": favorite.key < 16 ? "bolt" : "hourglass-full"}
@@ -497,7 +429,7 @@ export default class Home extends React.Component {
              // size = "large"
            >
            <Text style = {{fontWeight: 'bold'}}> {favorite.name}</Text>
-           <Text style = {styles.greyText}> {favorite.address}</Text>
+           <Text style = {homeStyles.greyText}> {favorite.address}</Text>
  
            </Pressable> : 
             <Pressable
@@ -526,7 +458,7 @@ export default class Home extends React.Component {
        </ScrollView>
         <Pressable
           onPress = {() => this.setState({mapOpen: true})}
-          style = {[styles.buttonContainer, {alignSelf: "flex-start"}]}
+          style = {[homeStyles.buttonContainer, {alignSelf: "flex-start"}]}
           // size = "large"
         >
       
@@ -554,7 +486,7 @@ export default class Home extends React.Component {
     const inputRange = props.navigationState.routes.map((x, i) => i);
 
     return (
-      <View style={styles.tabBar}>
+      <View style={homeStyles.tabBar}>
         {props.navigationState.routes.map((route, i) => {
           const opacity = props.position.interpolate({
             inputRange,
@@ -565,7 +497,7 @@ export default class Home extends React.Component {
 
           return (
             <Pressable
-              style={styles.tabItem}
+              style={homeStyles.tabItem}
               onPress={() => this.setState({ index: i })}>
               <Animated.Text style={{ opacity }}>{route.title}</Animated.Text>
             </Pressable>
@@ -583,19 +515,19 @@ export default class Home extends React.Component {
   
   render() {
       return (
-        <Block style={styles.container}>
+        <SafeAreaView style={homeStyles.container}>
         <StatusBar animated={true} backgroundColor={theme.COLORS.GREY} hidden={!this.state.mapOpen} />
           {
-            this.state.locationResult === null || this.state.markers === null ?
-              <Splash/>:
-              this.state.hasLocationPermissions === false ?
-                this.createTwoButtonAlert("Location permissions not granted") :
+           this.state.locationResult === null || this.state.markers === null ?
+            <Splash/>:
+              getHasLocationPermissions() === false ?
+              this.createTwoButtonAlert("Location permissions not granted") :
                 this.state.mapRegion === null ?
                   this.createTwoButtonAlert("Map region does not exist") :
-                    <Block style={styles.container}>
-                      <Block style = {styles.container}>
+                    <Block style={homeStyles.container}>
+                      <Block style = {homeStyles.container}>
                       {this.state.mapOpen ? 
-                      <Block style = {[styles.mapContainer, {flex: 14}]}>
+                      <Block style = {[homeStyles.mapContainer, {flex: 14}]}>
                         <MapView
                            style={{flex: 1}} 
                            region={this.updateRegion()}
@@ -680,43 +612,43 @@ export default class Home extends React.Component {
                             ))}
                         </MapView>
                       </Block> : null}
-                      <Block style={styles.topOverlayClosed}>
+                      <Block style={homeStyles.topOverlayClosed}>
                         <Text style = {{fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5}}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination" }</Text>
                         <Pressable 
-                          style = {this.state.isPickup ? styles.input : [styles.input, {backgroundColor: "white", borderColor: 'grey'}]}
+                          style = {this.state.isPickup ? homeStyles.input : [homeStyles.input, {backgroundColor: "white", borderColor: 'grey'}]}
                           onPress = {() => this.setState({isPickup: true, mapOpen: false})}                     >
-                          <Text style = {styles.greyText}>From:</Text>
-                          <Text>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style = {styles.greyText}>{this.state.pickup != null? "(" + this.state.pickup.distance.toFixed(1) + " m away)": ""}</Text></Text>
+                          <Text style = {homeStyles.greyText}>From:</Text>
+                          <Text>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style = {homeStyles.greyText}>{this.state.pickup != null? "(" + this.state.pickup.distance.toFixed(1) + " m away)": ""}</Text></Text>
                           <Button 
                             onlyIcon icon="close" 
                             iconFamily="antdesign" 
                             iconSize={12} 
                             color="transparent" 
                             iconColor="#000" 
-                            style={styles.closeButton}
+                            style={homeStyles.closeButton}
                             onPress = {() => this.setState({pickup: null})}>
                             </Button>
                         </Pressable>
                       
                         <Pressable 
-                          style = {!this.state.isPickup ? styles.input : [styles.input, {backgroundColor: "white", borderColor: 'grey'}]}
+                          style = {!this.state.isPickup ? homeStyles.input : [homeStyles.input, {backgroundColor: "white", borderColor: 'grey'}]}
                           onPress = {() => this.setState({isPickup: false, mapOpen: false})}
                           >
-                          <Text style = {styles.greyText}>To: </Text>
-                          <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style = {styles.greyText}>{this.state.dropoff != null? "(" + this.state.dropoff.distance.toFixed(1) + " m away)": ""}</Text></Text>
+                          <Text style = {homeStyles.greyText}>To: </Text>
+                          <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style = {homeStyles.greyText}>{this.state.dropoff != null? "(" + this.state.dropoff.distance.toFixed(1) + " m away)": ""}</Text></Text>
                           <Button 
                             onlyIcon icon="close" 
                             iconFamily="antdesign" 
                             iconSize={12} 
                             color="transparent" 
                             iconColor="#000" 
-                            style={styles.closeButton}
+                            style={homeStyles.closeButton}
                             onPress = {() => this.setState({dropoff: null})}>
                             </Button>
                           </Pressable>
                         {this.state.mapOpen ? 
                         <Block style = {{flexDirection: 'row'}}>
-                          <Pressable style = {[styles.closeMapButton, {flex: 1}]}
+                          <Pressable style = {[homeStyles.closeMapButton, {flex: 1}]}
                                      onPress = {() => this.getNearbyPlaces()}
                             ><Text style = {{color: theme.COLORS.WHITE, margin: 5}}>Update Locations</Text>
                           </Pressable> 
@@ -734,7 +666,7 @@ export default class Home extends React.Component {
                       </Block>
                       
                        {this.state.pickup !== null && this.state.dropoff !== null ?
-                      <Pressable style = {styles.button} 
+                      <Pressable style = {allStyles.confirmButton} 
                           onPress={() => this.navigate()}>
                                  <Text h5 style = {{color: theme.COLORS.WHITE}}> Choose Your Ride</Text></Pressable> 
                                  : null}                        
@@ -742,131 +674,7 @@ export default class Home extends React.Component {
                   </Block>
                   </Block>
           }
-        </Block>
+        </SafeAreaView>
       );
     }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    // marginTop: statusbar,
-    width: width,    
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  topOverlayClosed: {
-    // position: 'absolute',
-    // marginTop: 40, //Dimensions.get('screen').height - Dimensions.get('window').height,
-    flex: 4,
-    flexDirection: 'column',
-    // width: Dimensions.get('screen').width,
-    backgroundColor: theme.COLORS.WHITE,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: width * .9,
-    marginTop: 20
-  },
-  topOverlayOpen: {
-    // position: 'absolute',
-    marginTop: 40, //Dimensions.get('screen').height - Dimensions.get('window').height,
-    flex: 4,
-    flexDirection: 'column',
-    // width: Dimensions.get('screen').width,
-    // backgroundColor: theme.COLORS.BASE,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: width * .9,
-  },
-  bottomOverlay: {
-    flex: 1,
-    width: Dimensions.get('screen').width,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.COLORS.PRIMARY,
-  },
-  button: {
-    alignItems: 'center',
-    // justifyContent: 'flex-end',
-    // width: width * .9,
-    // borderRadius: 5,
-    width: width,
-    padding: 10,
-    marginTop: 10,
-
-    backgroundColor: theme.COLORS.DARK_PRIMARY
-  },
-  mapContainer: {
-    height: Dimensions.get('screen').height,
-    flex: 2,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'space-around', 
-    borderColor: theme.COLORS.BLACK,
-    width: width,
-    // backgroundColor: "red"
-
-  },
-  input: {
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    backgroundColor: theme.COLORS.GREY,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 1,
-    marginBottom: 10,
-    padding: 5,
-    paddingTop: 7,
-    paddingBottom: 7,
-
-    borderColor: theme.COLORS.PRIMARY,
-    width: width * .9,
-  },
-  
-  closeMapButton: {
-    alignItems: "center",
-    backgroundColor: theme.COLORS.PRIMARY,
-    borderRadius: 5,
-    flex: 2,
-    padding: 1,
-    margin: 5,
-    width: width * .8,
-  },
-
-  greyText: {
-    // position: "absolute",
-    // alignSelf: "flex-start",
-    // marginLeft: 5,
-    // marginTop: 5,
-    color: "grey",
-  },
-  closeButton: { 
-    width: 15, 
-    height: 15, 
-    // position:'absolute',
-    alignSelf: "flex-end",
-    margin: 0,
-    // marginHorizontal: 30,
-  },
-  wrapperCustom: {
-    borderRadius: 8,
-    padding: 6,
-  },
-  buttonContainer:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 7,
-    margin: 5,
-  },
-  tabBar: {
-    flexDirection: 'row',
-    // paddingTop: Constants.statusBarHeight,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 16,
-  },
-});

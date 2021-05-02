@@ -5,17 +5,18 @@ import {theme, withGalio, GalioProvider} from 'galio-framework';
 
 const { width } = Dimensions.get('screen');
 import Login from './Login'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default class Splash extends React.Component {
     render() {
       return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Image
             style={styles.logo}
             source={require('../assets/icons/car.png')}
           />
-        </View>
+        </SafeAreaView>
       );
     }
   }
