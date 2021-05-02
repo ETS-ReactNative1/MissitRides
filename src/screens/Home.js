@@ -22,8 +22,8 @@ export default class Home extends React.Component {
     this.state = {
       markers: null,
       favorites: null,
-      recentPickup: null,
-      recentDropoff: null,
+      recentPickup: [],
+      recentDropoff: [],
       pickup: this.props.route.params["pickup"],
       dropoff: this.props.route.params["dropoff"],
       hasLocationPermissions: false,
@@ -66,6 +66,8 @@ export default class Home extends React.Component {
       recentDropoff: getRecentDropoffs(),
       markers: getMarkers(),
     });
+    
+    console.log("recent pickup: ",this.state.recentPickup)
   }
 
   onChosen(selection) {
@@ -78,6 +80,7 @@ export default class Home extends React.Component {
     }
     this.setState({
       isPickup: !this.state.isPickup,
+      currLocation: selection.latlong,
     });
   };
 
@@ -450,37 +453,10 @@ export default class Home extends React.Component {
                           region={this.updateRegion()}
                           customMapStyle={mapStyle}
                         >
-                          {this.state.currLocation != null ?
+                          {this.state.locationResult != null ?
                             <Marker
-                              coordinate={this.state.currLocation}
+                              coordinate={this.state.locationResult}
                               image={require('../assets/icons/FA_star.png')} /> : null}
-
-                          {/* {this.state.pickup != null ? 
-                          <Overlay 
-                            bounds = {[[this.state.pickup.latlong["latitude"] + range, this.state.pickup.latlong["longitude"] - range],[this.state.pickup.latlong["latitude"] - range, this.state.pickup.latlong["longitude"] + range]]}
-                            image = {require('../assets/icons/blue-circle.png')}
-                            tappable = {true}
-                            opacity = {0.1}
-                            /> : null} */}
-
-                          {this.state.currLocation != null ?
-                            <Marker
-                              coordinate={this.state.currLocation}
-                              image={require('../assets/icons/FA_star.png')} /> : null}
-
-
-
-                          {/* {this.state.markers != null ? 
-                           this.state.markers.map((marker) => (
-                          <Overlay 
-                            key = {marker.key}
-                            bounds = {[[marker.latlong["latitude"] + range, marker.latlong["longitude"] - range],[marker.latlong["latitude"] - range, marker.latlong["longitude"] + range]]}
-                            image = {require('../assets/icons/blue-circle.png')}
-                            tappable = {true}
-                            opacity = {0.1}
-                            />) ): null 
-                          }
-                        */}
 
                           {this.state.pickup != null ?
                             <Marker
@@ -488,35 +464,36 @@ export default class Home extends React.Component {
                               fillColor={"rgba(0,255,0,0.3)"}
                             />
                             : null}
+                          
                           {this.state.dropoff != null ?
                             <Marker
                               coordinate={this.state.dropoff.latlong}
                               fillColor={"rgba(0,255,0,0.3)"}
                             />
                             : null}
-
-
-                          {/* {this.state.markers.map((marker) => (
-                            marker == null? null : 
-                            <Circle
-                              key = {marker.key}
-                              center = {marker.latlong}
-                              radius = {500}
-                              strokeColor = {"transparent"}
-                              opacity = {0.5}
-                              fillColor = {"rgba(255,0,0,0.3)"}
-                              tappable = {true}
-                              onPress = {() => this.onChosen(marker)}
-                              // image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
-                            />
-                            ))} */}
+                          {this.state.favorites.map((marker) => (
+                            marker == this.state.pickup || marker == this.state.dropoff ? null :
+                              <Marker
+                                key={marker.key}
+                                coordinate={marker.latlong}
+                                title={marker.name}
+                                // center = {marker.latlong}
+                                radius={500}
+                                strokeColor={"transparent"}
+                                opacity={0.7}
+                                // fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
+                                tappable={true}
+                                onPress={() => this.onChosen(marker)}
+                                image={require('../assets/icons/greenpin.png')}
+                              />
+                          ))}  
 
                           {this.state.markers.map((marker) => (
                             marker == this.state.pickup || marker == this.state.dropoff ? null :
                               <Marker
                                 key={marker.key}
                                 coordinate={marker.latlong}
-                                title={marker.name["street"]}
+                                title={marker.name}
                                 // center = {marker.latlong}
                                 radius={500}
                                 strokeColor={"transparent"}
@@ -529,17 +506,18 @@ export default class Home extends React.Component {
                           ))}
                         </MapView>
                       </Block> : null}
+                      
                     <Block style={homeStyles.topOverlayClosed}>
                       <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination"}</Text>
                       <Pressable
                         style={this.state.isPickup ? homeStyles.input : [homeStyles.input, { backgroundColor: "white", borderColor: 'grey' }]}
-                        onPress={() => this.setState({ isPickup: true, mapOpen: false })}                     >
+                        onPress={() => this.setState({ isPickup: true, mapOpen: !this.state.mapOpen })}                     >
                         <Text style={homeStyles.greyText}>From:</Text>
-                        <Text>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style={homeStyles.greyText}>{this.state.pickup != null ? "(" + this.state.pickup.distance.toFixed(1) + " m away)" : ""}</Text></Text>
+                        <Text style = {{fontSize: 16}}>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style={homeStyles.greyText}>{this.state.pickup != null ? "(" + this.state.pickup.distance.toFixed(1) + " m away)" : ""}</Text></Text>
                         <Button
                           onlyIcon icon="close"
                           iconFamily="antdesign"
-                          iconSize={12}
+                          iconSize={18}
                           color="transparent"
                           iconColor="#000"
                           style={homeStyles.closeButton}
@@ -549,14 +527,14 @@ export default class Home extends React.Component {
 
                       <Pressable
                         style={!this.state.isPickup ? homeStyles.input : [homeStyles.input, { backgroundColor: "white", borderColor: 'grey' }]}
-                        onPress={() => this.setState({ isPickup: false, mapOpen: false })}
+                        onPress={() => this.setState({ isPickup: false, mapOpen: !this.state.mapOpen })}
                       >
                         <Text style={homeStyles.greyText}>To: </Text>
                         <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style={homeStyles.greyText}>{this.state.dropoff != null ? "(" + this.state.dropoff.distance.toFixed(1) + " m away)" : ""}</Text></Text>
                         <Button
                           onlyIcon icon="close"
                           iconFamily="antdesign"
-                          iconSize={12}
+                          iconSize={18}
                           color="transparent"
                           iconColor="#000"
                           style={homeStyles.closeButton}
@@ -565,10 +543,10 @@ export default class Home extends React.Component {
                       </Pressable>
                       {this.state.mapOpen ?
                         <Block style={{ flexDirection: 'row' }}>
-                          <Pressable style={[homeStyles.closeMapButton, { flex: 1 }]}
+                          {/* <Pressable style={[homeStyles.closeMapButton, { flex: 1 }]}
                             onPress={() => this.getNearbyPlaces()}
                           ><Text style={{ color: theme.COLORS.WHITE, margin: 5 }}>Update Locations</Text>
-                          </Pressable>
+                          </Pressable> */}
                         </Block> :
                         <TabView
                           style={{ width: width }}

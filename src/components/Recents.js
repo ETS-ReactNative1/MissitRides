@@ -39,11 +39,11 @@ export async function setRecents (pickupLocation, dropoffLocation) {
   }
 }
 
-export async function getRecentDropoffs(){
+export function getRecentDropoffs(){
   return recentDropoffs;
 }
 
-export async function getRecentPickups(){
+export function getRecentPickups(){
   return recentPickups;
 }
 
