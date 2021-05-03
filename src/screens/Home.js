@@ -573,12 +573,19 @@ export default class Home extends React.Component {
                               image={require('../assets/icons/from.png')}                            />
                             : null}
 <<<<<<< HEAD
+<<<<<<< HEAD
                             
                           {this.state.dropoff != null ?
                             <Marker
                               coordinate={this.state.dropoff.latlong}
                               image={require('../assets/icons/to.png')}
                             />
+=======
+                          {this.state.dropoff != null ?
+                            <Marker
+                              coordinate={this.state.dropoff.latlong}
+                              image={require('../assets/icons/to.png')}                            />
+>>>>>>> parent of e912b2a (fixed favorite error)
 =======
                           {this.state.dropoff != null ?
                             <Marker
