@@ -50,6 +50,7 @@ export default class Home extends React.Component {
 
   async setup() {
     await getLocationAsync();
+
     await initializeFavorites();
     await initializeRecents();
     await initializeNearby();
