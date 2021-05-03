@@ -58,10 +58,10 @@ export default class Home extends React.Component {
     await initializeNearby();
 
     
-    // console.log(hasLocationPermissions, currLocation, locationResult);
+    console.log(hasLocationPermissions, currLocation, locationResult);
 
     this.setState({
-      hasLocationPermissions: getHasLocationPermissions(),
+      hasLocationPermissions: hasLocationPermissions(),
       favorites: getFavorites(),
       currLocation: getCurrLocation(),
       locationResult: getLocationResult(),
@@ -559,29 +559,36 @@ export default class Home extends React.Component {
                           onPress={(coordinate) => { console.log(coordinate); }}
                         >
 
-                          {this.state.locationResult != null ?
+                          {this.state.currLocation != null ?
                             <Marker
-                              coordinate={this.state.locationResult}
-                              image={require('../assets/icons/blue_dot.png')} /> :
-                            null}
+                              coordinate={this.state.currLocation}
+                              image={require('../assets/icons/blue_dot.png')} /> : null}
+
+
 
                           {this.state.pickup != null ?
                             <Marker
                               coordinate={this.state.pickup.latlong}
                               fillColor={"rgba(0,255,0,0.3)"}
-                              image={require('../assets/icons/from.png')}
-                            />
+                              image={require('../assets/icons/from.png')}                            />
                             : null}
+<<<<<<< HEAD
                             
                           {this.state.dropoff != null ?
                             <Marker
                               coordinate={this.state.dropoff.latlong}
                               image={require('../assets/icons/to.png')}
                             />
+=======
+                          {this.state.dropoff != null ?
+                            <Marker
+                              coordinate={this.state.dropoff.latlong}
+                              image={require('../assets/icons/to.png')}                            />
+>>>>>>> parent of e912b2a (fixed favorite error)
                             : null}
 
                           {this.state.favorites.map((favorite) => (
-                            favorite == this.state.pickup || favorite == this.state.dropoff ? null :
+                            marker == this.state.pickup || marker == this.state.dropoff ? null :
                               <Marker
                                 key={favorite.key}
                                 coordinate={favorite.latlong}
