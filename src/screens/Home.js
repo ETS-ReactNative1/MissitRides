@@ -6,14 +6,13 @@ import * as Permissions from 'expo-permissions';
 import Splash from './Splash';
 import {mapStyle} from '../components/mapStyle.js';
 // import DropDownPicker from 'react-native-dropdown-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {getCurrLocation, getLocationAsync, getHasLocationPermissions, setCurrLocation, getLocationResult, getDistance, compareDistance, reverseGeocode} from '../components/Location.js'
-import {initializeNearby, getMarkers} from '../components/Nearby.js'
-import {initializeFavorites, getFavorites} from '../components/Favorites.js'
-import {initializeRecents, getRecentPickups, getRecentDropoffs} from '../components/Recents.js'
+
 import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform} from 'react-native';
 import {theme, Block, Accordion, Text, NavBar, Button} from 'galio-framework';
 import { TabView, SceneMap } from 'react-native-tab-view';
+import Constants from 'expo-constants';
 
 const { width } = Dimensions.get('screen');
 const { height } = Dimensions.get('window').height;
@@ -85,6 +84,91 @@ export default class Home extends React.Component {
     });
   };
 
+  async retrieve(num) {
+    try {
+      var fav_num = "fav" + num;
+      const jsonValue = await AsyncStorage.getItem(fav_num)
+      // console.log("latlong: ",JSON.parse(jsonValue));
+
+      return JSON.parse(jsonValue);
+    } catch (e) {
+      // error reading value
+    }
+  }
+
+  async getRecents() {
+
+    try {
+      var jsonValue = await AsyncStorage.getItem('pickupList');
+      var pickupList = JSON.parse(jsonValue);
+      var jsonValue = await AsyncStorage.getItem('dropoffList');
+      var dropoffList = JSON.parse(jsonValue);
+
+      pickupList = [];
+      dropoffList = [];
+      this.setState({ recentPickup: pickupList == null ? [] : pickupList, recentDropoff: dropoffList == null ? [] : dropoffList });
+    } catch (e) {
+      // error reading value
+    }
+  }
+
+  async getFavorites() {
+    var favs = [];
+    var i = 0;
+    var distance = null;
+    while (i < 4) {
+      let fav = await this.retrieve(i);
+      if (fav != null) {
+        console.log(fav);
+        fav.latlong = { latitude: fav.latitude, longitude: fav.longitude }
+        fav.distance = this.getDistance(fav.latlong)
+        fav.favorite = true;
+        favs.push(fav);
+      }
+      i++;
+    }
+    console.log("favorites: ", favs)
+    this.setState({ favorites: favs })
+  };
+
+
+  async getLocationAsync() {
+    console.log("getting location")
+
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    // let isMounted = true; // note this flag denote mount status
+
+    if (status !== 'granted') {
+      this.setState({
+        locationResult: 'Permission to access location was denied',
+      });
+    } else {
+      this.setState({ hasLocationPermissions: true });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    location["coords"]["latitude"] = 51.511894;
+    location["coords"]["longitude"] = -0.205779;
+    this.setState({ locationResult: location, currLocation: { latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"] } });
+
+  }
+
+  getDistance(latlong) {
+    // console.log(this.state.currLocation)
+    var lat = this.state.currLocation["latitude"];
+    var long = this.state.currLocation["longitude"];
+    // console.log(lat, long, latlong["latitude"], latlong["longitude"])
+    var dist = Math.sqrt((lat - latlong["latitude"]) ** 2 + (long - latlong["longitude"]) ** 2) * 69.09;
+    // console.log(dist);
+    return dist;
+  }
+
+  compareDistance(a, b) {
+    if (a == null) { return 0 }
+    else if (b == null) { return 0 }
+    else return a.distance - b.distance
+  }
+
   updateRegion = () => {
     return {
       latitude: this.state.currLocation.latitude,
@@ -106,10 +190,26 @@ export default class Home extends React.Component {
       { cancelable: false }
     );
 
-   navigate() {
+  async navigate() {
     var navtype = 0;
     if (!this.state.dropoff.favorite) { navtype = navtype + 2 };
     if (!this.state.pickup.favorite) { navtype = navtype + 1 };
+
+    try {
+      this.state.recentPickup.unshift(this.state.pickup);
+      this.state.recentDropoff.unshift(this.state.dropoff);
+      console.log("recent pickup: ", this.state.recentPickup, " recent dropoff: ", this.state.recentDropoff);
+
+      this.state.recentPickup.length > 3 ? this.state.recentPickup.pop() : null;
+      this.state.recentDropoff.length > 3 ? this.state.recentDropoff.pop() : null;
+
+      await AsyncStorage.setItem('pickupList', JSON.stringify(this.state.recentPickup));
+      await AsyncStorage.setItem('dropoffList', JSON.stringify(this.state.recentDropoff));
+    } catch (e) {
+      // error reading value
+    }
+
+    console.log("navtype: ", navtype);
 
     this.props.navigation.navigate('Ride',
       {
@@ -456,6 +556,7 @@ export default class Home extends React.Component {
                           style={{ flex: 1 }}
                           region={this.updateRegion()}
                           customMapStyle={mapStyle}
+                          onPress={(coordinate) => { console.log(coordinate); }}
                         >
 
                           {this.state.currLocation != null ?
