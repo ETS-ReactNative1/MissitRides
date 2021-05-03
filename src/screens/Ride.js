@@ -2,13 +2,11 @@ import React from 'react';
 import { StyleSheet, ScrollView, Dimensions, Image, Pressable, StatusBar } from 'react-native';
 import {theme, Block, Card, Text, NavBar, Button} from 'galio-framework';
 import {rideStyles} from '../styles/rideStyle'
-import * as Location from 'expo-location';
-import CountDown from 'react-native-countdown-component';
-// import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-
+import {submitReq} from '../components/RideConfirm'
 const dims = Dimensions.get('window');
 import Login from './Login'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { allStyles } from '../styles/allStyle';
 
 
 export default class Ride extends React.Component {
@@ -113,40 +111,6 @@ export default class Ride extends React.Component {
       })
       
     }
-
-    submitReq(){
-      var userid = 1;
-      try{
-      var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/confirm" + "?bitstring=" + userid
-      console.log(req_string)
-      fetch(req_string, { 
-
-          // Adding method type 
-          method: "POST", 
-            
-          // Adding body or contents to send 
-          body: null,
-            
-          // Adding headers to the request 
-          headers: { 
-              "Content-type": "application/json; charset=UTF-8"
-          } 
-      }) 
-        
-      // Converting to JSON
-      .catch(error => {
-        console.error(error)
-      })
-      
-      .then(response => response.json()) 
-        
-      // Displaying results to console 
-      .then(json => this.handleResponse(json))
-  
-      }catch(e) {
-        logMyErrors(e);
-      }
-    }
    
     render() {
       
@@ -167,7 +131,7 @@ export default class Ride extends React.Component {
          
           // : <Block/> :
             
-          <Block style={rideStyles.container}>
+          <Block style={allStyles.container}>
             
             <Block style = {rideStyles.topContainer}>
               <Block style = {{flex: 15, alignItems: 'center'}}>
@@ -266,7 +230,7 @@ export default class Ride extends React.Component {
                       
                       <Block style = {{flexDirection: 'row'}}>
                         <Button size="small" onPress = {() => this.setState({submit: false})}>Go Back</Button>
-                        <Button size="small" onPress = {() => this.submitReq()}>Confirm</Button>
+                        <Button size="small" onPress = {() => submitReq()}>Confirm</Button>
                       </Block>
                     </Block>
                 </Pressable> : null}

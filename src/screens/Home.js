@@ -142,7 +142,6 @@ export default class Home extends React.Component {
       recentDropoff: getRecentDropoffs(),
       markers: getMarkers(),
     });
-<<<<<<< HEAD
 >>>>>>> parent of a9bd693 (AutoUpdate Locations)
     
   async reverseGeocode(latlong){
@@ -150,8 +149,6 @@ export default class Home extends React.Component {
     let geocode = geocodeObj[0];
     // console.log("reverse geocode is: ", geocode);
     return geocode;
-=======
->>>>>>> parent of 97e690a (Minor style updates)
   }
   
   onChosen(selection) {
@@ -163,13 +160,8 @@ export default class Home extends React.Component {
       this.setState({dropoff: selection});
     }
     this.setState({
-<<<<<<< HEAD
       isPickup: !this.state.isPickup,       
     });   
-=======
-      isPickup: !this.state.isPickup,
-    });
->>>>>>> parent of 97e690a (Minor style updates)
   };
   
   
@@ -638,7 +630,6 @@ export default class Home extends React.Component {
                       {this.state.mapOpen ? 
                       <Block style = {[styles.mapContainer, {flex: 14}]}>
                         <MapView
-<<<<<<< HEAD
                            style={{flex: 1}} 
                            region={this.updateRegion()}
                            customMapStyle={mapStyle}
@@ -684,51 +675,6 @@ export default class Home extends React.Component {
                             
                             {this.state.markers.map((marker) => (
                             marker == this.state.pickup || marker == this.state.dropoff ? null : 
-=======
-                          style={{ flex: 1 }}
-                          region={this.updateRegion()}
-                          customMapStyle={mapStyle}
-                        >
-                          {this.state.currLocation != null ?
-                            <Marker
-                              coordinate={this.state.currLocation}
-                              image={require('../assets/icons/FA_star.png')} /> : null}
-
-                          {/* {this.state.pickup != null ? 
-                          <Overlay 
-                            bounds = {[[this.state.pickup.latlong["latitude"] + range, this.state.pickup.latlong["longitude"] - range],[this.state.pickup.latlong["latitude"] - range, this.state.pickup.latlong["longitude"] + range]]}
-                            image = {require('../assets/icons/blue-circle.png')}
-                            tappable = {true}
-                            opacity = {0.1}
-                            /> : null} */}
-
-                          {this.state.currLocation != null ?
-                            <Marker
-                              coordinate={this.state.currLocation}
-                              image={require('../assets/icons/FA_star.png')} /> : null}
-
-
-
-                          {/* {this.state.markers != null ? 
-                           this.state.markers.map((marker) => (
-                          <Overlay 
-                            key = {marker.key}
-                            bounds = {[[marker.latlong["latitude"] + range, marker.latlong["longitude"] - range],[marker.latlong["latitude"] - range, marker.latlong["longitude"] + range]]}
-                            image = {require('../assets/icons/blue-circle.png')}
-                            tappable = {true}
-                            opacity = {0.1}
-                            />) ): null 
-                          }
-                        */}
-
-                          {this.state.pickup != null ?
-                            <Marker
-                              coordinate={this.state.pickup.latlong}
-                              fillColor={"rgba(0,255,0,0.3)"}
-                            />
-                            : null}
-                          {this.state.dropoff != null ?
->>>>>>> parent of 97e690a (Minor style updates)
                             <Marker
                               key = {marker.key}
                               coordinate = {marker.latlong}
@@ -742,7 +688,6 @@ export default class Home extends React.Component {
                               onPress = {() => this.onChosen(marker)}
                               image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
                             />
-<<<<<<< HEAD
                             ))}
                         </MapView>
                       </Block> : null}
@@ -805,103 +750,6 @@ export default class Home extends React.Component {
                                  <Text h5 style = {{color: theme.COLORS.WHITE}}> Choose Your Ride</Text></Pressable> 
                                  : null}                        
                       
-=======
-                            : null}
-
-
-                          {/* {this.state.markers.map((marker) => (
-                            marker == null? null : 
-                            <Circle
-                              key = {marker.key}
-                              center = {marker.latlong}
-                              radius = {500}
-                              strokeColor = {"transparent"}
-                              opacity = {0.5}
-                              fillColor = {"rgba(255,0,0,0.3)"}
-                              tappable = {true}
-                              onPress = {() => this.onChosen(marker)}
-                              // image = {marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
-                            />
-                            ))} */}
-
-                          {this.state.markers.map((marker) => (
-                            marker == this.state.pickup || marker == this.state.dropoff ? null :
-                              <Marker
-                                key={marker.key}
-                                coordinate={marker.latlong}
-                                title={marker.name["street"]}
-                                // center = {marker.latlong}
-                                radius={500}
-                                strokeColor={"transparent"}
-                                opacity={0.7}
-                                // fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
-                                tappable={true}
-                                onPress={() => this.onChosen(marker)}
-                                image={marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
-                              />
-                          ))}
-                        </MapView>
-                      </Block> : null}
-                    <Block style={homeStyles.topOverlayClosed}>
-                      <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination"}</Text>
-                      <Pressable
-                        style={this.state.isPickup ? homeStyles.input : [homeStyles.input, { backgroundColor: "white", borderColor: 'grey' }]}
-                        onPress={() => this.setState({ isPickup: true, mapOpen: false })}                     >
-                        <Text style={homeStyles.greyText}>From:</Text>
-                        <Text>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style={homeStyles.greyText}>{this.state.pickup != null ? "(" + this.state.pickup.distance.toFixed(1) + " m away)" : ""}</Text></Text>
-                        <Button
-                          onlyIcon icon="close"
-                          iconFamily="antdesign"
-                          iconSize={12}
-                          color="transparent"
-                          iconColor="#000"
-                          style={homeStyles.closeButton}
-                          onPress={() => this.setState({ pickup: null })}>
-                        </Button>
-                      </Pressable>
-
-                      <Pressable
-                        style={!this.state.isPickup ? homeStyles.input : [homeStyles.input, { backgroundColor: "white", borderColor: 'grey' }]}
-                        onPress={() => this.setState({ isPickup: false, mapOpen: false })}
-                      >
-                        <Text style={homeStyles.greyText}>To: </Text>
-                        <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style={homeStyles.greyText}>{this.state.dropoff != null ? "(" + this.state.dropoff.distance.toFixed(1) + " m away)" : ""}</Text></Text>
-                        <Button
-                          onlyIcon icon="close"
-                          iconFamily="antdesign"
-                          iconSize={12}
-                          color="transparent"
-                          iconColor="#000"
-                          style={homeStyles.closeButton}
-                          onPress={() => this.setState({ dropoff: null })}>
-                        </Button>
-                      </Pressable>
-                      {this.state.mapOpen ?
-                        <Block style={{ flexDirection: 'row' }}>
-                          <Pressable style={[homeStyles.closeMapButton, { flex: 1 }]}
-                            onPress={() => this.getNearbyPlaces()}
-                          ><Text style={{ color: theme.COLORS.WHITE, margin: 5 }}>Update Locations</Text>
-                          </Pressable>
-                        </Block> :
-                        <TabView
-                          style={{ width: width }}
-                          navigationState={this.state}
-                          renderScene={this._renderScene}
-                          renderTabBar={this._renderTabBar}
-                          onIndexChange={this._handleIndexChange}
-                          swipeEnabled={false}
-                        />
-                      }
-
-                    </Block>
-
-                    {this.state.pickup !== null && this.state.dropoff !== null ?
-                      <Pressable style={allStyles.confirmButton}
-                        onPress={() => this.navigate()}>
-                        <Text h5 style={{ color: theme.COLORS.WHITE }}> Choose Your Ride</Text></Pressable>
-                      : null}
-
->>>>>>> parent of 97e690a (Minor style updates)
                   </Block>
                   </Block>
           }
