@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Dimensions, TextInput, Pressable, LogBox,  StatusBar} from 'react-native';
-import {theme, Block, Input, Text, NavBar, Icon, Button } from 'galio-framework';
+import { StyleSheet, ScrollView, Dimensions, TextInput, Pressable, LogBox, StatusBar, SafeAreaView } from 'react-native';
+import { theme, Block, Input, Text, NavBar, Icon, Button } from 'galio-framework';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 LogBox.ignoreLogs([
- 'Non-serializable values were found in the navigation state',
+  'Non-serializable values were found in the navigation state',
 ]);
 const { width } = Dimensions.get('screen');
 
@@ -13,7 +13,7 @@ export default class UpdateFav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name : "",
+      name: "",
       address: "",
       city: "",
       state: "",
@@ -26,45 +26,45 @@ export default class UpdateFav extends React.Component {
     };
   }
 
-  
-  async runGeocode(address){
-    
+
+  async runGeocode(address) {
+
     let geocodeObj = await Location.geocodeAsync(address);
-    let reverseGeocodeObj = await Location.reverseGeocodeAsync({latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"]})
+    let reverseGeocodeObj = await Location.reverseGeocodeAsync({ latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"] })
     // console.log("geocode is: ", geocodeObj[0]);
-    let latlong = {latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"], data: reverseGeocodeObj[0]};
+    let latlong = { latitude: geocodeObj[0]["latitude"], longitude: geocodeObj[0]["longitude"], data: reverseGeocodeObj[0] };
     console.log(latlong);
-   
+
   }
-  
+
   async setFav(address) {
-    
+
     // let fav = await this.runGeocode(address);
     var userid = 1;
-    var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/update_fav" + "?userid=" + userid + "&favoriteid="+ this.state.num + "&address=" + address
-      console.log(req_string)
-    
-      fetch(req_string, { 
-        
-        // Adding method type 
-        method: "POST", 
-          
+    var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/update_fav" + "?userid=" + userid + "&favoriteid=" + this.state.num + "&address=" + address
+    console.log(req_string)
 
-        // Adding headers to the request 
-        headers: { 
-            "Content-type": "application/json; charset=UTF-8"
-        } 
-    }) 
-    // Converting to JSON 
-    .then(response => response.json()) 
-    
-    // Displaying results to console 
-    // .then(json => console.log(json))
+    fetch(req_string, {
 
-    .then(json => this.handleData(json)); 
+      // Adding method type 
+      method: "POST",
+
+
+      // Adding headers to the request 
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      // Converting to JSON 
+      .then(response => response.json())
+
+      // Displaying results to console 
+      // .then(json => console.log(json))
+
+      .then(json => this.handleData(json));
   }
-  
-  async handleData(data){
+
+  async handleData(data) {
 
     data.name = this.state.name;
     data.key = this.state.num;
@@ -81,65 +81,66 @@ export default class UpdateFav extends React.Component {
     }
 
   }
-  
-  handleName = (text) => { this.setState({ name: text })}
-  handleAddress = (text) => { this.setState({ address: text })}
-  handleCity = (text) => { this.setState({ city: text })}
-  handleState = (text) => { this.setState({ state: text })}
-  handleZip = (text) => { this.setState({ zip: text })}
-  handleCountry = (text) => { this.setState({ country: text })}
+
+  handleName = (text) => { this.setState({ name: text }) }
+  handleAddress = (text) => { this.setState({ address: text }) }
+  handleCity = (text) => { this.setState({ city: text }) }
+  handleState = (text) => { this.setState({ state: text }) }
+  handleZip = (text) => { this.setState({ zip: text }) }
+  handleCountry = (text) => { this.setState({ country: text }) }
 
 
-  render(){
-    
+  render() {
+
     return (
-    
-    <Block style = {styles.container}>
-      <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
 
-      <NavBar title="Update Favorite"
-       style = {{width: width}}
-      />
-      <ScrollView style = {styles.scroll}>
-        <Block style = {styles.container}>
-        <Block style = {styles.topContainer}>
-          <Text> Your previous favorite:  </Text>
-          <Text>{this.state.prev}</Text>
-        </Block>
-      
-      <Block style = {styles.form}> 
-        <Text style = {{fontSize: 18, margin: 5}}>Enter your new address location</Text>
-        
-        <Text>Location Nickname</Text>
-        <Input style = {styles.input} onChangeText = {this.handleName} placeholder = "Location Name"/>
-  
-        <Text>Address</Text>
-  
-        <Input style = {styles.input} onChangeText = {this.handleAddress} placeholder = "address"/>
-        <Text>City</Text>
-  
-        <Input style = {styles.input} onChangeText = {this.handleCity} placeholder = "city"/>
-        <Text>State/Region <Text style = {{color: 'grey'}}>(Optional) </Text></Text>
-        <Input style = {styles.input} onChangeText = {this.handleState} placeholder = "state"/>
- 
-        <Text>Country</Text>
-        <Input style = {styles.input} onChangeText = {this.handleCountry} placeholder = "country"/>
-      </Block>
+      <SafeAreaView style={styles.container}>
+        <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
 
-      {/* <Button onPress = {this.sendData()}>Submit</Button> */}
-      {(this.state.address != "" && this.state.city != "" && this.state.name != "" && this.state.country != "") ?
-        <Pressable onPress = {() => this.setFav(this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.country)}><Text>Submit</Text></Pressable>
-        : <Block/>}
-        </Block>
-      </ScrollView>
-    </Block>
-    )};
+        <NavBar title="Update Favorite"
+          style={{ width: width }}
+        />
+        <ScrollView style={styles.scroll}>
+          <Block style={styles.container}>
+            <Block style={styles.topContainer}>
+              <Text> Your previous favorite:  </Text>
+              <Text>{this.state.prev}</Text>
+            </Block>
+
+            <Block style={styles.form}>
+              <Text style={{ fontSize: 18, margin: 5 }}>Enter your new address location</Text>
+
+              <Text>Location Nickname</Text>
+              <Input style={styles.input} onChangeText={this.handleName} placeholder="Location Name" />
+
+              <Text>Address</Text>
+
+              <Input style={styles.input} onChangeText={this.handleAddress} placeholder="address" />
+              <Text>City</Text>
+
+              <Input style={styles.input} onChangeText={this.handleCity} placeholder="city" />
+              <Text>State/Region <Text style={{ color: 'grey' }}>(Optional) </Text></Text>
+              <Input style={styles.input} onChangeText={this.handleState} placeholder="state" />
+
+              <Text>Country</Text>
+              <Input style={styles.input} onChangeText={this.handleCountry} placeholder="country" />
+            </Block>
+
+            {/* <Button onPress = {this.sendData()}>Submit</Button> */}
+            {(this.state.address != "" && this.state.city != "" && this.state.name != "" && this.state.country != "") ?
+              <Pressable onPress={() => this.setFav(this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.country)}><Text>Submit</Text></Pressable>
+              : <Block />}
+          </Block>
+        </ScrollView>
+      </SafeAreaView>
+    )
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: "white",
-    width: width,    
+    width: width,
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     width: width * .9,
   },
   scroll: {
-    width: width,    
+    width: width,
     flex: 1,
   },
   input: {
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     borderColor: theme.COLORS.BLACK,
     width: width * .9,
   },
-  buttonContainer:{
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
