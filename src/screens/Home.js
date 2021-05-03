@@ -572,42 +572,13 @@ export default class Home extends React.Component {
                               fillColor={"rgba(0,255,0,0.3)"}
                               image={require('../assets/icons/from.png')}                            />
                             : null}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                             
                           {this.state.dropoff != null ?
                             <Marker
                               coordinate={this.state.dropoff.latlong}
                               image={require('../assets/icons/to.png')}
-                            />
-=======
-                          {this.state.dropoff != null ?
-                            <Marker
-                              coordinate={this.state.dropoff.latlong}
-                              image={require('../assets/icons/to.png')}                            />
->>>>>>> parent of e912b2a (fixed favorite error)
-=======
-                          {this.state.dropoff != null ?
-                            <Marker
-                              coordinate={this.state.dropoff.latlong}
-                              image={require('../assets/icons/to.png')}                            />
->>>>>>> parent of e912b2a (fixed favorite error)
-=======
-                          {this.state.dropoff != null ?
-                            <Marker
-                              coordinate={this.state.dropoff.latlong}
-                              image={require('../assets/icons/to.png')}                            />
->>>>>>> parent of e912b2a (fixed favorite error)
-=======
-                          {this.state.dropoff != null ?
-                            <Marker
-                              coordinate={this.state.dropoff.latlong}
-                              image={require('../assets/icons/to.png')}                            />
->>>>>>> parent of e912b2a (fixed favorite error)
-                            : null}
-
+                            /> : null }
+                       
                           {this.state.favorites.map((favorite) => (
                             marker == this.state.pickup || marker == this.state.dropoff ? null :
                               <Marker
