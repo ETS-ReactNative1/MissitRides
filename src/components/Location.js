@@ -1,6 +1,7 @@
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
+
 let locationResult = null;
 let currLocation = null;
 let hasLocationPermissions = null;
