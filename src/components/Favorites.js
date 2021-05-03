@@ -23,7 +23,7 @@ export async function initializeFavorites () {
   while(i < 4){
     let fav = await retrieve(i);
     if (fav != null){
-      console.log(fav);
+      // console.log(fav);
       fav.latlong = {latitude: fav.latitude, longitude: fav.longitude}
       fav.distance = getDistance(fav.latlong)
       fav.favorite = true;
