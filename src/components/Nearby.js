@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDistance, compareDistance, getLocationResult,  } from './Location';
 
-let markers = null;
+export default markers = null;
 
 
 export function getMarkers() {
@@ -29,6 +29,7 @@ export async function initializeNearby() {
 }
 
 async function refreshMarkers() {
+  console.log("locations refreshing")
   markers = null;
   var userid = 1;
   var locationResult = getLocationResult();
@@ -56,7 +57,7 @@ async function handleMarkers(data) {
     data.favorite = false;
   }
   data.sort(compareDistance);
-  // console.log(data);
+  console.log("markers updated");
   markers = data;
   // console.log(data);
   try {

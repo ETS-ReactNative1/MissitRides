@@ -4,6 +4,7 @@ import MapView, { Marker, Overlay, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Splash from './Splash';
+<<<<<<< Updated upstream
 import {mapStyle} from '../components/mapStyle.js';
 // import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +12,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform} from 'react-native';
 import {theme, Block, Accordion, Text, NavBar, Button} from 'galio-framework';
+=======
+import { mapStyle } from '../components/mapStyle.js';
+import { homeStyles } from '../styles/homeStyle';
+import { allStyles } from '../styles/allStyle';
+import { getFavorites, initializeFavorites } from '../components/Favorites'
+import { getLocationAsync, getHasLocationPermissions, getLocationResult, getCurrLocation, compareDistance, getDistance } from '../components/Location'
+import { initializeRecents, getRecentPickups, getRecentDropoffs } from '../components/Recents'
+import { initializeNearby, getNearbyPlaces, getMarkers, markers } from '../components/Nearby'
+import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform } from 'react-native';
+import { theme, Block, Accordion, Text, NavBar, Button } from 'galio-framework';
+>>>>>>> Stashed changes
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Constants from 'expo-constants';
 
