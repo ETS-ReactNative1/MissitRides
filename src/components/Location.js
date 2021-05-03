@@ -12,6 +12,7 @@ export async function getLocationAsync (){
   // let isMounted = true; // note this flag denote mount status
 
   if (status !== 'granted') {
+      console.log("denied");
       locationResult = 'Permission to access location was denied';
       hasLocationPermissions = false;
   } else {

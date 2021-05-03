@@ -31,7 +31,7 @@ export async function initializeFavorites () {
     }
     i++;
   }
-  console.log("favorites: ", favs)
+  // console.log("favorites: ", favs)
   favorites = favs;
 };
 
@@ -69,7 +69,7 @@ async function handleData(data, favoriteId, address) {
   data.name = address;
   data.key = favoriteId;
   data.address = address;
-  console.log("new favorite: ", data)
+  // console.log("new favorite: ", data)
   try {
     let fav_num = "fav" + favoriteId;
     const jsonValue = JSON.stringify(data)
