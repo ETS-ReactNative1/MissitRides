@@ -61,6 +61,7 @@ export default class UpdateFavs extends React.Component {
   }
   
   return() {
+    console.log(this.props.route.params)
     this.props.route.params.onGoBack();
     this.props.navigation.goBack();
 

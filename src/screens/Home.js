@@ -605,14 +605,6 @@ export default class Home extends React.Component {
                           <Marker 
                             coordinate = {this.state.currLocation}
                             image = {require('../assets/icons/FA_star.png')}/> : null}
-                            
-                          {this.state.pickup != null ? 
-                          <Overlay 
-                            bounds = {[[this.state.pickup.latlong["latitude"] + range, this.state.pickup.latlong["longitude"] - range],[this.state.pickup.latlong["latitude"] - range, this.state.pickup.latlong["longitude"] + range]]}
-                            image = {require('../assets/icons/blue-circle.png')}
-                            tappable = {true}
-                            opacity = {0.1}
-                            /> : null}
                           
                           {this.state.currLocation != null?  
                           <Marker 
