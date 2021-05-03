@@ -23,7 +23,6 @@ export async function getLocationAsync (){
   location["coords"]["longitude"] = -0.205779;
   currLocation = {latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"]};
   locationResult = currLocation;
-  console.log(locationResult);
  }
 
 export function getHasLocationPermissions() {

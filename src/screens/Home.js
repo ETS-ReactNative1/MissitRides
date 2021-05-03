@@ -81,6 +81,7 @@ export default class Home extends React.Component {
     else{
       // console.log(markers);  
 
+<<<<<<< HEAD
       markers.map((marker) => (marker == null ? null : marker.distance = this.getDistance(marker.latlong)));
       markers.sort(this.compareDistance);
       this.setState({markers: markers, pickup: this.state.pickup == null ? markers[0]: this.state.pickup})
@@ -122,6 +123,26 @@ export default class Home extends React.Component {
       // saving error
     }
   } 
+=======
+  async setup() {
+    await getLocationAsync();
+    await initializeFavorites();
+    await initializeRecents();
+    await initializeNearby();
+
+    hasLocationPermissions = getHasLocationPermissions();
+    currLocation = getCurrLocation();
+    locationResult = getLocationResult();
+
+    this.setState({
+      favorites: getFavorites(),
+      currLocation: getCurrLocation(),
+      locationResult: getLocationResult(),
+      recentPickup: getRecentPickups(),
+      recentDropoff: getRecentDropoffs(),
+      markers: getMarkers(),
+    });
+>>>>>>> parent of a9bd693 (AutoUpdate Locations)
     
   async reverseGeocode(latlong){
     let geocodeObj = await Location.reverseGeocodeAsync(latlong);

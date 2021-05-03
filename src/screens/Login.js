@@ -19,6 +19,7 @@ const { width } = Dimensions.get('screen');
 export default class Login extends React.Component {
 
   componentDidMount(){
+    getLocationAsync();
 
   }
   render() {
