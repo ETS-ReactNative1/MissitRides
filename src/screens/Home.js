@@ -34,8 +34,8 @@ export default class Home extends React.Component {
       currLocation: null,
       index: 0,
       routes: [{ key: 'first', title: 'Favorites' },
-      { key: 'second', title: 'Recents' },
-      { key: 'third', title: 'All' }
+              { key: 'second', title: 'Recents' },
+              { key: 'third', title: 'All' }
       ],
     };
     this.controller;
@@ -118,7 +118,7 @@ export default class Home extends React.Component {
   }
 
   FirstRoute = () => (
-    <ScrollView >
+    <ScrollView>
       <Text>{console.log(JSON.stringify(this.state.favorites))}</Text>
 
       {this.state.favorites.length == 0 ?
@@ -212,7 +212,7 @@ export default class Home extends React.Component {
   );
 
   SecondRoute = () => (
-    <ScrollView >
+    <ScrollView>
       {this.state.isPickup ?
         this.state.recentPickup.length == 0 ?
           <Block style={styles.buttonContainer}>
@@ -224,7 +224,7 @@ export default class Home extends React.Component {
               <Block key={favorite["key"]} style={homeStyles.buttonContainer}>
                 <Button
                   size="small"
-                  onlyIcon icon={favorite.favorite ? "favorite" : favorite.key < 16 ? "bolt" : "hourglass-full"}
+                  onlyIcon icon={favorite.favorite ? "favorite" : favorite.key < 16 ? "bolt" : "hourglass-bottom"}
                   iconFamily="material"
                   iconSize={20}
                   iconColor={"grey"}
@@ -320,6 +320,7 @@ export default class Home extends React.Component {
       </Pressable>
     </ScrollView>
   );
+  
   ThirdRoute = () => (
     <Block style={allStyles.container}>
       <ScrollView style={{ width: width }}>
@@ -400,6 +401,7 @@ export default class Home extends React.Component {
 
     </Block>
   );
+  
   _handleIndexChange = (index) => this.setState({ index });
 
   _renderTabBar = (props) => {
@@ -456,12 +458,14 @@ export default class Home extends React.Component {
                           {this.state.locationResult != null ?
                             <Marker
                               coordinate={this.state.locationResult}
-                              image={require('../assets/icons/FA_star.png')} /> : null}
+                              image={require('../assets/icons/blue_dot.png')} /> : null}
 
                           {this.state.pickup != null ?
                             <Marker
                               coordinate={this.state.pickup.latlong}
                               fillColor={"rgba(0,255,0,0.3)"}
+                              image={require('../assets/icons/from.png')}
+
                             />
                             : null}
                           
@@ -469,6 +473,8 @@ export default class Home extends React.Component {
                             <Marker
                               coordinate={this.state.dropoff.latlong}
                               fillColor={"rgba(0,255,0,0.3)"}
+                              image={require('../assets/icons/to.png')}
+
                             />
                             : null}
                           {this.state.favorites.map((marker) => (
@@ -484,7 +490,7 @@ export default class Home extends React.Component {
                                 // fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
                                 tappable={true}
                                 onPress={() => this.onChosen(marker)}
-                                image={require('../assets/icons/greenpin.png')}
+                                image={require('../assets/icons/favorite.png')}
                               />
                           ))}  
 
@@ -501,7 +507,7 @@ export default class Home extends React.Component {
                                 // fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
                                 tappable={true}
                                 onPress={() => this.onChosen(marker)}
-                                image={marker.favorite ? require('../assets/icons/greenpin.png') : marker.key < 16 ? require('../assets/icons/greenpin.png') : require('../assets/icons/redpin.png')}
+                                image={marker.key < 16 ? require('../assets/icons/fast.png') : require('../assets/icons/slow.png')}
                               />
                           ))}
                         </MapView>

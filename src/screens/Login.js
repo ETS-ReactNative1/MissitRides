@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Dimensions, Image } from 'react-native';
 // import { Button, Block, Text, Input, theme } from 'galio-framework';
 import {theme, Block, Button, Input, Text} from 'galio-framework';
@@ -12,9 +12,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { allStyles } from '../styles/allStyle';
 const { width } = Dimensions.get('screen');
 
-// import products from '../constants/products';
+// import products from '../constants/products'
+
+
 
 export default class Login extends React.Component {
+
+  componentDidMount(){
+    getLocationAsync();
+
+  }
   render() {
     return (
       <SafeAreaView style={styles.container}>

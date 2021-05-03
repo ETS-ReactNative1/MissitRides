@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDistance, compareDistance } from './Location';
+import { getDistance, compareDistance, locationResult } from './Location';
 
 let markers = null;
 
@@ -16,22 +16,23 @@ export async function initializeNearby() {
   } catch (e) {
     // error reading value
   }
-  if (markers == null) {
+  if (markers === null) {
     refreshMarkers();
   }
   else {
-    // console.log(markers);  
-
     markers.map((marker) => (marker == null ? null : marker.distance = getDistance(marker.latlong)));
     markers.sort(compareDistance);
+    // if(markers[0].distance > 10){
+    //   refreshMarkers();
+    // }
   }
 }
 
 async function refreshMarkers() {
-  this.setState({ markers: null });
+  markers = null;
   var userid = 1;
-  var lat = this.state.locationResult["coords"]["latitude"];
-  var long = this.state.locationResult["coords"]["longitude"];
+  var lat = locationResult["coords"]["latitude"];
+  var long = locationResult["coords"]["longitude"];
   var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/fetch_places?userid=" + userid + "&location=" + lat + "," + long
   // var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/fetch_places?userid=1&location=52.2075,0.146521"
   console.log(req_string);
