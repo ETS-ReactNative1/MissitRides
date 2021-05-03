@@ -573,12 +573,12 @@ export default class Home extends React.Component {
                             />
                             : null}
                             
-                          {/* {this.state.dropoff != null ?
+                          {this.state.dropoff != null ?
                             <Marker
                               coordinate={this.state.dropoff.latlong}
                               image={require('../assets/icons/to.png')}
                             />
-                            : null} */}
+                            : null}
 
                           {this.state.favorites.map((favorite) => (
                             favorite == this.state.pickup || favorite == this.state.dropoff ? null :
