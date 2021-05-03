@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 
 let locationResult = null;
 let currLocation = null;
-let hasLocationPermissions = null;
+let hasLocationPermissions = false;
 
 export async function getLocationAsync (){
   console.log("getting location")

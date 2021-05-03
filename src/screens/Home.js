@@ -58,11 +58,11 @@ export default class Home extends React.Component {
     await initializeRecents();
     await initializeNearby();
 
-    hasLocationPermissions = getHasLocationPermissions();
-    currLocation = getCurrLocation();
-    locationResult = getLocationResult();
+    
+    console.log(hasLocationPermissions, currLocation, locationResult);
 
     this.setState({
+      hasLocationPermissions: hasLocationPermissions(),
       favorites: getFavorites(),
       currLocation: getCurrLocation(),
       locationResult: getLocationResult(),
