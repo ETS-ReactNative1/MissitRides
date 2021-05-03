@@ -21,8 +21,9 @@ export async function getLocationAsync (){
   let location = await Location.getCurrentPositionAsync({});
   location["coords"]["latitude"] = 51.511894;
   location["coords"]["longitude"] = -0.205779;
+  locationResult = location;
   currLocation = {latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"]};
-  locationResult = currLocation;
+  console.log("curr location:", currLocation);
  }
 
 export function getHasLocationPermissions() {

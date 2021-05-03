@@ -90,7 +90,10 @@ export const homeStyles = StyleSheet.create({
   },
 
   greyText: {
-    fontSize: 16,
+    // position: "absolute",
+    // alignSelf: "flex-start",
+    // marginLeft: 5,
+    // marginTop: 5,
     color: "grey",
   },
   closeButton: { 

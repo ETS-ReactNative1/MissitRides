@@ -1,17 +1,9 @@
-import {StyleSheet, Dimensions} from 'react-native'
+import {StyleSheet, Dimensions} from 'react-native';
 import {theme} from 'galio-framework';
-
 const { width } = Dimensions.get('screen');
 const {height} = Dimensions.get('window').height;
 
 export const rideStyles = StyleSheet.create({
-  container: {
-      width: width,    
-      flex: 1,
-      backgroundColor: theme.COLORS.WHITE,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
   confirm: {
     // height: dims["height"] / 2,
     width:  width *.8,
@@ -42,7 +34,7 @@ export const rideStyles = StyleSheet.create({
     margin: 5,
   },
   card: {
-    width: width,
+    width:  width,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -119,7 +111,7 @@ export const rideStyles = StyleSheet.create({
     marginBottom: 5,
     padding: 5,
     borderColor: 'black',
-    // width: dims["width"] * .7,
+    // width: width * .7,
 
   },
 });
