@@ -4,15 +4,15 @@ import MapView, { Marker, Overlay, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Splash from './Splash';
-import {mapStyle} from '../components/mapStyle.js';
+import { mapStyle } from '../components/mapStyle.js';
 // import DropDownPicker from 'react-native-dropdown-picker';
 
-import {getCurrLocation, getLocationAsync, getHasLocationPermissions, setCurrLocation, getLocationResult, getDistance, compareDistance, reverseGeocode} from '../components/Location.js'
-import {initializeNearby, getMarkers} from '../components/Nearby.js'
-import {initializeFavorites, getFavorites} from '../components/Favorites.js'
-import {initializeRecents, getRecentPickups, getRecentDropoffs} from '../components/Recents.js'
-import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform} from 'react-native';
-import {theme, Block, Accordion, Text, NavBar, Button} from 'galio-framework';
+import { getCurrLocation, getLocationAsync, getHasLocationPermissions, setCurrLocation, getLocationResult, getDistance, compareDistance, reverseGeocode } from '../components/Location.js'
+import { initializeNearby, getMarkers } from '../components/Nearby.js'
+import { initializeFavorites, getFavorites } from '../components/Favorites.js'
+import { initializeRecents, getRecentPickups, getRecentDropoffs } from '../components/Recents.js'
+import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform } from 'react-native';
+import { theme, Block, Accordion, Text, NavBar, Button } from 'galio-framework';
 import { TabView, SceneMap } from 'react-native-tab-view';
 
 const { width } = Dimensions.get('screen');
@@ -58,7 +58,7 @@ export default class Home extends React.Component {
     await initializeRecents();
     await initializeNearby();
 
-    
+
     // console.log(hasLocationPermissions, currLocation, locationResult);
 
     this.setState({
@@ -106,7 +106,7 @@ export default class Home extends React.Component {
       { cancelable: false }
     );
 
-   navigate() {
+  navigate() {
     var navtype = 0;
     if (!this.state.dropoff.favorite) { navtype = navtype + 2 };
     if (!this.state.pickup.favorite) { navtype = navtype + 1 };
@@ -471,7 +471,7 @@ export default class Home extends React.Component {
                               image={require('../assets/icons/from.png')}
                             />
                             : null}
-                            
+
                           {this.state.dropoff != null ?
                             <Marker
                               coordinate={this.state.dropoff.latlong}
@@ -490,7 +490,7 @@ export default class Home extends React.Component {
                                 // fillColor = {marker.favorite? "rgba(,0,255,0.3)" : "rgba(255,0,0,0.3)"}
                                 tappable={true}
                                 onPress={() => this.onChosen(favorite)}
-                                image={ require('../assets/icons/favorite.png')}
+                                image={require('../assets/icons/favorite.png')}
                               />
                           ))}
 
@@ -512,18 +512,29 @@ export default class Home extends React.Component {
                           ))}
                         </MapView>
                       </Block> : null}
-                      
+
                     <Block style={styles.topOverlayClosed}>
                       <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination"}</Text>
                       <Pressable
                         style={this.state.isPickup ? styles.input : [styles.input, { backgroundColor: "white", borderColor: 'grey' }]}
-                        onPress={() => this.setState({ isPickup: true, mapOpen: false })}                     >
+                        onPress={() => {
+                          if (this.state.isPickup) {
+                            this.setState({ mapOpen: !this.state.mapOpen });
+                          } else {
+                            this.setState({ isPickup: true })
+                          }
+                        }}>
                         <Text style={styles.greyText}>From:</Text>
-                        <Text>{this.state.pickup == null ? "" : this.state.pickup.name} <Text style={styles.greyText}>{this.state.pickup != null ? "(" + this.state.pickup.distance.toFixed(1) + " m away)" : ""}</Text></Text>
+                        <Block style={{ flexDirection: 'column', width: width * .7 }}>
+                          <Text>{this.state.pickup == null ? "" : this.state.pickup.name}
+                            < Text style={styles.greyText}>{this.state.pickup != null ? " (" + this.state.pickup.distance.toFixed(1) + " m away)" : ""}</Text>
+
+                          </Text>
+                        </Block>
                         <Button
                           onlyIcon icon="close"
                           iconFamily="antdesign"
-                          iconSize={12}
+                          iconSize={20}
                           color="transparent"
                           iconColor="#000"
                           style={styles.closeButton}
@@ -533,14 +544,20 @@ export default class Home extends React.Component {
 
                       <Pressable
                         style={!this.state.isPickup ? styles.input : [styles.input, { backgroundColor: "white", borderColor: 'grey' }]}
-                        onPress={() => this.setState({ isPickup: false, mapOpen: false })}
+                        onPress={() => {
+                          if (!this.state.isPickup) {
+                            this.setState({ mapOpen: !this.state.mapOpen });
+                          } else {
+                            this.setState({ isPickup: false })
+                          }
+                        }}
                       >
                         <Text style={styles.greyText}>To: </Text>
-                        <Text>{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style={styles.greyText}>{this.state.dropoff != null ? "(" + this.state.dropoff.distance.toFixed(1) + " m away)" : ""}</Text></Text>
+                        <Text style={{ flexDirection: 'column', width: width * .7 }} >{this.state.dropoff == null ? "" : this.state.dropoff.name} <Text style={styles.greyText}>{this.state.dropoff != null ? "(" + this.state.dropoff.distance.toFixed(1) + " m away)" : ""}</Text></Text>
                         <Button
                           onlyIcon icon="close"
                           iconFamily="antdesign"
-                          iconSize={12}
+                          iconSize={20}
                           color="transparent"
                           iconColor="#000"
                           style={styles.closeButton}
@@ -550,8 +567,8 @@ export default class Home extends React.Component {
                       {this.state.mapOpen ?
                         <Block style={{ flexDirection: 'row' }}>
                           <Pressable style={[styles.closeMapButton, { flex: 1 }]}
-                            onPress={() => this.getNearbyPlaces()}
-                          ><Text style={{ color: theme.COLORS.WHITE, margin: 5 }}>Update Locations</Text>
+                            onPress={() => this.setState({ mapOpen : false })}
+                          ><Text style={{ color: theme.COLORS.WHITE, margin: 3 }}>Choose from List</Text>
                           </Pressable>
                         </Block> :
                         <TabView
@@ -641,7 +658,7 @@ const styles = StyleSheet.create({
 
   },
   input: {
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     backgroundColor: theme.COLORS.GREY,
@@ -649,9 +666,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 1,
     marginBottom: 10,
-    padding: 5,
-    paddingTop: 7,
-    paddingBottom: 7,
+    padding: 2,
 
     borderColor: theme.COLORS.PRIMARY,
     width: width * .9,
@@ -673,13 +688,15 @@ const styles = StyleSheet.create({
     // marginLeft: 5,
     // marginTop: 5,
     color: "grey",
+    // fontSize: 
   },
   closeButton: {
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
     // position:'absolute',
-    alignSelf: "flex-end",
+    // alignSelf: "flex-end",
     margin: 0,
+    // backgroundColor: 'red',
     // marginHorizontal: 30,
   },
   wrapperCustom: {
