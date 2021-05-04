@@ -7,13 +7,15 @@ import Splash from './Splash';
 import { mapStyle } from '../components/mapStyle.js';
 // import DropDownPicker from 'react-native-dropdown-picker';
 
-import { getCurrLocation, getLocationAsync, getHasLocationPermissions, setCurrLocation, getLocationResult, getDistance, compareDistance, reverseGeocode } from '../components/Location.js'
+import { getCurrLocation, getLocationAsync, getHasLocationPermissions, setCurrLocation, getLocationResult, selectNearestPin, getDistance, compareDistance, reverseGeocode } from '../components/Location.js'
 import { initializeNearby, getMarkers } from '../components/Nearby.js'
 import { initializeFavorites, getFavorites } from '../components/Favorites.js'
 import { initializeRecents, getRecentPickups, getRecentDropoffs } from '../components/Recents.js'
 import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform } from 'react-native';
 import { theme, Block, Accordion, Text, NavBar, Button } from 'galio-framework';
 import { TabView, SceneMap } from 'react-native-tab-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const { width } = Dimensions.get('screen');
 const { height } = Dimensions.get('window').height;
@@ -70,6 +72,11 @@ export default class Home extends React.Component {
       recentDropoff: getRecentDropoffs(),
       markers: getMarkers(),
     });
+  }
+
+  async chooseNearestPin(coords) {
+    let closestMarker = await selectNearestPin(coords);
+    this.onChosen(closestMarker);
   }
 
   onChosen(selection) {
@@ -456,6 +463,7 @@ export default class Home extends React.Component {
                           style={{ flex: 1 }}
                           region={this.updateRegion()}
                           customMapStyle={mapStyle}
+                          onPress={ (event) => this.chooseNearestPin(event.nativeEvent.coordinate) }
                         >
 
                           {this.state.locationResult != null ?

@@ -1,6 +1,6 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getDistance} from './Location'
+import {getDistanceFromCurr} from './Location'
 
 favorites = null;
 
@@ -25,7 +25,7 @@ export async function initializeFavorites () {
     if (fav != null){
       // console.log(fav);
       fav.latlong = {latitude: fav.latitude, longitude: fav.longitude}
-      fav.distance = getDistance(fav.latlong)
+      fav.distance = getDistanceFromCurr(fav.latlong)
       fav.favorite = true;
       favs.push(fav);
     }

@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let locationResult = null;
 let currLocation = null;
@@ -25,7 +25,7 @@ export async function getLocationAsync (){
   location["coords"]["longitude"] = -0.205779;
   currLocation = {latitude: location["coords"]["latitude"], longitude: location["coords"]["longitude"]};
   locationResult = currLocation;
- }
+}
 
 export function getHasLocationPermissions() {
   return hasLocationPermissions;
@@ -44,7 +44,25 @@ export function getLocationResult() {
   return locationResult;
 }
 
-export function getDistance(latlong){
+export async function selectNearestPin(coordinate) {
+  let tapLatitude = coordinate["latitude"];
+  let tapLongitude = coordinate["longitude"];
+  console.log(tapLatitude);
+  try {
+    var jsonValue = await AsyncStorage.getItem('markers');
+    markers = JSON.parse(jsonValue);
+
+    markers.map((marker) => (marker == null ? null : marker.distance = getDistance(marker.latlong["latitude"], marker.latlong["longitude"], tapLatitude, tapLongitude)));
+    markers.sort(compareDistance);
+    console.log(markers[0]);
+    return markers[0];
+  } catch (e) {
+    console.log(e)
+  }
+  
+}
+
+export function getDistanceFromCurr(latlong){
   // console.log(this.state.currLocation)
   var lat = currLocation["latitude"];
   var long = currLocation["longitude"];
@@ -52,6 +70,10 @@ export function getDistance(latlong){
   var dist = Math.sqrt((lat-latlong["latitude"])**2 + (long-latlong["longitude"])**2) * 69.09;
   // console.log(dist);
   return dist;
+}
+
+export function getDistance(startLat, startLng, endLat, endLng){
+  return Math.sqrt((startLat-endLat)**2 + (startLng-endLng)**2) * 69.09;
 }
 
 export function compareDistance(a,b){

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDistance, compareDistance, locationResult } from './Location';
+import { getDistanceFromCurr, compareDistance, locationResult } from './Location';
 
 export default markers = null;
 
@@ -20,7 +20,7 @@ export async function initializeNearby() {
     refreshMarkers();
   }
   else {
-    markers.map((marker) => (marker == null ? null : marker.distance = getDistance(marker.latlong)));
+    markers.map((marker) => (marker == null ? null : marker.distance = getDistanceFromCurr(marker.latlong)));
     markers.sort(compareDistance);
     // if(markers[0].distance > 10){
     //   refreshMarkers();
@@ -51,7 +51,7 @@ async function refreshMarkers() {
 async function handleMarkers(data) {
   for (var i = 0; i < data.length; i++) {
     data[i].latlong = { latitude: data[i]["lat"], longitude: data[i]["lng"] }
-    data[i].distance = getDistance(data[i].latlong);
+    data[i].distance = getDistanceFromCurr(data[i].latlong);
     data.favorite = false;
   }
   data.sort(compareDistance);
