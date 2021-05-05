@@ -14,15 +14,28 @@ export const rideStyles = StyleSheet.create({
   },
   confirm: {
     // height: dims["height"] / 2,
-    width:  width *.8,
+    width:  width *.9,
+    
     position: 'absolute',
     backgroundColor: theme.COLORS.WHITE,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    margin: 10,
     borderColor: 'black',
-    borderWidth: 5,
+    borderWidth: 2,
+    textAlign: 'center',
+    // borderRadius: 10,
+  },
+  mapContainer: {
+    height: Dimensions.get('screen').height / 3,
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'space-around',
+    borderColor: theme.COLORS.BLACK,
+    width: width * .9 - 4,
+    // backgroundColor: "red"
   },
   greyText: {
     position: "absolute",
@@ -101,13 +114,12 @@ export const rideStyles = StyleSheet.create({
   input: {
     alignItems: "center",
     backgroundColor: theme.COLORS.base,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
+    borderBottomWidth: 1,
+    // borderRadius: 5,
+    marginBottom: 5,
     padding: 5,
-    borderColor: 'black',
-    width: width * .7,
+    borderBottomColor: 'gray',
+    // width: width * .7,
 
   },
   smallInput: {

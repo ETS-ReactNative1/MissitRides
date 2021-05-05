@@ -76,6 +76,10 @@ export function getDistance(startLat, startLng, endLat, endLng){
   return Math.sqrt((startLat-endLat)**2 + (startLng-endLng)**2) * 69.09;
 }
 
+export function getDistanceInDegs(startLat, startLng, endLat, endLng){
+  return Math.sqrt((startLat-endLat)**2 + (startLng-endLng)**2);
+}
+
 export function compareDistance(a,b){
   if(a == null){return 0}
   else if (b == null){return 0}

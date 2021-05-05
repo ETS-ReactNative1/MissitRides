@@ -7,7 +7,9 @@ const dims = Dimensions.get('window');
 import Login from './Login'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { allStyles } from '../styles/allStyle';
-
+import MapView, { Marker, Overlay, Circle } from 'react-native-maps';
+import { mapStyle } from '../components/mapStyle.js';
+import {getDistanceInDegs} from '../components/Location'
 
 export default class Ride extends React.Component {
     constructor(props) {
@@ -22,7 +24,7 @@ export default class Ride extends React.Component {
         company_rating: 0,
         options: [],
         countdown: true,
-        timer: 10,
+        timer: 0,
         ride: "",
         submit: false,
 
@@ -84,7 +86,8 @@ export default class Ride extends React.Component {
   }
   
   componentDidMount() {
-      this.setState({timer: this.bitCount(1) + this.bitCount(this.state.pickup.key) + this.bitCount(this.state.dropoff.key) + 2})
+      console.log(this.state.pickup.key, this.state.dropoff.key)
+      // this.setState({timer: this.bitCount(1) + this.bitCount(this.state.pickup.key) + this.bitCount(this.state.dropoff.key) + 2})
       this.getRates();
       this.interval = setInterval(
         () => this.setState((prevState)=> ({ timer: prevState.timer - 1 })),
@@ -93,8 +96,7 @@ export default class Ride extends React.Component {
       console.log(this.state.pickup);
       console.log(this.state.dropoff);
     }
-  
-  
+    
     componentDidUpdate(){
       if(this.state.timer <= 0){ 
         clearInterval(this.interval);
@@ -111,6 +113,18 @@ export default class Ride extends React.Component {
       })
       
     }
+    
+    updateRegion = () => {
+      const delta =  getDistanceInDegs(this.state.pickup.latlong.latitude,this.state.pickup.latlong.longitude, this.state.dropoff.latlong.latitude, this.state.dropoff.latlong.longitude );
+      return {
+        latitude: (this.state.pickup.latlong.latitude + this.state.dropoff.latlong.latitude) / 2,
+        longitude: (this.state.pickup.latlong.longitude + this.state.dropoff.latlong.longitude) / 2,
+        // latitude: 51.511894,
+        // longitude: -0.205779,
+        latitudeDelta: delta,
+        longitudeDelta: delta,
+      }
+    }
    
     render() {
       
@@ -118,6 +132,7 @@ export default class Ride extends React.Component {
         <SafeAreaView style={rideStyles.container}>
         <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
         <NavBar 
+              back = {true}
               title="Select Your Ride" />
         {
           // this.state.timeLeft > 0 ?
@@ -186,7 +201,7 @@ export default class Ride extends React.Component {
             <Text style = {{color: "grey"}}>{this.state.company_name}</Text>
             <Text style = {{color: "grey"}}>{this.state.company_phone}</Text>
             </Block>
-            {this.state.ride === "" ?
+            {this.state.ride === "" && !this.state.submit?
                 <Block style = {rideStyles.button}><Text h5 style = {{color : "transparent"}}> Continue</Text></Block> :
                 <Pressable
                   style = {[rideStyles.button, {backgroundColor: theme.COLORS.PRIMARY}]}
@@ -196,41 +211,85 @@ export default class Ride extends React.Component {
                 </Pressable>
                 }
                 {this.state.submit ? 
-                  <Pressable style = {rideStyles.toastContainer}  onPress = {() => this.setState({submit: false})}>
+                  
+                  <Pressable style = {rideStyles.toastContainer}  onPress = {() => {console.log('go back'); this.setState({submit: false})}}>
                     <Block style = {rideStyles.confirm}>
-                      <Text h5>Confirm Your Ride</Text>
+                      <Block style = {rideStyles.mapContainer}>
+                        <MapView
+                            style={{ flex: 1 }}
+                            region={this.updateRegion()}
+                            customMapStyle={mapStyle}>
+                            
+                            {this.state.pickup != null ?
+                            <Marker
+                              coordinate={this.state.pickup.latlong}
+                              fillColor={"rgba(0,255,0,0.3)"}
+                              image={require('../assets/icons/from.png')}
+                            />
+                            : null}
+
+                          {this.state.dropoff != null ?
+                            <Marker
+                              coordinate={this.state.dropoff.latlong}
+                              image={require('../assets/icons/to.png')}
+                            />
+                            : null}
+                            
+                        </MapView>
+                      </Block>
+                      <Text h5>Complete Ride Request</Text>
+                      <Block style = {rideStyles.optionsTable}>
                       <Pressable 
                         style = {rideStyles.input}
                         onPress = {() => this.props.navigation.navigate('Home')}
-                        >
-                        <Text style = {rideStyles.greyText}>From:</Text>
-                        <Text>{this.props.route.params["pickup"].address}</Text>
+                        >                        
+                        <Text>From: {this.props.route.params["pickup"].address}</Text>
                       </Pressable>
                       <Pressable 
                         style = {rideStyles.input}
                         onPress = {() => this.props.navigation.navigate('Home')}
                         >
-                        <Text style = {rideStyles.greyText}>To:</Text>
-                        <Text>{this.props.route.params["dropoff"].address}</Text>
+                        <Text>To: {this.props.route.params["dropoff"].address}</Text>
                       </Pressable>
                       <Block style = {{flexDirection: 'row', justifyContent: "space-around", alignItems: "center", width: dims["width"] * .7}}>
-                        <Pressable 
+                        {/* <Pressable 
                           style = {[rideStyles.smallInput, {flex: 4, marginRight: 5,} ]}
                           onPress = {() => this.props.navigation.navigate('Ride')}
                           >
                           <Text >{this.state.options[this.state.ride]["name"]}</Text>
-                        </Pressable>
+                        </Pressable> */}
                         <Pressable 
-                          style = {[rideStyles.smallInput, {flex: 1}]}
+                          style = {rideStyles.input}
                           onPress = {() => this.props.navigation.navigate('Ride')}
                           >
-                          <Text >£{this.state.options[this.state.ride]["price"]}</Text>
+                          <Text style = {{fontSize: 20}}>Price: £{this.state.options[this.state.ride]["price"].toFixed(2)}</Text>
                         </Pressable>
+                        </Block>
                       </Block>
                       
-                      <Block style = {{flexDirection: 'row'}}>
-                        <Button size="small" onPress = {() => this.setState({submit: false})}>Go Back</Button>
-                        <Button size="small" onPress = {() => submitReq()}>Confirm</Button>
+                      <Block style = {{display: 'flex', flexDirection: 'row'}}>
+                      
+                        <Pressable 
+                          style = {[rideStyles.button, {flex : 3, backgroundColor: theme.COLORS.PRIMARY, margin: 2, padding: 2}]}
+                          onPress = {() => submitReq()}>
+                          <Text style = {{color: 'white', fontSize: 18}}>Confirm</Text>
+                        </Pressable>
+                        <Pressable 
+                          style = {[rideStyles.button, {flex : 1, backgroundColor: theme.COLORS.PRIMARY,margin: 2, padding: 2}]} 
+                          onPress = {() => this.setState({submit: false})}>
+                           <Button
+                              size="small"
+                              onlyIcon icon={"chevron-left"}
+                              iconFamily="material"
+                              iconSize={24}
+                              iconColor={"white"}
+                              color="transparent"
+                              style={{ width: 20, height: 20 }}
+            
+                            // iconColor="#808080"
+                            >
+                         </Button>
+                        </Pressable>
                       </Block>
                     </Block>
                 </Pressable> : null}

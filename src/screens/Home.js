@@ -89,6 +89,7 @@ export default class Home extends React.Component {
     }
     this.setState({
       isPickup: !this.state.isPickup,
+      currLocation: selection.latlong
     });
   };
 
@@ -464,6 +465,7 @@ export default class Home extends React.Component {
                           region={this.updateRegion()}
                           customMapStyle={mapStyle}
                           onPress={ (event) => this.chooseNearestPin(event.nativeEvent.coordinate) }
+                          ref={ref => (this.mapView = ref)}
                         >
 
                           {this.state.locationResult != null ?
@@ -663,7 +665,6 @@ const styles = StyleSheet.create({
     borderColor: theme.COLORS.BLACK,
     width: width,
     // backgroundColor: "red"
-
   },
   input: {
     alignItems: "center",
