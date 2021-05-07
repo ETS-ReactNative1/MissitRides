@@ -7,7 +7,6 @@ import Home from './src/screens/Home'
 import UpdateFav from './src/screens/UpdateFav'
 import UpdateFavs from './src/screens/UpdateFavs'
 import Ride from './src/screens/Ride'
-import Confirm from './src/screens/Confirm'
 import Registration from './src/screens/Registration'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,7 +15,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
-      
+  constructor(props) {
+    super(props);
+    this.state = {
+      pickup: null,
+     dropoff: null
+    };
+  }
+    
     render(){
         return (
           <NavigationContainer>
@@ -32,7 +38,6 @@ export default class App extends React.Component {
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
 
             <Stack.Screen name="Ride" component={Ride} options={{ headerShown: false }}/>
-            <Stack.Screen name="Confirm" component={Confirm} options={{ headerShown: false }}/>
 
           </Stack.Navigator>
         </NavigationContainer>

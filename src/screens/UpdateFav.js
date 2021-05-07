@@ -99,6 +99,15 @@ export default class UpdateFav extends React.Component {
 
         <NavBar title="Update Favorite"
           style={{ width: width }}
+          left = {<Button
+            size="small"
+            onlyIcon icon={"arrow-back"}
+            iconFamily="material"
+            iconSize={20}
+            iconColor={"grey"}
+            color="transparent"
+            style={{ width: 20, height: 20 }}
+            onPress = {() => this.props.navigation.goBack()}/>}
         />
         <ScrollView style={styles.scroll}>
           <Block style={styles.container}>

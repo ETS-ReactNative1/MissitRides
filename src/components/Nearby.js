@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDistanceFromCurr, compareDistance, locationResult } from './Location';
+import { getDistanceFromCurr, compareDistance, getLocationResult } from './Location';
 
 export default markers = null;
 
@@ -17,7 +17,7 @@ export async function initializeNearby() {
     // error reading value
   }
   if (markers === null) {
-    refreshMarkers();
+    await refreshMarkers();
   }
   else {
     markers.map((marker) => (marker == null ? null : marker.distance = getDistanceFromCurr(marker.latlong)));
@@ -28,12 +28,13 @@ export async function initializeNearby() {
   }
 }
 
-async function refreshMarkers() {
+export async function refreshMarkers() {
   console.log("locations refreshing")
   markers = null;
+  let locationResult = getLocationResult();
   var userid = 1;
-  var lat = locationResult["coords"]["latitude"];
-  var long = locationResult["coords"]["longitude"];
+  var lat = locationResult["latitude"];
+  var long = locationResult["longitude"];
   var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/fetch_places?userid=" + userid + "&location=" + lat + "," + long
   // var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/fetch_places?userid=1&location=52.2075,0.146521"
   console.log(req_string);
@@ -57,7 +58,7 @@ async function handleMarkers(data) {
   data.sort(compareDistance);
   console.log("markers updated");
   markers = data;
-  // console.log(data);
+  console.log(markers[0]);
   try {
     const jsonValue = JSON.stringify(markers);
     await AsyncStorage.setItem("markers", jsonValue);

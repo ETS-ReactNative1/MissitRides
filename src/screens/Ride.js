@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Dimensions, Image, Pressable, StatusBar } from 'react-native';
-import {theme, Block, Card, Text, NavBar, Button} from 'galio-framework';
+import {theme, Block, Card, Text, NavBar, Button, Icon} from 'galio-framework';
 import {rideStyles} from '../styles/rideStyle'
 import {submitReq} from '../components/RideConfirm'
 const dims = Dimensions.get('window');
@@ -132,7 +132,21 @@ export default class Ride extends React.Component {
         <SafeAreaView style={rideStyles.container}>
         <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
         <NavBar 
-              back = {true}
+              // back = {true}
+              left = {<Button
+                size="small"
+                onlyIcon icon={"arrow-back"}
+                iconFamily="material"
+                iconSize={20}
+                iconColor={"grey"}
+                color="transparent"
+                style={{ width: 20, height: 20 }}
+                onPress = {() => this.props.navigation.goBack()}
+
+              // iconColor="#808080"
+              >
+              </Button>}
+              onLeftPress = {() => this.props.navigation.goBack()}
               title="Select Your Ride" />
         {
           // this.state.timeLeft > 0 ?

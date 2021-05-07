@@ -7,8 +7,8 @@ import Splash from './Splash';
 import { mapStyle } from '../components/mapStyle.js';
 // import DropDownPicker from 'react-native-dropdown-picker';
 
-import { getCurrLocation, getLocationAsync, getHasLocationPermissions, setCurrLocation, getLocationResult, selectNearestPin, getDistance, compareDistance, reverseGeocode } from '../components/Location.js'
-import { initializeNearby, getMarkers } from '../components/Nearby.js'
+import { getCurrLocation, getLocationAsync, getHasLocationPermissions, getLocationResult, selectNearestPin, getDistance, compareDistance, getDistanceFromCurr } from '../components/Location.js'
+import { initializeNearby, getMarkers, refreshMarkers } from '../components/Nearby.js'
 import { initializeFavorites, getFavorites } from '../components/Favorites.js'
 import { initializeRecents, getRecentPickups, getRecentDropoffs } from '../components/Recents.js'
 import { Animated, StyleSheet, Dimensions, Pressable, ScrollView, SafeAreaView, View, Alert, StatusBar, Platform } from 'react-native';
@@ -32,6 +32,7 @@ export default class Home extends React.Component {
       recentDropoff: null,
       pickup: this.props.route.params["pickup"],
       dropoff: this.props.route.params["dropoff"],
+
       hasLocationPermissions: false,
       locationResult: null,
       isPickup: false,
@@ -39,9 +40,9 @@ export default class Home extends React.Component {
       mapOpen: true,
       currLocation: null,
       index: 0,
-      routes: [{ key: 'first', title: 'Favorites' },
-      { key: 'second', title: 'Recents' },
-      { key: 'third', title: 'All' }
+      routes: [{ key: 1, title: 'Favorites' },
+      { key: 2, title: 'Recents' },
+      { key: 3, title: 'All' }
       ],
     };
     this.controller;
@@ -59,10 +60,18 @@ export default class Home extends React.Component {
     await initializeFavorites();
     await initializeRecents();
     await initializeNearby();
+    // await refreshMarkers();
 
 
     // console.log(hasLocationPermissions, currLocation, locationResult);
-
+    var markers = getMarkers();
+    // console.log(markers[0]);
+    
+    var distanceFromCurr = getDistanceFromCurr(markers[0].latlong);
+    if(distanceFromCurr > 10) {
+      markers = null;
+      await refreshMarkers();
+    }
     this.setState({
       hasLocationPermissions: getHasLocationPermissions(),
       favorites: getFavorites(),
@@ -131,7 +140,7 @@ export default class Home extends React.Component {
     <ScrollView >
       <Text>{console.log(JSON.stringify(this.state.favorites))}</Text>
 
-      {this.state.favorites.length == 0 ?
+      {this.state.favorites.length === 0 ?
         <Block style={styles.buttonContainer}>
           <Pressable onPress={() => this.props.navigation.navigate("UpdateFavs")}>
             <Text>You have no saved favorites. Press here to add</Text>
@@ -139,9 +148,9 @@ export default class Home extends React.Component {
         </Block> :
 
         this.state.favorites.map((favorite) => (
-          favorite == null ? null :
+          favorite === null ? <Block key = {favorite.key}/> :
 
-            <Block key={favorite["key"]} style={styles.buttonContainer}>
+            <Block key={favorite.key} style={styles.buttonContainer}>
               <Button
                 size="small"
                 onlyIcon icon={"favorite"}
@@ -219,6 +228,7 @@ export default class Home extends React.Component {
       </Pressable>
 
     </ScrollView>
+
   );
 
   SecondRoute = () => (
@@ -229,7 +239,7 @@ export default class Home extends React.Component {
             <Text>You have no recent locations.</Text>
           </Block> :
           this.state.recentPickup.map((favorite) => (
-            favorite == null ? null :
+            favorite == null ? <Block key = {favorite.key}/> :
 
               <Block key={favorite["key"]} style={styles.buttonContainer}>
                 <Button
@@ -269,7 +279,7 @@ export default class Home extends React.Component {
         this.state.recentDropoff == [] ? <Text>No recent locations</Text> :
 
           this.state.recentDropoff.map((favorite) => (
-            favorite == null ? null :
+            favorite == null ? <Block key = {favorite.key}/> :
 
               <Block key={favorite["key"]} style={styles.buttonContainer}>
                 <Text>{console.log("curr" + favorite)}</Text>
@@ -337,7 +347,7 @@ export default class Home extends React.Component {
         {this.state.markers === null ? <Text>Loading...</Text> :
 
           this.state.markers.map((favorite) => (
-            favorite == null ? null :
+            favorite == null ? <Block key = {favorite.key}/> :
 
               <Block key={favorite["key"]} style={styles.buttonContainer}>
                 <Button
@@ -410,13 +420,14 @@ export default class Home extends React.Component {
       </Pressable>
 
     </Block>
+  
   );
 
   _handleIndexChange = (index) => this.setState({ index });
 
   _renderTabBar = (props) => {
     const inputRange = props.navigationState.routes.map((x, i) => i);
-
+    console.log(props.navigationState.routes);
     return (
       <View style={styles.tabBar}>
         {props.navigationState.routes.map((route, i) => {
@@ -438,12 +449,22 @@ export default class Home extends React.Component {
       </View>
     );
   };
-
-  _renderScene = SceneMap({
-    first: this.FirstRoute,
-    second: this.SecondRoute,
-    third: this.ThirdRoute,
-  });
+  _renderScene = ({ route, jumpTo }) => {
+    switch (route.key) {
+      case 1:
+        return this.FirstRoute();
+      case 2:
+        return this.SecondRoute();
+        default:
+        return  this.ThirdRoute();
+      
+    }
+  };
+  // _renderScene = SceneMap({
+  //   first: this.FirstRoute,
+  //   second: this.SecondRoute,
+  //   third: this.ThirdRoute,
+  // });
 
   render() {
     return (

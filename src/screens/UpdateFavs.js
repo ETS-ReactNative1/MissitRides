@@ -80,7 +80,19 @@ export default class UpdateFavs extends React.Component {
     return (       
     <Block style = {styles.container}>
        <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
-      <NavBar title="Update Favorites" style = {{width: width, alignSelf: 'flex-start'}}/>
+      <NavBar 
+        title="Update Favorites" 
+        style = {{width: width, alignSelf: 'flex-start'}}
+        left = {<Button
+          size="small"
+          onlyIcon icon={"arrow-back"}
+          iconFamily="material"
+          iconSize={20}
+          iconColor={"grey"}
+          color="transparent"
+          style={{ width: 20, height: 20 }}
+          onPress = {() => this.props.navigation.goBack()}/>}
+      />
       <Block style = {[styles.container, {justifyContent: 'center'}]}>
       <Text style = {styles.title} >Choose a favorite to update </Text>
         {this.state.favs.length == 0 ? <Text>Loading...</Text>:
