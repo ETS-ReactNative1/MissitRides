@@ -299,6 +299,8 @@ export default class Ride extends React.Component {
                               iconColor={"white"}
                               color="transparent"
                               style={{ width: 20, height: 20 }}
+                              onPress = {() => this.setState({submit: false})}
+
             
                             // iconColor="#808080"
                             >

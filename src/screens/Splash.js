@@ -16,6 +16,7 @@ export default class Splash extends React.Component {
             style={styles.logo}
             source={require('../assets/icons/car.png')}
           />
+          <Text>Please wait, locations updating...</Text>
         </SafeAreaView>
       );
     }

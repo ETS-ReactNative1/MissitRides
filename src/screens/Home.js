@@ -40,14 +40,12 @@ export default class Home extends React.Component {
       mapOpen: true,
       currLocation: null,
       index: 0,
-      routes: [{ key: 1, title: 'Favorites' },
-      { key: 2, title: 'Recents' },
-      { key: 3, title: 'All' }
+      routes: [{ key: 1, title: 'All' },
+      { key: 2, title: 'Favorites' },
+      { key: 3, title: 'Recent' }
       ],
     };
     this.controller;
-
-    // 42.403635135900295, -71.12350546661803
   }
 
   componentDidMount() {
@@ -66,11 +64,17 @@ export default class Home extends React.Component {
     // console.log(hasLocationPermissions, currLocation, locationResult);
     var markers = getMarkers();
     // console.log(markers[0]);
-    
+
     var distanceFromCurr = getDistanceFromCurr(markers[0].latlong);
-    if(distanceFromCurr > 10) {
+    if (distanceFromCurr > 10) {
       markers = null;
+      // console.log("refreshing markers");
       await refreshMarkers();
+      markers = getMarkers();
+      // console.log("refreshed markers");
+
+      // markers = getMarkers();
+      console.log(markers[0]);
     }
     this.setState({
       hasLocationPermissions: getHasLocationPermissions(),
@@ -79,8 +83,14 @@ export default class Home extends React.Component {
       locationResult: getLocationResult(),
       recentPickup: getRecentPickups(),
       recentDropoff: getRecentDropoffs(),
-      markers: getMarkers(),
+      markers: markers,
     });
+  }
+
+  async refreshMarkers() {
+    this.setState({markers : null});
+    await refreshMarkers();
+    this.setState({ markers: getMarkers() });
   }
 
   async chooseNearestPin(coords) {
@@ -136,7 +146,7 @@ export default class Home extends React.Component {
       })
   }
 
-  FirstRoute = () => (
+  SecondRoute = () => (
     <ScrollView >
       <Text>{console.log(JSON.stringify(this.state.favorites))}</Text>
 
@@ -148,7 +158,7 @@ export default class Home extends React.Component {
         </Block> :
 
         this.state.favorites.map((favorite) => (
-          favorite === null ? <Block key = {favorite.key}/> :
+          favorite === null ? <Block key={favorite.key} /> :
 
             <Block key={favorite.key} style={styles.buttonContainer}>
               <Button
@@ -231,7 +241,7 @@ export default class Home extends React.Component {
 
   );
 
-  SecondRoute = () => (
+  ThirdRoute = () => (
     <ScrollView >
       {this.state.isPickup ?
         this.state.recentPickup.length == 0 ?
@@ -239,7 +249,7 @@ export default class Home extends React.Component {
             <Text>You have no recent locations.</Text>
           </Block> :
           this.state.recentPickup.map((favorite) => (
-            favorite == null ? <Block key = {favorite.key}/> :
+            favorite == null ? <Block key={favorite.key} /> :
 
               <Block key={favorite["key"]} style={styles.buttonContainer}>
                 <Button
@@ -279,7 +289,7 @@ export default class Home extends React.Component {
         this.state.recentDropoff == [] ? <Text>No recent locations</Text> :
 
           this.state.recentDropoff.map((favorite) => (
-            favorite == null ? <Block key = {favorite.key}/> :
+            favorite == null ? <Block key={favorite.key} /> :
 
               <Block key={favorite["key"]} style={styles.buttonContainer}>
                 <Text>{console.log("curr" + favorite)}</Text>
@@ -341,13 +351,13 @@ export default class Home extends React.Component {
     </ScrollView>
   );
 
-  ThirdRoute = () => (
+  FirstRoute = () => (
     <Block style={styles.container}>
       <ScrollView style={{ width: width }}>
         {this.state.markers === null ? <Text>Loading...</Text> :
 
           this.state.markers.map((favorite) => (
-            favorite == null ? <Block key = {favorite.key}/> :
+            favorite == null ? <Block key={favorite.key} /> :
 
               <Block key={favorite["key"]} style={styles.buttonContainer}>
                 <Button
@@ -399,10 +409,7 @@ export default class Home extends React.Component {
       </ScrollView>
       <Pressable
         onPress={() => this.setState({ mapOpen: true })}
-        style={[styles.buttonContainer, { alignSelf: "flex-start" }]}
-      // size = "large"
-      >
-
+        style={[styles.buttonContainer, { alignSelf: "flex-start" }]}>
         <Button
           size="small"
           onlyIcon icon={"map"}
@@ -411,25 +418,38 @@ export default class Home extends React.Component {
           iconColor={"grey"}
           color="transparent"
           style={{ width: 20, height: 20 }}
-
-        // iconColor="#808080"
         >
         </Button>
         <Text style={{ fontWeight: 'bold' }}>Choose from map</Text>
-
+      </Pressable>
+      <Pressable
+        onPress={() => this.refreshMarkers()}
+        style={[styles.buttonContainer, { alignSelf: "flex-start" }]}>
+        <Button
+          size="small"
+          onlyIcon icon={"update"}
+          iconFamily="material"
+          iconSize={20}
+          iconColor={"grey"}
+          color="transparent"
+          style={{ width: 20, height: 20 }}
+        >
+        </Button>
+        <Text style={{ fontWeight: 'bold' }}>Refresh Locations</Text>
       </Pressable>
 
     </Block>
-  
+
   );
 
-  _handleIndexChange = (index) => this.setState({ index });
+  _handleIndexChange = (index) => this.setState({ index: index });
 
   _renderTabBar = (props) => {
-    const inputRange = props.navigationState.routes.map((x, i) => i);
-    console.log(props.navigationState.routes);
+    const inputRange = [0, 1, 2]
+    console.log(inputRange);
     return (
       <View style={styles.tabBar}>
+
         {props.navigationState.routes.map((route, i) => {
           const opacity = props.position.interpolate({
             inputRange,
@@ -440,6 +460,7 @@ export default class Home extends React.Component {
 
           return (
             <Pressable
+              key={route.title}
               style={styles.tabItem}
               onPress={() => this.setState({ index: i })}>
               <Animated.Text style={{ opacity }}>{route.title}</Animated.Text>
@@ -455,9 +476,9 @@ export default class Home extends React.Component {
         return this.FirstRoute();
       case 2:
         return this.SecondRoute();
-        default:
-        return  this.ThirdRoute();
-      
+      default:
+        return this.ThirdRoute();
+
     }
   };
   // _renderScene = SceneMap({
@@ -485,7 +506,7 @@ export default class Home extends React.Component {
                           style={{ flex: 1 }}
                           region={this.updateRegion()}
                           customMapStyle={mapStyle}
-                          onPress={ (event) => this.chooseNearestPin(event.nativeEvent.coordinate) }
+                          onPress={(event) => this.chooseNearestPin(event.nativeEvent.coordinate)}
                           ref={ref => (this.mapView = ref)}
                         >
 
@@ -598,7 +619,7 @@ export default class Home extends React.Component {
                       {this.state.mapOpen ?
                         <Block style={{ flexDirection: 'row' }}>
                           <Pressable style={[styles.closeMapButton, { flex: 1 }]}
-                            onPress={() => this.setState({ mapOpen : false })}
+                            onPress={() => this.setState({ mapOpen: false })}
                           ><Text style={{ color: theme.COLORS.WHITE, margin: 3 }}>Choose from List</Text>
                           </Pressable>
                         </Block> :

@@ -38,7 +38,7 @@ export async function refreshMarkers() {
   var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/fetch_places?userid=" + userid + "&location=" + lat + "," + long
   // var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/fetch_places?userid=1&location=52.2075,0.146521"
   console.log(req_string);
-  fetch(req_string, {
+  await fetch(req_string, {
 
     method: "POST",
 
@@ -58,10 +58,10 @@ async function handleMarkers(data) {
   data.sort(compareDistance);
   console.log("markers updated");
   markers = data;
-  console.log(markers[0]);
   try {
     const jsonValue = JSON.stringify(markers);
     await AsyncStorage.setItem("markers", jsonValue);
+    return markers;
   } catch (e) {
     // saving error
   }
