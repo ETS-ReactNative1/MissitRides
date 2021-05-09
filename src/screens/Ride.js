@@ -166,14 +166,13 @@ export default class Ride extends React.Component {
               <Block style = {{flex: 15, alignItems: 'center'}}>
                 <Text style = {{textAlign: 'center'}} >{this.props.route.params["pickup"].address}</Text>
               </Block>
-              <Block style = {{flex: 1, alignItems: 'center'}}>
+              <Block style = {{flex: 5, alignItems: 'center'}}>
                 <Button 
                   onlyIcon icon="right" 
                   iconFamily="antdesign" 
                   iconSize={12} 
                   color="transparent" 
-                  iconColor="#000" 
-                  style={rideStyles.closeButton}>
+                  iconColor="#000">
                 </Button>
               </Block>
               <Block style = {{flex: 15, alignItems: 'center'}}>
