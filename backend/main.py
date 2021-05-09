@@ -459,7 +459,7 @@ def nearby_places():
     nearby_places, nearby_id = store_select_places(two_miles, nearby_places, nearby_id, 1, user_id)
     nearby_places, nearby_id = store_select_places(four_miles, nearby_places, nearby_id, 2, user_id)
     nearby_places, nearby_id = store_select_places(eight_miles, nearby_places, nearby_id, 4, user_id)
-    nearby_places, nearby_id = store_select_places(airport_results, nearby_places, nearby_id, 0, user_id)
+    nearby_places, nearby_id = store_select_places(airport_results, nearby_places, nearby_id, 2, user_id)
     
     return jsonify(nearby_places)
 

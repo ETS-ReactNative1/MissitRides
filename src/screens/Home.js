@@ -506,7 +506,7 @@ export default class Home extends React.Component {
                           style={{ flex: 1 }}
                           region={this.updateRegion()}
                           customMapStyle={mapStyle}
-                          onPress={(event) => this.chooseNearestPin(event.nativeEvent.coordinate)}
+                          onLongPress={(event) => this.chooseNearestPin(event.nativeEvent.coordinate)}
                           ref={ref => (this.mapView = ref)}
                         >
 
