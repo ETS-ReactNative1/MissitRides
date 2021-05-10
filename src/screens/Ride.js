@@ -224,7 +224,6 @@ export default class Ride extends React.Component {
                 </Pressable>
                 }
                 {this.state.submit ? 
-                  
                   <Pressable style = {rideStyles.toastContainer}  onPress = {() => {console.log('go back'); this.setState({submit: false})}}>
                     <Block style = {rideStyles.confirm}>
                       <Block style = {rideStyles.mapContainer}>

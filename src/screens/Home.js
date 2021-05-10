@@ -84,6 +84,8 @@ export default class Home extends React.Component {
       recentPickup: getRecentPickups(),
       recentDropoff: getRecentDropoffs(),
       markers: markers,
+      pickup: markers[0]
+
     });
   }
 
@@ -217,7 +219,7 @@ export default class Home extends React.Component {
 
       </Pressable>
       <Pressable
-        onPress={() => this.props.navigation.navigate("UpdateFavs", { onGoBack: () => this.getFavorites() })}
+        onPress={() => this.props.navigation.navigate("UpdateFavs", { onGoBack: () => this.setState({favorites: getFavorites() })})}
         style={[styles.buttonContainer, { alignSelf: "flex-start" }]}
       // size = "large"
       >
@@ -563,6 +565,7 @@ export default class Home extends React.Component {
                               />
                           ))}
                         </MapView>
+                        
                       </Block> : null}
 
                     <Block style={styles.topOverlayClosed}>

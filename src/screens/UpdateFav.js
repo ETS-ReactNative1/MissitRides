@@ -74,14 +74,19 @@ export default class UpdateFav extends React.Component {
       let fav_num = "fav" + data.key;
       const jsonValue = JSON.stringify(data)
       await AsyncStorage.setItem(fav_num, jsonValue);
-      this.props.route.params.onGoBack();
-      this.props.navigation.goBack();
+      this.goBack();
     } catch (e) {
       // saving error
     }
 
   }
-
+  goBack(){
+    if (this.props.route.params.onGoBack() !== undefined){
+      this.props.route.params.onGoBack();
+    }
+    this.props.navigation.goBack();
+  }
+  
   handleName = (text) => { this.setState({ name: text }) }
   handleAddress = (text) => { this.setState({ address: text }) }
   handleCity = (text) => { this.setState({ city: text }) }

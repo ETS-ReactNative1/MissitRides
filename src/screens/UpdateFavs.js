@@ -61,12 +61,15 @@ export default class UpdateFavs extends React.Component {
   }
   
   return() {
-    console.log(this.props.route.params)
-    this.props.route.params.onGoBack();
+    console.log(this.props.route.params);
+    if (this.props.route.params.onGoBack() !== undefined){
+      this.props.route.params.onGoBack();
+    }
     this.props.navigation.goBack();
 
 
   }
+  
   handleUsername = (text) => { this.setState({ username: text })}
   handlePassword = (text) => { this.setState({ password: text })}
   handleSecondPassword = (text) => { 
@@ -78,7 +81,7 @@ export default class UpdateFavs extends React.Component {
   render(){
     
     return (       
-    <Block style = {styles.container}>
+    <SafeAreaView style = {styles.container}>
        <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
       <NavBar 
         title="Update Favorites" 
@@ -118,7 +121,7 @@ export default class UpdateFavs extends React.Component {
         </Pressable>
         
         </Block>
-    </Block>
+    </SafeAreaView>
   )}
 }
           
