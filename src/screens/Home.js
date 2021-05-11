@@ -567,9 +567,8 @@ export default class Home extends React.Component {
                       </Block> : null}
 
                     <Block style={styles.topOverlayClosed}>
-                      <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination\n"}
+                      <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot\n" : "Destination\n"}
                       <Text style = {{fontSize: 10, fontWeight: "normal"}}>Press and hold on the map to select the nearest available pin</Text>
-
                       </Text>
 
                       <Pressable
