@@ -24,7 +24,7 @@ export default class Ride extends React.Component {
         company_rating: 0,
         options: [],
         countdown: true,
-        timer: 0,
+        timer: 30,
         ride: "",
         submit: false,
 

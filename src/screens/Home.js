@@ -511,7 +511,6 @@ export default class Home extends React.Component {
                           onLongPress={(event) => this.chooseNearestPin(event.nativeEvent.coordinate)}
                           ref={ref => (this.mapView = ref)}
                         >
-
                           {this.state.locationResult != null ?
                             <Marker
                               coordinate={this.state.locationResult}
@@ -565,11 +564,14 @@ export default class Home extends React.Component {
                               />
                           ))}
                         </MapView>
-                        
                       </Block> : null}
 
                     <Block style={styles.topOverlayClosed}>
-                      <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination"}</Text>
+                      <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: 'flex-start', marginBottom: 5 }}>Please Choose your {this.state.isPickup ? "Pickup Spot" : "Destination\n"}
+                      <Text style = {{fontSize: 10, fontWeight: "normal"}}>Press and hold on the map to select the nearest available pin</Text>
+
+                      </Text>
+
                       <Pressable
                         style={this.state.isPickup ? styles.input : [styles.input, { backgroundColor: "white", borderColor: 'grey' }]}
                         onPress={() => {

@@ -306,64 +306,91 @@ def root():
 ## Given a user, pickup, and destination return estimates for ride options
 @app.route('/estimate', methods=['POST'])
 def post_estimate():
-    data = request.args
-    mapping = data['bitstring'][0]
-    user = data['bitstring'][1]
-    if mapping == '0':
-        pickup_id = data['bitstring'][2]
-        destination_id = data['bitstring'][3]
-    elif mapping == '1':
-        pickup_id = data['bitstring'][2:4]
-        destination_id = data['bitstring'][4]
-    elif mapping == '2':
-        pickup_id = data['bitstring'][2]
-        destination_id = data['bitstring'][3:5]
-    elif mapping == '3':
-        pickup_id = data['bitstring'][2:4]
-        destination_id = data['bitstring'][4:6]
+    # data = request.args
+    # mapping = data['bitstring'][0]
+    # user = data['bitstring'][1]
+    # if mapping == '0':
+    #     pickup_id = data['bitstring'][2]
+    #     destination_id = data['bitstring'][3]
+    # elif mapping == '1':
+    #     pickup_id = data['bitstring'][2:4]
+    #     destination_id = data['bitstring'][4]
+    # elif mapping == '2':
+    #     pickup_id = data['bitstring'][2]
+    #     destination_id = data['bitstring'][3:5]
+    # elif mapping == '3':
+    #     pickup_id = data['bitstring'][2:4]
+    #     destination_id = data['bitstring'][4:6]
 
-    pickup = fetch_user_favorite(user, pickup_id)
-    destination = fetch_user_favorite(user, destination_id)
-    set_current_trip(user, pickup, destination, pickup_id, destination_id)
-    # pickup = '52.207524, 0.146521'
-    # destination = '52.040747, 0.034666'
-    now = time.time()
-    request_time = int(now) + 100
+    # pickup = fetch_user_favorite(user, pickup_id)
+    # destination = fetch_user_favorite(user, destination_id)
+    # set_current_trip(user, pickup, destination, pickup_id, destination_id)
+    # # pickup = '52.207524, 0.146521'
+    # # destination = '52.040747, 0.034666'
+    # now = time.time()
+    # request_time = int(now) + 100
 
-    payload = {'pickup': pickup, 'destination': destination, 'date': request_time}
-    quotes = requests.post('https://api.taxicode.com/booking/quote', params=payload, verify=False)
-    quotes_data = quotes.json()['quotes']
+    # payload = {'pickup': pickup, 'destination': destination, 'date': request_time}
+    # quotes = requests.post('https://api.taxicode.com/booking/quote', params=payload, verify=False)
+    # quotes_data = quotes.json()['quotes']
 
-    # build up to best 3 options, starting with just one
+    # # build up to best 3 options, starting with just one
 
-    # I would like company_name, company_phone, company_site, rating[score] and for each option price, name, passengers, and class
+    # # I would like company_name, company_phone, company_site, rating[score] and for each option price, name, passengers, and class
 
-    cheapest_price = quotes_data[list(quotes_data.keys())[0]]['price']
-    cheapest_quote = list(quotes_data.keys())[0]
-    for quote in quotes_data:
-        if quotes_data[quote]['price'] < cheapest_price:
-            cheapest_quote = quote
-    quotes_response = dict()
+    # cheapest_price = quotes_data[list(quotes_data.keys())[0]]['price']
+    # cheapest_quote = list(quotes_data.keys())[0]
+    # for quote in quotes_data:
+    #     if quotes_data[quote]['price'] < cheapest_price:
+    #         cheapest_quote = quote
+    # quotes_response = dict()
 
-    company = quotes_data[cheapest_quote]
-    quotes_response['company_data'] = {'company_name': company['company_name'], 'company_phone': company['company_phone'], 'company_site': company['company_site'], 'score': company['rating']['score']}
+    # company = quotes_data[cheapest_quote]
+    # quotes_response['company_data'] = {'company_name': company['company_name'], 'company_phone': company['company_phone'], 'company_site': company['company_site'], 'score': company['rating']['score']}
     
-    quotes_response['options'] = list()
-    option_classes = dict()
-    for option in company['vehicles']:
-        passengers = option['passengers']
-        luxury_class = option['class']
-        if passengers in option_classes:
-            if not luxury_class in option_classes[passengers]:
-                option_classes[passengers].append(luxury_class)
-                quotes_response['options'].append({'price': option['price'], 'name': option['name'], 'passengers': option['passengers'], 'class': option['class']})
-        else:
-            option_classes[passengers] = list()
-            option_classes[passengers].append(luxury_class)
-            quotes_response['options'].append({'price': option['price'], 'name': option['name'], 'passengers': option['passengers'], 'class': option['class']})
+    # quotes_response['options'] = list()
+    # option_classes = dict()
+    # for option in company['vehicles']:
+    #     passengers = option['passengers']
+    #     luxury_class = option['class']
+    #     if passengers in option_classes:
+    #         if not luxury_class in option_classes[passengers]:
+    #             option_classes[passengers].append(luxury_class)
+    #             quotes_response['options'].append({'price': option['price'], 'name': option['name'], 'passengers': option['passengers'], 'class': option['class']})
+    #     else:
+    #         option_classes[passengers] = list()
+    #         option_classes[passengers].append(luxury_class)
+    #         quotes_response['options'].append({'price': option['price'], 'name': option['name'], 'passengers': option['passengers'], 'class': option['class']})
 
 
-    return jsonify(quotes_response)
+    # return jsonify(quotes_response)
+    return jsonify({ "company_data": {
+        "company_name": "Purple Minicab",
+        "company_phone": "0207 096 1021",
+        "company_site": "https://www.taxicode.com",
+        "score": "4.5"
+        },
+        "options": [
+            {
+                "class": "Standard",
+                "name": "Saloon - Sedan",
+                "passengers": 4,
+                "price": 60
+            },
+            {
+                "class": "Standard",
+                "name": "Ford Galaxy",
+                "passengers": 6,
+                "price": 78
+            },
+            {
+                "class": "Executive",
+                "name": "Mercedes E-Class",
+                "passengers": 4,
+                "price": 85.2
+            }
+        ]
+            })
 
 @app.route('/confirm', methods=['POST'])
 def confirm_ride():
