@@ -22,7 +22,6 @@ export default class UpdateFav extends React.Component {
       fav: {},
       num: this.props.route.params["num"],
       prev: this.props.route.params["previous"],
-      // fav1geocode: {}
     };
   }
 
@@ -39,10 +38,8 @@ export default class UpdateFav extends React.Component {
 
   async setFav(address) {
 
-    // let fav = await this.runGeocode(address);
     var userid = 1;
     var req_string = "https://missit-ridesapi-backend.ue.r.appspot.com/update_fav" + "?userid=" + userid + "&favoriteid=" + this.state.num + "&address=" + address
-    console.log(req_string)
 
     fetch(req_string, {
 
@@ -58,9 +55,6 @@ export default class UpdateFav extends React.Component {
       // Converting to JSON 
       .then(response => response.json())
 
-      // Displaying results to console 
-      // .then(json => console.log(json))
-
       .then(json => this.handleData(json));
   }
 
@@ -69,7 +63,6 @@ export default class UpdateFav extends React.Component {
     data.name = this.state.name;
     data.key = this.state.num;
     data.address = this.state.address + " " + this.state.city + " " + this.state.state + " " + this.state.country
-    console.log("new favorite: ", data)
     try {
       let fav_num = "fav" + data.key;
       const jsonValue = JSON.stringify(data)
@@ -80,13 +73,13 @@ export default class UpdateFav extends React.Component {
     }
 
   }
-  goBack(){
-    if (this.props.route.params.onGoBack() !== undefined){
+  goBack() {
+    if (this.props.route.params.onGoBack() !== undefined) {
       this.props.route.params.onGoBack();
     }
     this.props.navigation.goBack();
   }
-  
+
   handleName = (text) => { this.setState({ name: text }) }
   handleAddress = (text) => { this.setState({ address: text }) }
   handleCity = (text) => { this.setState({ city: text }) }
@@ -94,17 +87,13 @@ export default class UpdateFav extends React.Component {
   handleZip = (text) => { this.setState({ zip: text }) }
   handleCountry = (text) => { this.setState({ country: text }) }
 
-
   render() {
-
     return (
-
       <SafeAreaView style={styles.container}>
         <StatusBar animated={true} backgroundColor={theme.COLORS.PRIMARY} hidden={false} />
-
         <NavBar title="Update Favorite"
           style={{ width: width }}
-          left = {<Button
+          left={<Button
             size="small"
             onlyIcon icon={"arrow-back"}
             iconFamily="material"
@@ -112,7 +101,7 @@ export default class UpdateFav extends React.Component {
             iconColor={"grey"}
             color="transparent"
             style={{ width: 20, height: 20 }}
-            onPress = {() => this.props.navigation.goBack()}/>}
+            onPress={() => this.props.navigation.goBack()} />}
         />
         <ScrollView style={styles.scroll}>
           <Block style={styles.container}>
@@ -153,18 +142,15 @@ export default class UpdateFav extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "white",
     width: width,
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   topContainer: {
-    // alignSelf: 'flex-start',
     flex: .1,
     alignItems: 'center',
     justifyContent: 'center',
-    // flexDirection: 'row',
     backgroundColor: theme.COLORS.BASE,
     borderBottomWidth: 1,
     borderTopWidth: 1,
@@ -194,7 +180,6 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingTop: 7,
     paddingBottom: 7,
-
     borderColor: theme.COLORS.BLACK,
     width: width * .9,
   },

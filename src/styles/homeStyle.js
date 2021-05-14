@@ -1,11 +1,12 @@
-import {StyleSheet, Dimensions} from 'react-native';
-import {theme} from 'galio-framework';
+import { StyleSheet, Dimensions } from 'react-native';
+import { theme } from 'galio-framework';
 const { width } = Dimensions.get('screen');
-const {height} = Dimensions.get('window').height;
+const { height } = Dimensions.get('window').height;
+
 export const homeStyles = StyleSheet.create({
   container: {
     // marginTop: statusbar,
-    width: width,    
+    width: width,
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'white'
@@ -56,14 +57,13 @@ export const homeStyles = StyleSheet.create({
     flex: 2,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignContent: 'space-around', 
+    alignContent: 'space-around',
     borderColor: theme.COLORS.BLACK,
     width: width,
     // backgroundColor: "red"
-
   },
   input: {
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     backgroundColor: theme.COLORS.GREY,
@@ -71,14 +71,12 @@ export const homeStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 1,
     marginBottom: 10,
-    padding: 5,
-    paddingTop: 7,
-    paddingBottom: 7,
+    padding: 2,
 
     borderColor: theme.COLORS.PRIMARY,
     width: width * .9,
   },
-  
+
   closeMapButton: {
     alignItems: "center",
     backgroundColor: theme.COLORS.PRIMARY,
@@ -90,22 +88,27 @@ export const homeStyles = StyleSheet.create({
   },
 
   greyText: {
-    fontSize: 16,
+    // position: "absolute",
+    // alignSelf: "flex-start",
+    // marginLeft: 5,
+    // marginTop: 5,
     color: "grey",
+    // fontSize: 
   },
-  closeButton: { 
-    width: 15, 
-    height: 15, 
+  closeButton: {
+    width: 20,
+    height: 20,
     // position:'absolute',
-    alignSelf: "flex-end",
+    // alignSelf: "flex-end",
     margin: 0,
+    // backgroundColor: 'red',
     // marginHorizontal: 30,
   },
   wrapperCustom: {
     borderRadius: 8,
     padding: 6,
   },
-  buttonContainer:{
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

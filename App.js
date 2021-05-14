@@ -1,7 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/screens/Login'
-import Test from './src/screens/Test'
 
 import Home from './src/screens/Home'
 import UpdateFav from './src/screens/UpdateFav'
@@ -19,37 +17,22 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       pickup: null,
-     dropoff: null
+      dropoff: null
     };
   }
-    
-    render(){
-        return (
-          <NavigationContainer>
-          <Stack.Navigator>
-            {/* <Stack.Screen name="Test" component={Test} options={{ headerShown: false }}/> */}
-            {/* <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }}/> */}
 
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-
-            <Stack.Screen name="UpdateFavs" component={UpdateFavs} options={{ headerShown: false }}/>
-
-            <Stack.Screen name="UpdateFav" component={UpdateFav} options={{ headerShown: false }}/>
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
-
-            <Stack.Screen name="Ride" component={Ride} options={{ headerShown: false }}/>
-
-          </Stack.Navigator>
-        </NavigationContainer>
-        );
-    }
+  render() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
+          <Stack.Screen name="UpdateFavs" component={UpdateFavs} options={{ headerShown: false }} />
+          <Stack.Screen name="UpdateFav" component={UpdateFav} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="Ride" component={Ride} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}); 
